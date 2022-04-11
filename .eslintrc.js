@@ -111,7 +111,7 @@ module.exports =  {
     'import/no-useless-path-segments': [ 'warn', { noUselessIndex: true } ], // Enforces shortest possible path
     'max-len': [ 'warn', { code: 120, comments: 120 } ], // Maximum column length
     'no-console': [ 'warn' ], // Disallow console.log
-    'simple-import-sort/sort': [ 'warn' ], // Force import ordering
+    'simple-import-sort/imports': [ 'warn' ], // Force import ordering
     'unused-imports/no-unused-imports-ts': [ 'warn' ], // Disallow unused imported modules
 
     /**
@@ -214,8 +214,3 @@ module.exports =  {
   },
 
 };
-
-
-module.exports = {
-  extends: [ '@commitlint/config-conventional' ],
-}
