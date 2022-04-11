@@ -4,7 +4,7 @@ EXPOSE 8080
 
 # Copy registry authentication and package definitions
 WORKDIR /app
-COPY .env /app/
+# COPY .env /app/
 COPY package.json pnpm-lock.yaml /app/
 
 # Install dependencies

@@ -11,6 +11,7 @@
     "node": ">=16.0.0"
   },
   "scripts": {
+    "preinstall": "npx only-allow pnpm",
     "build": "nest build",
     "dev": "tsnd --exit-child --rs --watch *.env --inspect=0.0.0.0:9229 ./source/main.ts",
     "start": "node ./source/main.js || (cd dist && node ./source/main.js)",
