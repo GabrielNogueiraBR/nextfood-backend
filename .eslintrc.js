@@ -42,6 +42,20 @@ module.exports =  {
     'unicorn', // https://github.com/sindresorhus/eslint-plugin-unicorn
     'unused-imports', // https://github.com/sweepline/eslint-plugin-unused-imports
   ],
+  
+    /**
+   * OVERRIDDEN RULES
+   * Will take precedence over other definitions based on file patterns
+   */
+  overrides: [
+    // Do not require JSDoc on controller files
+    {
+      files: [ '*controller*' ],
+      rules: {
+        'jsdoc/require-jsdoc': [ 'off' ],
+      }
+    }
+  ],
 
   /**
    * BASE RULES
