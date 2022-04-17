@@ -17,7 +17,7 @@
     "start": "node ./source/main.js || (cd dist && node ./source/main.js)",
     "docker": "pnpm run build && docker build -t nextfood-backend dist && docker run --rm -it -p 8080:8080 nextfood-backend",
     "lint": "export TIMING=1 || set TIMING=1&& eslint **/*.ts --max-warnings=0",
-    "test": "jest --verbose --forceExit --passWithNoTests --testTimeout=30000 --config .jestrc.json"
+    "test": "jest --verbose --forceExit --passWithNoTests --testTimeout=30000 --config .config/jest/.jestrc.json"
   },
   "dependencies": {
     "@nestjs/common": "8.4.4",

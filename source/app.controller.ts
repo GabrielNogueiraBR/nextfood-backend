@@ -11,8 +11,8 @@ export class AppController {
   ) {}
 
   @Get()
-  public getHello(): string {
-    return this.appService.getHello();
+  public get(): string {
+    return 'Server is running';
   }
 
 }
