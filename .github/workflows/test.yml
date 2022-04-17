@@ -1,0 +1,37 @@
+name: Lint Check, Unit Test & Build Dry Run
+
+on:
+  pull_request:
+    branches: [ master, develop ]
+
+env:
+  HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
+  HEROKU_APP_NAME: ${{ secrets.HEROKU_APP_NAM }}
+
+jobs:
+  test:
+    name: Lint Check, Unit Test & Build Dry Run
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: "Checkout Code"
+      uses: actions/checkout@v2
+
+    - name: "Setup Node.js"
+      uses: actions/setup-node@v1
+      with:
+        node-version: 16.x
+
+    - name: "Install Dependencies"
+      run: |
+        npm i -g pnpm
+        pnpm i --frozen-lockfile --ignore-scripts
+
+    - name: "Execute Lint Check"
+      run: pnpm lint
+
+    - name: "Execute Unit Tests"
+      run: pnpm test
+
+    - name: "Build Application"
+      run: pnpm build
