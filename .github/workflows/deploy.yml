@@ -22,7 +22,6 @@ jobs:
     name: Deploy to Heroku
     runs-on: ubuntu-latest
     steps:
-
       - name: "Configure Environment"
       if: endsWith(github.ref, '/master')
       run: |
