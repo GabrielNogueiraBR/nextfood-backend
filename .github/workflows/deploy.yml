@@ -22,10 +22,14 @@ jobs:
     name: Deploy to Heroku
     runs-on: ubuntu-latest
     steps:
+
+      - name: "Checkout Code"
+        uses: actions/checkout@v2
+
+      # Add environment variable to .env
       - name: "Configure Environment"
-      if: endsWith(github.ref, '/master')
-      run: |
-        echo "NODE_ENV=production" >> .env
+        if: endsWith(github.ref, '/master')
+        run: echo "NODE_ENV=production" >> .env
 
       # Check-out your repository.
       - name: Checkout
@@ -33,11 +37,11 @@ jobs:
 
       # Login to Heroku Container Registry
       - name: Login to Heroku Container registry
-      run: docker login --username=_ --password=$HEROKU_API_KEY registry.heroku.com
+        run: docker login --username=_ --password=$HEROKU_API_KEY registry.heroku.com
 
       # Push docker image to Heroku Container Registry
       - name: Building and pushing image
-      run: heroku container:push -a $HEROKU_APP_NAME web
+        run: heroku container:push -a $HEROKU_APP_NAME web
 
       # Release the Docker image to Heroku Container Registry
       - name: Release app
