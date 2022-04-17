@@ -8,14 +8,14 @@ module.exports =  {
   parserOptions: {
     ecmaVersion: 2020,
     sourceType: 'module',
-    project: 'tsconfig.json',
+    project: './tsconfig.json',
   },
 
   ignorePatterns: [
     '**/*.d.ts',
     '**/*.js',
   ],
-  
+
   /**
    * ENVIRONMENT DEFINITION
    * Adds global declarations to the recognizable lint scope, which makes sure
@@ -42,8 +42,8 @@ module.exports =  {
     'unicorn', // https://github.com/sindresorhus/eslint-plugin-unicorn
     'unused-imports', // https://github.com/sweepline/eslint-plugin-unused-imports
   ],
-  
-    /**
+
+  /**
    * OVERRIDDEN RULES
    * Will take precedence over other definitions based on file patterns
    */
@@ -79,19 +79,23 @@ module.exports =  {
      * DISABLED RULES
      * These were included by the 'extends' property.
      */
-    '@typescript-eslint/no-inferrable-types': [ 'off' ], // Collides with typedef
     '@typescript-eslint/explicit-module-boundary-types': [ 'off' ], // Enables the 'any' keyword on arguments
     '@typescript-eslint/no-explicit-any': [ 'off' ], // Enables the 'any' keyword on declarations
+    '@typescript-eslint/no-inferrable-types': [ 'off' ], // Collides with typedef
     '@typescript-eslint/no-unsafe-assignment': [ 'off' ], // Enables 'any' typed variables on assignments
     '@typescript-eslint/no-unsafe-call': [ 'off' ], // Enables the 'any' typed variables as parameters
     '@typescript-eslint/no-unsafe-member-access': [ 'off' ], // Enables nesting properties on 'any' type
     '@typescript-eslint/no-unsafe-return': [ 'off' ], // Enables 'any' typed variables on returns
     '@typescript-eslint/restrict-template-expressions': [ 'off' ], // Complicates handling Error objects
+    'import/export': [ 'off' ], // Does not work with TypeScript
+    'import/namespace': [ 'off' ], // Extremely slow to resolve
     'jest/no-deprecated-functions': [ 'off' ], // Only relevant for Jest, we want the plugin to be generic
     'unicorn/catch-error-name': [ 'off' ], // Allow using 'e' on catch instead of forced 'error'
-    'import/export': [ 'off' ], // Does not work with TypeScript
+    'unicorn/empty-brace-spaces': [ 'off' ], // Allow spaces in empty braces
+    'unicorn/no-nested-ternary': [ 'off' ], // Conflicts with no unnecessary parenthesis
     'unicorn/no-null': [ 'off' ], // Allow using 'null', useful for returning strict DTO
-    'unicorn/no-reduce': [ 'off' ], // Allow using .reduce() method of Arrays
+    'unicorn/no-array-reduce': [ 'off' ], // .reduce() is useful in many situations and has no replacement
+    'unicorn/prefer-node-protocol': [ 'off' ], // Conflicts with pnpm
     'unicorn/prevent-abbreviations': [ 'off' ], // Allow common abbreviations (param, err, etc)
 
     /**
@@ -105,7 +109,6 @@ module.exports =  {
     'no-setter-return': [ 'error' ], // Disallow returning on setters
     'no-throw-literal': [ 'error' ], // Disallow throwing types different than Error
     'promise/prefer-await-to-then': [ 'error' ], // Disallow .then()
-    'unicorn/no-unsafe-regex': [ 'error' ], // Prevent regex that may lead to catasthrophic backtracking
 
     /**
      * LOWERED SEVERITY RULES
@@ -122,10 +125,10 @@ module.exports =  {
      */
     '@typescript-eslint/array-type': [ 'warn' ], // Enforces consistent array declaration
     '@typescript-eslint/prefer-optional-chain': [ 'warn' ], // Enforces optional chaining when available
-    'import/no-useless-path-segments': [ 'warn', { noUselessIndex: true } ], // Enforces shortest possible path
-    'max-len': [ 'warn', { code: 120, comments: 120 } ], // Maximum column length
+    'max-len': [ 'warn', { code: 120, ignorePattern: '^import |export ' } ], // Maximum column length
     'no-console': [ 'warn' ], // Disallow console.log
-    'simple-import-sort/imports': [ 'warn' ], // Force import ordering
+    'simple-import-sort/imports': [ 'warn' ], // Forces imports sorting
+    'simple-import-sort/exports': [ 'warn' ], // Forces exports sorting
     'unused-imports/no-unused-imports-ts': [ 'warn' ], // Disallow unused imported modules
 
     /**
@@ -205,12 +208,7 @@ module.exports =  {
     'lines-between-class-members': [ 'warn', 'always', { exceptAfterSingleLine: true } ],
     'newline-per-chained-call': [ 'warn', { ignoreChainWithDepth: 3 }],
     'no-multiple-empty-lines': [ 'warn', { max: 1 }],
-    'object-curly-newline': [ 'warn', {
-      ObjectExpression: { minProperties: 4, multiline: true, consistent: true },
-      ObjectPattern: { minProperties: 4, multiline: true, consistent: true },
-      ImportDeclaration: 'never',
-      ExportDeclaration: 'never',
-    } ],
+    'object-curly-newline': [ 'warn', { multiline: true, consistent: true } ],
     'object-property-newline': [ 'warn', { allowAllPropertiesOnSameLine : true } ],
     'padded-blocks': [ 'warn', { blocks: 'never', classes: 'always', switches: 'never' } ],
     'padding-line-between-statements': [ 'warn',
