@@ -1,73 +1,100 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo_text.svg" width="320" alt="Nest Logo" /></a>
-</p>
+# Nextfood BE
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+This project contains the Nextfood application backend.
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://coveralls.io/github/nestjs/nest?branch=master" target="_blank"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#9" alt="Coverage" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+## Local Setup
 
-## Description
+1\. Copy `.env.schema` as `.env` and adjust environment variables according to instructions provided on itself.
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+2\. Install `pnpm` package manager:
 
-## Installation
-
-```bash
-$ npm install
+```sh
+npm i -g pnpm
 ```
 
-## Running the app
+3\. Install dependencies:
 
-```bash
-# development
-$ npm run start
-
-# watch mode
-$ npm run start:dev
-
-# production mode
-$ npm run start:prod
+```sh
+pnpm i
 ```
 
-## Test
+The advantage of using `.env` methodology is being able to locally boot a containerized version of your application without further configurations.
 
-```bash
-# unit tests
-$ npm run test
+4\. If everything was properly set up, you may run the application either with live reload or containerized:
 
-# e2e tests
-$ npm run test:e2e
+**Live Reload**
 
-# test coverage
-$ npm run test:cov
+```sh
+pnpm dev
 ```
 
-## Support
+**Containerized**
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+```sh
+pnpm docker
+```
 
-## Stay in touch
+5\. To ensure application is running correctly navigate to health check APP:
 
-- Author - [Kamil Myśliwiec](https://kamilmysliwiec.com)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+http://127.0.0.1:8080/
 
-## License
 
-Nest is [MIT licensed](LICENSE).
+### Testing
+
+Tests are based on [Jest](https://jestjs.io/) framework and its typings for development should be automatically recognized after installing project dependencies. 
+
+Test files are recognized for processing through the `*.spec.ts` pattern. By default they should be created at the same directory of its implementation counterpart.
+
+To run tests execute the built-in script:
+
+```sh
+pnpm test
+```
+
+### Debugging
+
+Application is configured to expose Node.js debug socket when being boot through live reload.
+
+Which means you may attach a debugger at target port in order to enable code breakpoints.
+
+Configuration is already done fo VSCode users which may simply start debugging by running:
+
+```sh
+pnpm dev
+[press F5]
+```
+
+
+### Linting
+
+This repository is configured with linting rules.
+
+It is recommended to configure your IDE to automatically apply auto-fixes. Details on how to do so for IntelliJ, VSCode, Sublime Text and Atom are available at the following article:
+
+[Even faster code formatting using ESLint](https://medium.com/@netczuk/even-faster-code-formatting-using-eslint-22b80d061461)
+
+You may use a built-in NPM script to run a full lint check and print execution report:
+
+```sh
+pnpm lint
+```
+
+
+### Committing
+
+Commit messages follows conventions of [@commitlint/config-conventional](https://www.npmjs.com/package/@commitlint/config-conventional), which in short accepts one of its `types` followed by a scope (optional) and a description.
+
+**Types**
+
+```sh
+build, chore, ci, docs, feat, fix, perf, refactor, revert, style, test
+```
+
+**Examples**
+
+```sh
+feat(user): add user manipulation
+fix: JSON parsing exception
+chore(auth): change member accessibility
+ci: fix wrong build definition
+```

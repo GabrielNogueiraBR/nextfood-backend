@@ -12,11 +12,13 @@
   },
   "scripts": {
     "preinstall": "npx only-allow pnpm",
+    "prepare": "husky install .config/husky",
     "build": "nest build",
     "dev": "tsnd --exit-child --rs --watch *.env --inspect=0.0.0.0:9229 ./source/main.ts",
     "start": "node ./source/main.js || (cd dist && node ./source/main.js)",
     "docker": "pnpm run build && docker build -t nextfood-backend dist && docker run --rm -it -p 8080:8080 nextfood-backend",
     "lint": "export TIMING=1 || set TIMING=1&& eslint **/*.ts --max-warnings=0",
+    "lint:fix": "eslint --fix **/*.ts",
     "test": "jest --verbose --forceExit --passWithNoTests --testTimeout=30000 --config .config/jest/.jestrc.json"
   },
   "dependencies": {
@@ -32,8 +34,14 @@
     "@nestjs/testing": "8.0.0",
     "@types/jest": "27.4.1",
     "@types/node": "17.0.21",
-    "@typescript-eslint/eslint-plugin": "5.0.0",
-    "@typescript-eslint/parser": "5.0.0",
+    "jest": "27.5.1",
+    "lint-staged": "12.3.8",
+    "rimraf": "3.0.2",
+    "ts-jest": "27.1.4",
+    "ts-node-dev": "1.1.8",
+    "typescript": "4.6.3",
+    "@typescript-eslint/eslint-plugin": "5.19.0",
+    "@typescript-eslint/parser": "5.19.0",
     "eslint": "8.10.0",
     "eslint-plugin-import": "2.26.0",
     "eslint-plugin-jest": "26.1.4",
@@ -42,10 +50,8 @@
     "eslint-plugin-simple-import-sort": "7.0.0",
     "eslint-plugin-unicorn": "42.0.0",
     "eslint-plugin-unused-imports": "2.0.0",
-    "jest": "27.5.1",
-    "rimraf": "3.0.2",
-    "ts-jest": "27.1.4",
-    "ts-node-dev": "1.1.8",
-    "typescript": "4.6.3"
+    "@commitlint/cli": "16.2.3",
+    "@commitlint/config-conventional": "16.2.1",
+    "husky": "7.0.0"
   }
 }
