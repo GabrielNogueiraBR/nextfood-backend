@@ -24,8 +24,8 @@ jobs:
     steps:
 
       # Add environment variable to .env
-      - name: "Configure Environment"
-        run: echo "NODE_ENV=production" >> .env
+      # - name: "Configure Environment"
+      #   run: echo "NODE_ENV=production" >> .env
 
       # Check-out your repository.
       - name: Checkout

@@ -5,7 +5,8 @@ FROM node:16-alpine as build
 WORKDIR /build
 
 # Copy registry authentication and package definitions
-COPY .env package.json pnpm-lock.yaml /build/
+# COPY .env /build/
+COPY package.json pnpm-lock.yaml /build/
 
 # Install dependencies
 RUN npm i -g pnpm 
