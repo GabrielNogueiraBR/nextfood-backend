@@ -13,7 +13,7 @@ on:
 # Set environment variables
 env:
   HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
-  APP_NAME: ${{ secrets.HEROKU_APP_NAME }}
+  HEROKU_APP_NAME: ${{ secrets.HEROKU_APP_NAME }}
 
 # Your workflows jobs.
 jobs:
@@ -43,4 +43,4 @@ jobs:
       # Release the Docker image to Heroku Container Registry.
       - name: Release app
         run: 
-          heroku container:release web -a $APP_NAME
+          heroku container:release -a $HEROKU_APP_NAME web
