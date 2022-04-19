@@ -25,7 +25,6 @@ jobs:
 
       # Add environment variable to .env
       - name: "Configure Environment"
-        if: endsWith(github.ref, '/master')
         run: echo "NODE_ENV=production" >> .env
 
       # Check-out your repository.
