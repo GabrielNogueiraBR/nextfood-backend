@@ -1,5 +1,5 @@
 {
-  "sourceRoot": ".",
+  "sourceRoot": "./source",
   "entryFile": "source/main",
   "compilerOptions": {
     "tsConfigPath": "tsconfig.build.json",

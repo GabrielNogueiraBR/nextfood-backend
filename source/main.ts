@@ -4,8 +4,8 @@
 import { Logger } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 
-import { AppModule } from './app.module';
-import configuration from './config/configuration';
+import { AppModule } from './app/app.module';
+import configuration from './config/env-vars';
 
 async function bootstrap() {
   const appConfig = configuration().app;

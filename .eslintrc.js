@@ -223,6 +223,8 @@ module.exports =  {
     '@typescript-eslint/semi': [ 'warn' ],
     'comma-dangle': [ 'warn', 'always-multiline' ],
     'curly': [ 'warn', 'multi-line', 'consistent' ],
+    
+    'no-return-await': [ 'warn' ],
   },
 
 };
