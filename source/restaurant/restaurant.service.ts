@@ -14,10 +14,10 @@ export class RestaurantService {
    * Create a restaurant.
    * @param params
    */
-  public async createRestaurant(params: any): Promise<any> {
-    return this.clientDb.query(
+  public async createRestaurant(params: any): Promise<void> {
+    await this.clientDb.query(
       this.faunadbQuery.Create(
-        this.faunadbQuery.Collection('test'),
+        this.faunadbQuery.Collection('test'), // TODO: Change collection name
         {
           data: params,
         },

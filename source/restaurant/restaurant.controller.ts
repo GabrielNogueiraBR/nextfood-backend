@@ -1,5 +1,6 @@
-import { Body, Controller, Post } from '@nestjs/common';
+import { Body, Controller, HttpCode, HttpStatus, Post } from '@nestjs/common';
 
+import { RestaurantCreateDto } from './restaurant.dto';
 import { RestaurantService } from './restaurant.service';
 
 @Controller('restaurant')
@@ -10,7 +11,8 @@ export class RestaurantController {
   ) { }
 
   @Post()
-  public async createRestaurant(@Body() body: any): Promise<any> {
+  @HttpCode(HttpStatus.CREATED)
+  public async createRestaurant(@Body() body: RestaurantCreateDto): Promise<void> {
     return this.restaurantService.createRestaurant(body);
   }
 

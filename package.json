@@ -26,6 +26,8 @@
     "@nestjs/config": "^2.0.0",
     "@nestjs/core": "8.4.4",
     "@nestjs/platform-express": "8.4.4",
+    "class-transformer": "^0.5.1",
+    "class-validator": "^0.13.2",
     "faunadb": "^4.5.4",
     "reflect-metadata": "0.1.13",
     "rxjs": "7.5.5"
