@@ -12,7 +12,7 @@ export class RestaurantController {
 
   @Post()
   @HttpCode(HttpStatus.CREATED)
-  public async createRestaurant(@Body() body: RestaurantCreateDto): Promise<void> {
+  public async postRestaurant(@Body() body: RestaurantCreateDto): Promise<void> {
     return this.restaurantService.createRestaurant(body);
   }
 
