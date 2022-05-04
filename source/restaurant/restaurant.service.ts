@@ -3,7 +3,7 @@ import * as faunadb from 'faunadb';
 
 import configuration from '../config/env-vars';
 import { FaunadbRecordBaseFields } from '../faunadb/faunadb.types';
-import { RestaurantCreateDto, RestaurantDeleteByIdDto, RestaurantReadByIdDto } from './restaurant.dto';
+import { RestaurantCreateDto, RestaurantDeleteByIdDto, RestaurantReadByIdDto, RestaurantUpdateDto } from './restaurant.dto';
 import { Restaurant } from './restaurant.entity';
 
 @Injectable()
@@ -50,6 +50,34 @@ export class RestaurantService {
       const { data, ref } = await this.clientDb.query(
         this.faunadbQuery.Get(
           this.faunadbQuery.Ref(this.faunadbQuery.Collection(this.faunaCollection), restaurantId),
+        ),
+      ) as any as FaunadbRecordBaseFields<Restaurant>;
+
+      return {
+        id: ref.id,
+        ...data,
+      };
+    } catch (e) {
+      if (e.requestResult.statusCode === 404) {
+        throw new NotFoundException('Restaurant not found');
+      }
+
+      throw new InternalServerErrorException(e);
+    }
+  }
+
+  /**
+   * Update restaurant name or description by id.
+   * @param params
+   */
+  public async updateRestaurantById(params: RestaurantUpdateDto): Promise<Restaurant> {
+    const { id: restaurantId, name, description } = params;
+
+    try {
+      const { data, ref } = await this.clientDb.query(
+        this.faunadbQuery.Update(
+          this.faunadbQuery.Ref(this.faunadbQuery.Collection(this.faunaCollection), restaurantId),
+          { data: { name, description } },
         ),
       ) as any as FaunadbRecordBaseFields<Restaurant>;
 

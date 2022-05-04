@@ -13,6 +13,21 @@ export class RestaurantCreateDto {
 
 }
 
+export class RestaurantUpdateDto {
+
+  @IsOptional() @IsNumberString()
+  public id?: string; // Will be injected by path param.
+
+  @IsOptional()
+  @IsString() @IsNotEmpty()
+  public name?: string;
+
+  @IsOptional()
+  @IsString() @IsNotEmpty()
+  public description?: string;
+
+}
+
 export class RestaurantReadByIdDto {
 
   @IsNumberString()
