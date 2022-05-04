@@ -1,34 +1,42 @@
 import { Inject, Injectable } from '@nestjs/common';
 import * as faunadb from 'faunadb';
 
-import configuration, { EnvVarsDatabase } from '../config/env-vars';
+import configuration from '../config/env-vars';
+import { FaunadbRecordBaseFields } from '../faunadb/faunadb.types';
 import { RestaurantCreateDto } from './restaurant.dto';
+import { Restaurant } from './restaurant.entity';
 
 @Injectable()
 export class RestaurantService {
 
   private faunadbQuery = faunadb.query;
-  private faunaCredentials: EnvVarsDatabase;
+  private faunaCollection: string;
 
   public constructor(
     @Inject('DATABASE_CONNECTION') private readonly clientDb: faunadb.Client,
   ) {
-    this.faunaCredentials = configuration().database;
+    const faunaEnvVars = configuration().database;
+    this.faunaCollection = faunaEnvVars.restaurant_collection;
   }
 
   /**
    * Create a restaurant.
    * @param params
    */
-  public async createRestaurant(params: RestaurantCreateDto): Promise<void> {
-    await this.clientDb.query(
+  public async createRestaurant(params: RestaurantCreateDto): Promise<Restaurant> {
+    const restaurantEntity = new Restaurant(params);
+
+    const { data, ref } = await this.clientDb.query(
       this.faunadbQuery.Create(
-        this.faunadbQuery.Collection(this.faunaCredentials.restaurant_collection),
-        {
-          data: params,
-        },
+        this.faunadbQuery.Collection(this.faunaCollection),
+        { data: restaurantEntity },
       ),
-    );
+    ) as any as FaunadbRecordBaseFields<Restaurant>;
+
+    return {
+      id: ref.id,
+      ...data,
+    };
   }
 
 }
