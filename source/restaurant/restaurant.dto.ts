@@ -1,4 +1,5 @@
-import { IsNotEmpty, IsNumberString, IsOptional, IsString } from 'class-validator';
+import { Transform } from 'class-transformer';
+import { IsBoolean, IsNotEmpty, IsNumberString, IsOptional, IsString } from 'class-validator';
 
 export class RestaurantCreateDto {
 
@@ -25,6 +26,11 @@ export class RestaurantUpdateDto {
   @IsOptional()
   @IsString() @IsNotEmpty()
   public description?: string;
+
+  @IsOptional()
+  @Transform(({ value }) => value === 'true')
+  @IsBoolean()
+  public isActive: boolean;
 
 }
 

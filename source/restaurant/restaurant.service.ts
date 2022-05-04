@@ -71,13 +71,13 @@ export class RestaurantService {
    * @param params
    */
   public async updateRestaurantById(params: RestaurantUpdateDto): Promise<Restaurant> {
-    const { id: restaurantId, name, description } = params;
+    const { id: restaurantId, ...rest } = params;
 
     try {
       const { data, ref } = await this.clientDb.query(
         this.faunadbQuery.Update(
           this.faunadbQuery.Ref(this.faunadbQuery.Collection(this.faunaCollection), restaurantId),
-          { data: { name, description } },
+          { data: rest },
         ),
       ) as any as FaunadbRecordBaseFields<Restaurant>;
 
