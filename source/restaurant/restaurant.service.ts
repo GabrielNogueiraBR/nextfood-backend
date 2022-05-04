@@ -3,7 +3,7 @@ import * as faunadb from 'faunadb';
 
 import configuration from '../config/env-vars';
 import { FaunadbRecordBaseFields } from '../faunadb/faunadb.types';
-import { RestaurantCreateDto, RestaurantReadByIdDto } from './restaurant.dto';
+import { RestaurantCreateDto, RestaurantDeleteByIdDto, RestaurantReadByIdDto } from './restaurant.dto';
 import { Restaurant } from './restaurant.entity';
 
 @Injectable()
@@ -57,6 +57,30 @@ export class RestaurantService {
         id: ref.id,
         ...data,
       };
+    } catch (e) {
+      if (e.requestResult.statusCode === 404) {
+        throw new NotFoundException('Restaurant not found');
+      }
+
+      throw new InternalServerErrorException(e);
+    }
+  }
+
+  /**
+   * Delete restaurant by id.
+   * @param params
+   */
+  public async deleteRestaurantById(params: RestaurantDeleteByIdDto): Promise<void> {
+    const { id: restaurantId } = params;
+
+    try {
+      await this.clientDb.query(
+        this.faunadbQuery.Delete(
+          this.faunadbQuery.Ref(this.faunadbQuery.Collection(this.faunaCollection), restaurantId),
+        ),
+      );
+
+      return;
     } catch (e) {
       if (e.requestResult.statusCode === 404) {
         throw new NotFoundException('Restaurant not found');

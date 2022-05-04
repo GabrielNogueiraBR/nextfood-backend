@@ -19,3 +19,10 @@ export class RestaurantReadByIdDto {
   public id: string;
 
 }
+
+export class RestaurantDeleteByIdDto {
+
+  @IsNumberString()
+  public id: string;
+
+}
