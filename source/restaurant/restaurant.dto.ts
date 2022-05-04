@@ -1,4 +1,4 @@
-import { IsNotEmpty, IsOptional, IsString } from 'class-validator';
+import { IsNotEmpty, IsNumberString, IsOptional, IsString } from 'class-validator';
 
 export class RestaurantCreateDto {
 
@@ -10,5 +10,12 @@ export class RestaurantCreateDto {
 
   @IsString() @IsNotEmpty() @IsOptional()
   public categories?: string;
+
+}
+
+export class RestaurantReadByIdDto {
+
+  @IsNumberString()
+  public id: string;
 
 }

@@ -1,9 +1,12 @@
 import { Type } from 'class-transformer';
-import { IsArray, IsBoolean, IsString, ValidateNested } from 'class-validator';
+import { IsArray, IsBoolean, IsNumberString, IsString, IsUUID, ValidateNested } from 'class-validator';
 
 import { RestaurantCreateDto } from './restaurant.dto';
 
 export class RestaurantCategory {
+
+  @IsUUID()
+  public id: string;
 
   @IsString()
   public name: string;
@@ -18,8 +21,8 @@ export class RestaurantCategory {
 
 export class Restaurant {
 
-  @IsString()
-  public id: string;
+  @IsNumberString()
+  public id: string; // Reference fauna collection ID
 
   @IsString()
   public name: string;

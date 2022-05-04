@@ -3,7 +3,7 @@ import * as faunadb from 'faunadb';
 
 import configuration from '../config/env-vars';
 import { FaunadbRecordBaseFields } from '../faunadb/faunadb.types';
-import { RestaurantCreateDto } from './restaurant.dto';
+import { RestaurantCreateDto, RestaurantReadByIdDto } from './restaurant.dto';
 import { Restaurant } from './restaurant.entity';
 
 @Injectable()
@@ -30,6 +30,25 @@ export class RestaurantService {
       this.faunadbQuery.Create(
         this.faunadbQuery.Collection(this.faunaCollection),
         { data: restaurantEntity },
+      ),
+    ) as any as FaunadbRecordBaseFields<Restaurant>;
+
+    return {
+      id: ref.id,
+      ...data,
+    };
+  }
+
+  /**
+   * Read restaurant by (fauna) id.
+   * @param params
+   */
+  public async readRestaurantById(params: RestaurantReadByIdDto): Promise<Restaurant> {
+    const { id: restaurantId } = params;
+
+    const { data, ref } = await this.clientDb.query(
+      this.faunadbQuery.Get(
+        this.faunadbQuery.Ref(this.faunadbQuery.Collection(this.faunaCollection), restaurantId),
       ),
     ) as any as FaunadbRecordBaseFields<Restaurant>;
 
