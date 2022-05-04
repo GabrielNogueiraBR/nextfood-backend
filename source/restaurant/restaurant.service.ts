@@ -1,4 +1,4 @@
-import { Inject, Injectable } from '@nestjs/common';
+import { Inject, Injectable, InternalServerErrorException, NotFoundException } from '@nestjs/common';
 import * as faunadb from 'faunadb';
 
 import configuration from '../config/env-vars';
@@ -40,22 +40,30 @@ export class RestaurantService {
   }
 
   /**
-   * Read restaurant by (fauna) id.
+   * Read restaurant by id.
    * @param params
    */
   public async readRestaurantById(params: RestaurantReadByIdDto): Promise<Restaurant> {
     const { id: restaurantId } = params;
 
-    const { data, ref } = await this.clientDb.query(
-      this.faunadbQuery.Get(
-        this.faunadbQuery.Ref(this.faunadbQuery.Collection(this.faunaCollection), restaurantId),
-      ),
-    ) as any as FaunadbRecordBaseFields<Restaurant>;
+    try {
+      const { data, ref } = await this.clientDb.query(
+        this.faunadbQuery.Get(
+          this.faunadbQuery.Ref(this.faunadbQuery.Collection(this.faunaCollection), restaurantId),
+        ),
+      ) as any as FaunadbRecordBaseFields<Restaurant>;
 
-    return {
-      id: ref.id,
-      ...data,
-    };
+      return {
+        id: ref.id,
+        ...data,
+      };
+    } catch (e) {
+      if (e.requestResult.statusCode === 404) {
+        throw new NotFoundException('Restaurant not found');
+      }
+
+      throw new InternalServerErrorException(e);
+    }
   }
 
 }
