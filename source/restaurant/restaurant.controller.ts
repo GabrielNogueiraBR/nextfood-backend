@@ -1,6 +1,6 @@
 import { Body, Controller, Delete, Get, HttpCode, HttpStatus, Param, Post, Put } from '@nestjs/common';
 
-import { RestaurantCreateDto, RestaurantDeleteByIdDto, RestaurantReadByIdDto, RestaurantUpdateDto } from './restaurant.dto';
+import { RestaurantCategoryCreateDto, RestaurantCreateDto, RestaurantDeleteByIdDto, RestaurantReadByIdDto, RestaurantUpdateDto } from './restaurant.dto';
 import { Restaurant } from './restaurant.entity';
 import { RestaurantService } from './restaurant.service';
 
@@ -19,8 +19,8 @@ export class RestaurantController {
 
   @Get(':id')
   @HttpCode(HttpStatus.OK)
-  public getRestaurantById(@Param() params: RestaurantReadByIdDto): Promise<Restaurant> {
-    return this.restaurantService.readRestaurantById(params);
+  public getRestaurantById(@Param() { id }: RestaurantReadByIdDto): Promise<Restaurant> {
+    return this.restaurantService.readRestaurantById(id);
   }
 
   @Put(':id')
@@ -35,6 +35,14 @@ export class RestaurantController {
   @HttpCode(HttpStatus.NO_CONTENT)
   public deleteRestaurantById(@Param() params: RestaurantDeleteByIdDto): Promise<void> {
     return this.restaurantService.deleteRestaurantById(params);
+  }
+
+  @Post(':id/category')
+  @HttpCode(HttpStatus.CREATED)
+  public postRestaurantCategories(
+    @Param() params: RestaurantReadByIdDto, @Body() body: RestaurantCategoryCreateDto,
+  ): Promise<Restaurant> {
+    return this.restaurantService.createRestaurantCategory({ ...params, ...body });
   }
 
 }

@@ -1,10 +1,10 @@
-import { Inject, Injectable, InternalServerErrorException, NotFoundException } from '@nestjs/common';
+import { BadRequestException, Inject, Injectable, InternalServerErrorException, NotFoundException } from '@nestjs/common';
 import * as faunadb from 'faunadb';
 
 import configuration from '../config/env-vars';
 import { FaunadbRecordBaseFields } from '../faunadb/faunadb.types';
-import { RestaurantCreateDto, RestaurantDeleteByIdDto, RestaurantReadByIdDto, RestaurantUpdateDto } from './restaurant.dto';
-import { Restaurant } from './restaurant.entity';
+import { RestaurantCategoryCreateDto, RestaurantCreateDto, RestaurantDeleteByIdDto, RestaurantUpdateDto } from './restaurant.dto';
+import { Restaurant, RestaurantCategory } from './restaurant.entity';
 
 @Injectable()
 export class RestaurantService {
@@ -26,26 +26,28 @@ export class RestaurantService {
   public async createRestaurant(params: RestaurantCreateDto): Promise<Restaurant> {
     const restaurantEntity = new Restaurant(params);
 
-    const { data, ref } = await this.clientDb.query(
-      this.faunadbQuery.Create(
-        this.faunadbQuery.Collection(this.faunaCollection),
-        { data: restaurantEntity },
-      ),
-    ) as any as FaunadbRecordBaseFields<Restaurant>;
+    try {
+      const { data, ref } = await this.clientDb.query(
+        this.faunadbQuery.Create(
+          this.faunadbQuery.Collection(this.faunaCollection),
+          { data: restaurantEntity },
+        ),
+      ) as any as FaunadbRecordBaseFields<Restaurant>;
 
-    return {
-      id: ref.id,
-      ...data,
-    };
+      return {
+        id: ref.id,
+        ...data,
+      };
+    } catch (e) {
+      throw new InternalServerErrorException(e);
+    }
   }
 
   /**
    * Read restaurant by id.
-   * @param params
+   * @param restaurantId
    */
-  public async readRestaurantById(params: RestaurantReadByIdDto): Promise<Restaurant> {
-    const { id: restaurantId } = params;
-
+  public async readRestaurantById(restaurantId: string): Promise<Restaurant> {
     try {
       const { data, ref } = await this.clientDb.query(
         this.faunadbQuery.Get(
@@ -114,6 +116,54 @@ export class RestaurantService {
         throw new NotFoundException('Restaurant not found');
       }
 
+      throw new InternalServerErrorException(e);
+    }
+  }
+
+  /**
+   * Create restaurant category and insert them.
+   * @param params
+   */
+  public async createRestaurantCategory(params: RestaurantCategoryCreateDto): Promise<Restaurant> {
+    const { id: restaurantId, name: categoryName, icon } = params;
+    const categoryEntity = new RestaurantCategory({ name: categoryName, icon });
+
+    try {
+      const { categories } = await this.readRestaurantById(restaurantId);
+      const hasCategory = categories.find((category) => category.name === categoryName);
+
+      if (hasCategory) {
+        throw new BadRequestException('Category already exists for this restaurant');
+      }
+
+      const { data, ref } = await this.clientDb.query(
+        this.faunadbQuery.Let(
+          {
+            ref: this.faunadbQuery.Ref(this.faunadbQuery.Collection(this.faunaCollection), restaurantId),
+            doc: this.faunadbQuery.Get(this.faunadbQuery.Var('ref')),
+            categories: this.faunadbQuery.Select([ 'data', 'categories' ], this.faunadbQuery.Var('doc')),
+          },
+          this.faunadbQuery.Update(
+            this.faunadbQuery.Var('ref'),
+            {
+              data: {
+                categories: this.faunadbQuery.Append(
+                  {
+                    ...categoryEntity,
+                  },
+                  this.faunadbQuery.Var('categories'),
+                ),
+              },
+            },
+          ),
+        ),
+      ) as any as FaunadbRecordBaseFields<Restaurant>;
+
+      return {
+        id: ref.id,
+        ...data,
+      };
+    } catch (e) {
       throw new InternalServerErrorException(e);
     }
   }

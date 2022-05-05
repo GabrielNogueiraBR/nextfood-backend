@@ -1,7 +1,8 @@
 import { Type } from 'class-transformer';
 import { IsArray, IsBoolean, IsNumberString, IsString, IsUUID, ValidateNested } from 'class-validator';
+import { v4 as uuidv4 } from 'uuid';
 
-import { RestaurantCreateDto } from './restaurant.dto';
+import { RestaurantCategoryCreateDto, RestaurantCreateDto } from './restaurant.dto';
 
 export class RestaurantCategory {
 
@@ -16,6 +17,13 @@ export class RestaurantCategory {
 
   @IsBoolean()
   public isActive: boolean;
+
+  public constructor({ name, icon }: Omit<RestaurantCategoryCreateDto, 'id'>) {
+    this.id = uuidv4();
+    this.name = name;
+    this.icon = icon;
+    this.isActive = true;
+  }
 
 }
 

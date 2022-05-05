@@ -47,3 +47,16 @@ export class RestaurantDeleteByIdDto {
   public id: string;
 
 }
+
+export class RestaurantCategoryCreateDto {
+
+  @IsOptional() @IsNumberString()
+  public id?: string; // Refers to restaurantId, and will be injected by path param.
+
+  @IsString() @IsNotEmpty()
+  public name: string;
+
+  @IsOptional() @IsString() @IsNotEmpty()
+  public icon: string;
+
+}
