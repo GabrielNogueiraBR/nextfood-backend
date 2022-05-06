@@ -18,7 +18,7 @@ export class RestaurantCategory {
   @IsBoolean()
   public isActive: boolean;
 
-  public constructor({ name, icon }: Omit<RestaurantCategoryCreateDto, 'id'>) {
+  public constructor({ name, icon }: Omit<RestaurantCategoryCreateDto, 'restaurantId'>) {
     this.id = uuidv4();
     this.name = name;
     this.icon = icon;

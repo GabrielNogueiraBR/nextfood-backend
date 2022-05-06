@@ -1,5 +1,5 @@
 import { Transform } from 'class-transformer';
-import { IsBoolean, IsNotEmpty, IsNumberString, IsOptional, IsString } from 'class-validator';
+import { IsBoolean, IsNotEmpty, IsNumberString, IsOptional, IsString, IsUUID } from 'class-validator';
 
 export class RestaurantCreateDto {
 
@@ -50,13 +50,23 @@ export class RestaurantDeleteByIdDto {
 
 export class RestaurantCategoryCreateDto {
 
-  @IsOptional() @IsNumberString()
-  public id?: string; // Refers to restaurantId, and will be injected by path param.
+  @IsNumberString()
+  public restaurantId: string; // Refers to restaurantId, and will be injected by path param.
 
   @IsString() @IsNotEmpty()
   public name: string;
 
-  @IsOptional() @IsString() @IsNotEmpty()
+  @IsString() @IsNotEmpty()
   public icon: string;
+
+}
+
+export class RestaurantCategoryDeleteDto {
+
+  @IsNumberString()
+  public restaurantId: string; // Refers to restaurantId, and will be injected by path param.
+
+  @IsUUID()
+  public categoryId: string;
 
 }

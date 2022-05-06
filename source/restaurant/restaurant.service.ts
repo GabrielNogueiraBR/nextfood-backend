@@ -1,9 +1,10 @@
 import { BadRequestException, Inject, Injectable, InternalServerErrorException, NotFoundException } from '@nestjs/common';
 import * as faunadb from 'faunadb';
+import { Select } from 'faunadb';
 
 import configuration from '../config/env-vars';
 import { FaunadbRecordBaseFields } from '../faunadb/faunadb.types';
-import { RestaurantCategoryCreateDto, RestaurantCreateDto, RestaurantDeleteByIdDto, RestaurantUpdateDto } from './restaurant.dto';
+import { RestaurantCategoryCreateDto, RestaurantCategoryDeleteDto, RestaurantCreateDto, RestaurantDeleteByIdDto, RestaurantUpdateDto } from './restaurant.dto';
 import { Restaurant, RestaurantCategory } from './restaurant.entity';
 
 @Injectable()
@@ -125,7 +126,7 @@ export class RestaurantService {
    * @param params
    */
   public async createRestaurantCategory(params: RestaurantCategoryCreateDto): Promise<Restaurant> {
-    const { id: restaurantId, name: categoryName, icon } = params;
+    const { restaurantId, name: categoryName, icon } = params;
     const categoryEntity = new RestaurantCategory({ name: categoryName, icon });
 
     try {
@@ -163,6 +164,60 @@ export class RestaurantService {
         id: ref.id,
         ...data,
       };
+    } catch (e) {
+      throw new InternalServerErrorException(e);
+    }
+  }
+
+  /**
+   * Delete restaurant category.
+   * @param params
+   */
+  public async deleteRestaurantCategory(params: RestaurantCategoryDeleteDto): Promise<void> {
+    const { restaurantId, categoryId } = params;
+
+    try {
+      const { categories } = await this.readRestaurantById(restaurantId);
+      const hasCategory = categories.find((category) => category.id === categoryId);
+
+      if (!hasCategory) {
+        throw new NotFoundException('Category not found.');
+      }
+
+      await this.clientDb.query(
+        this.faunadbQuery.Let(
+          {
+            ref: this.faunadbQuery.Ref(this.faunadbQuery.Collection(this.faunaCollection), restaurantId),
+            categories: Select(
+              [ 'data', 'categories' ],
+              this.faunadbQuery.Get(this.faunadbQuery.Var('ref')),
+              false,
+            ),
+            new_categories: this.faunadbQuery.Filter(
+              this.faunadbQuery.Var('categories'),
+              this.faunadbQuery.Lambda(
+                'category',
+                this.faunadbQuery.Not(
+                  this.faunadbQuery.Equals(
+                    this.faunadbQuery.Select('id', this.faunadbQuery.Var('category')),
+                    categoryId,
+                  ),
+                ),
+              ),
+            ),
+          },
+          this.faunadbQuery.Update(
+            this.faunadbQuery.Var('ref'),
+            {
+              data: {
+                categories: this.faunadbQuery.Var('new_categories'),
+              },
+            },
+          ),
+        ),
+      );
+
+      return;
     } catch (e) {
       throw new InternalServerErrorException(e);
     }
