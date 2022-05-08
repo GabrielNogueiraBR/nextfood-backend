@@ -1,27 +1,33 @@
+/* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable @typescript-eslint/explicit-function-return-type */
-
 export interface EnvVars {
   app: EnvVarsApp;
   database: EnvVarsDatabase;
 }
 
 export interface EnvVarsApp {
-  port: number;
+  NODE_ENV: string;
+  PORT: number;
 }
 
 export interface EnvVarsDatabase {
-  secret: string;
-  region: string;
-  restaurant_collection: string;
+  HOST: string;
+  PORT: number;
+  USERNAME: string;
+  PASSWORD: string;
+  DATABASE: string;
 }
 
 export default (): EnvVars => ({
   app: {
-    port: Number.parseInt(process.env.PORT, 10) || 8080,
+    NODE_ENV: process.env.NODE_ENV || 'local',
+    PORT: Number.parseInt(process.env.PORT, 10) || 8080,
   },
   database: {
-    secret: String(process.env.FAUNADB_SECRET),
-    region: String(process.env.FAUNADB_REGION),
-    restaurant_collection: String('restaurant'),
+    HOST: process.env.DB_HOST,
+    PORT: Number.parseInt(process.env.PORT, 10),
+    USERNAME: process.env.USERNAME,
+    PASSWORD: process.env.PASSWORD,
+    DATABASE: process.env.DATABASE,
   },
 });

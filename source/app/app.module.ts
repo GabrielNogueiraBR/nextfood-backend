@@ -1,9 +1,10 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
+import { TypeOrmModule } from '@nestjs/typeorm';
 
 import configuration from '../config/env-vars';
 import { RestaurantModule } from '../restaurant/restaurant.module';
-import { DatabaseModule } from './../database/database.module';
+import { TypeOrmConfigService } from './../config/typeorm.service';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 
@@ -15,7 +16,9 @@ import { AppService } from './app.service';
         configuration,
       ],
     }),
-    DatabaseModule,
+    TypeOrmModule.forRootAsync({ // https://docs.nestjs.com/techniques/database
+      useClass: TypeOrmConfigService,
+    }),
     RestaurantModule,
   ],
   controllers: [
