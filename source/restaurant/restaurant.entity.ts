@@ -1,8 +1,8 @@
-import { Type } from 'class-transformer';
-import { IsArray, IsBoolean, IsNumberString, IsString, IsUUID, ValidateNested } from 'class-validator';
+import { IsBoolean, IsDate, IsString, IsUUID } from 'class-validator';
+import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
 import { v4 as uuidv4 } from 'uuid';
 
-import { RestaurantCategoryCreateDto, RestaurantCreateDto } from './restaurant.dto';
+import { RestaurantCategoryCreateDto } from './restaurant.dto';
 
 export class RestaurantCategory {
 
@@ -27,30 +27,36 @@ export class RestaurantCategory {
 
 }
 
+@Entity()
 export class Restaurant {
 
-  @IsNumberString()
-  public id: string; // Reference fauna collection ID
+  @PrimaryGeneratedColumn('uuid')
+  @IsUUID()
+  public id: string;
 
+  @Column({ type: 'varchar', length: 120 })
   @IsString()
   public name: string;
 
+  @Column({ type: 'varchar', length: 120 })
   @IsString()
   public description: string;
 
+  @Column({ type: 'boolean', default: true })
   @IsBoolean()
   public isActive: boolean;
 
-  @IsArray()
-  @ValidateNested({ each: true })
-  @Type(() => RestaurantCategory)
-  public categories: RestaurantCategory[];
+  // @IsArray()
+  // @ValidateNested({ each: true })
+  // @Type(() => RestaurantCategory)
+  // public categories: RestaurantCategory[];
 
-  public constructor({ name, description }: RestaurantCreateDto) {
-    this.name = name;
-    this.description = description;
-    this.isActive = true;
-    this.categories = [ ];
-  }
+  @CreateDateColumn({ type: 'timestamp' })
+  @IsDate()
+  public createdAt!: Date;
+
+  @UpdateDateColumn({ type: 'timestamp' })
+  @IsDate()
+  public updatedAt!: Date;
 
 }
