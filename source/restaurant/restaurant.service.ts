@@ -1,72 +1,43 @@
-import { BadRequestException, Inject, Injectable, InternalServerErrorException, NotFoundException } from '@nestjs/common';
-import * as faunadb from 'faunadb';
-import { Select } from 'faunadb';
+import { BadRequestException, Injectable } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
 
-import configuration from '../config/env-vars';
-import { FaunadbRecordBaseFields } from '../faunadb/faunadb.types';
-import { RestaurantCategoryCreateDto, RestaurantCategoryDeleteDto, RestaurantCreateDto, RestaurantDeleteByIdDto, RestaurantUpdateDto } from './restaurant.dto';
-import { Restaurant, RestaurantCategory } from './restaurant.entity';
+import { RestaurantCreateDto, RestaurantDeleteByIdDto, RestaurantUpdateDto } from './restaurant.dto';
+import { Restaurant } from './restaurant.entity';
 
 @Injectable()
 export class RestaurantService {
 
-  private faunadbQuery = faunadb.query;
-  private faunaCollection: string;
-
   public constructor(
-    @Inject('DATABASE_CONNECTION') private readonly clientDb: faunadb.Client,
-  ) {
-    const faunaEnvVars = configuration().database;
-    this.faunaCollection = faunaEnvVars.restaurant_collection;
-  }
+    @InjectRepository(Restaurant)
+    private readonly repository: Repository<Restaurant>,
+  ) { }
 
   /**
    * Create a restaurant.
-   * @param params
+   * @param restaurant
    */
-  public async createRestaurant(params: RestaurantCreateDto): Promise<Restaurant> {
-    const restaurantEntity = new Restaurant(params);
+  public async createRestaurant(restaurant: RestaurantCreateDto): Promise<Restaurant> {
+    const { name, description } = restaurant;
 
-    try {
-      const { data, ref } = await this.clientDb.query(
-        this.faunadbQuery.Create(
-          this.faunadbQuery.Collection(this.faunaCollection),
-          { data: restaurantEntity },
-        ),
-      ) as any as FaunadbRecordBaseFields<Restaurant>;
+    const restaurantEntity = this.repository.create({
+      name,
+      description,
+    });
 
-      return {
-        id: ref.id,
-        ...data,
-      };
-    } catch (e) {
-      throw new InternalServerErrorException(e);
-    }
+    return this.repository.save(restaurantEntity);
   }
 
   /**
    * Read restaurant by id.
-   * @param restaurantId
+   * @param id
    */
-  public async readRestaurantById(restaurantId: string): Promise<Restaurant> {
-    try {
-      const { data, ref } = await this.clientDb.query(
-        this.faunadbQuery.Get(
-          this.faunadbQuery.Ref(this.faunadbQuery.Collection(this.faunaCollection), restaurantId),
-        ),
-      ) as any as FaunadbRecordBaseFields<Restaurant>;
+  public async readRestaurantById(id: string): Promise<Restaurant> {
+    const restaurant = await this.repository.findOneBy({ id });
 
-      return {
-        id: ref.id,
-        ...data,
-      };
-    } catch (e) {
-      if (e.requestResult.statusCode === 404) {
-        throw new NotFoundException('Restaurant not found');
-      }
+    if (!restaurant) throw new BadRequestException('Restaurant not found!');
 
-      throw new InternalServerErrorException(e);
-    }
+    return restaurant;
   }
 
   /**
@@ -74,27 +45,14 @@ export class RestaurantService {
    * @param params
    */
   public async updateRestaurantById(params: RestaurantUpdateDto): Promise<Restaurant> {
-    const { id: restaurantId, ...rest } = params;
+    const { id, ...rest } = params;
 
-    try {
-      const { data, ref } = await this.clientDb.query(
-        this.faunadbQuery.Update(
-          this.faunadbQuery.Ref(this.faunadbQuery.Collection(this.faunaCollection), restaurantId),
-          { data: rest },
-        ),
-      ) as any as FaunadbRecordBaseFields<Restaurant>;
+    const restaurant = await this.readRestaurantById(id);
 
-      return {
-        id: ref.id,
-        ...data,
-      };
-    } catch (e) {
-      if (e.requestResult.statusCode === 404) {
-        throw new NotFoundException('Restaurant not found');
-      }
-
-      throw new InternalServerErrorException(e);
-    }
+    return this.repository.save({
+      ...restaurant,
+      ...rest,
+    });
   }
 
   /**
@@ -102,125 +60,12 @@ export class RestaurantService {
    * @param params
    */
   public async deleteRestaurantById(params: RestaurantDeleteByIdDto): Promise<void> {
-    const { id: restaurantId } = params;
+    const { id } = params;
 
-    try {
-      await this.clientDb.query(
-        this.faunadbQuery.Delete(
-          this.faunadbQuery.Ref(this.faunadbQuery.Collection(this.faunaCollection), restaurantId),
-        ),
-      );
+    await this.readRestaurantById(id);
+    await this.repository.delete(id);
 
-      return;
-    } catch (e) {
-      if (e.requestResult.statusCode === 404) {
-        throw new NotFoundException('Restaurant not found');
-      }
-
-      throw new InternalServerErrorException(e);
-    }
-  }
-
-  /**
-   * Create restaurant category and insert them.
-   * @param params
-   */
-  public async createRestaurantCategory(params: RestaurantCategoryCreateDto): Promise<Restaurant> {
-    const { restaurantId, name: categoryName, icon } = params;
-    const categoryEntity = new RestaurantCategory({ name: categoryName, icon });
-
-    try {
-      const { categories } = await this.readRestaurantById(restaurantId);
-      const hasCategory = categories.find((category) => category.name === categoryName);
-
-      if (hasCategory) {
-        throw new BadRequestException('Category already exists for this restaurant');
-      }
-
-      const { data, ref } = await this.clientDb.query(
-        this.faunadbQuery.Let(
-          {
-            ref: this.faunadbQuery.Ref(this.faunadbQuery.Collection(this.faunaCollection), restaurantId),
-            doc: this.faunadbQuery.Get(this.faunadbQuery.Var('ref')),
-            categories: this.faunadbQuery.Select([ 'data', 'categories' ], this.faunadbQuery.Var('doc')),
-          },
-          this.faunadbQuery.Update(
-            this.faunadbQuery.Var('ref'),
-            {
-              data: {
-                categories: this.faunadbQuery.Append(
-                  {
-                    ...categoryEntity,
-                  },
-                  this.faunadbQuery.Var('categories'),
-                ),
-              },
-            },
-          ),
-        ),
-      ) as any as FaunadbRecordBaseFields<Restaurant>;
-
-      return {
-        id: ref.id,
-        ...data,
-      };
-    } catch (e) {
-      throw new InternalServerErrorException(e);
-    }
-  }
-
-  /**
-   * Delete restaurant category.
-   * @param params
-   */
-  public async deleteRestaurantCategory(params: RestaurantCategoryDeleteDto): Promise<void> {
-    const { restaurantId, categoryId } = params;
-
-    try {
-      const { categories } = await this.readRestaurantById(restaurantId);
-      const hasCategory = categories.find((category) => category.id === categoryId);
-
-      if (!hasCategory) {
-        throw new NotFoundException('Category not found.');
-      }
-
-      await this.clientDb.query(
-        this.faunadbQuery.Let(
-          {
-            ref: this.faunadbQuery.Ref(this.faunadbQuery.Collection(this.faunaCollection), restaurantId),
-            categories: Select(
-              [ 'data', 'categories' ],
-              this.faunadbQuery.Get(this.faunadbQuery.Var('ref')),
-              false,
-            ),
-            new_categories: this.faunadbQuery.Filter(
-              this.faunadbQuery.Var('categories'),
-              this.faunadbQuery.Lambda(
-                'category',
-                this.faunadbQuery.Not(
-                  this.faunadbQuery.Equals(
-                    this.faunadbQuery.Select('id', this.faunadbQuery.Var('category')),
-                    categoryId,
-                  ),
-                ),
-              ),
-            ),
-          },
-          this.faunadbQuery.Update(
-            this.faunadbQuery.Var('ref'),
-            {
-              data: {
-                categories: this.faunadbQuery.Var('new_categories'),
-              },
-            },
-          ),
-        ),
-      );
-
-      return;
-    } catch (e) {
-      throw new InternalServerErrorException(e);
-    }
+    return;
   }
 
 }

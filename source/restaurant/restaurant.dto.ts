@@ -40,7 +40,7 @@ export class RestaurantReadByIdDto {
 
 export class RestaurantDeleteByIdDto {
 
-  @IsNumberString()
+  @IsString()
   public id: string;
 
 }

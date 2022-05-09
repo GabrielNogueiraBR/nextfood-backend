@@ -16,6 +16,7 @@ async function bootstrap() {
   const port = appConfig.PORT;
 
   app.useGlobalPipes(new ValidationPipe());
+
   await app.listen(port, () => {
     Logger.log(`Server listening on port ${port}`);
   });
