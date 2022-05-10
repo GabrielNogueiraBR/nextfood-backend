@@ -1,4 +1,4 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
@@ -35,13 +35,13 @@ export class RestaurantService {
   public async readRestaurantById(id: string): Promise<Restaurant> {
     const restaurant = await this.repository.findOneBy({ id });
 
-    if (!restaurant) throw new BadRequestException('Restaurant not found!');
+    if (!restaurant) throw new NotFoundException('Restaurant not found!');
 
     return restaurant;
   }
 
   /**
-   * Update restaurant name or description by id.
+   * Update restaurant by id.
    * @param params
    */
   public async updateRestaurantById(params: RestaurantUpdateDto): Promise<Restaurant> {

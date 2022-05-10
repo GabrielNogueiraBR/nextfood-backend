@@ -1,24 +1,17 @@
 import { Transform } from 'class-transformer';
 import { IsBoolean, IsNotEmpty, IsOptional, IsString, IsUUID } from 'class-validator';
 
-export class RestaurantCreateDto {
+export class CategoryCreateDto {
 
   @IsString() @IsNotEmpty()
   public name: string;
 
   @IsString() @IsNotEmpty()
-  public description: string;
+  public icon: string;
 
 }
 
-export class RestaurantReadByIdDto {
-
-  @IsUUID()
-  public id: string;
-
-}
-
-export class RestaurantUpdateDto {
+export class CategoryUpdateDto {
 
   @IsOptional() @IsUUID()
   public id?: string; // Will be injected by path param.
@@ -29,7 +22,7 @@ export class RestaurantUpdateDto {
 
   @IsOptional()
   @IsString() @IsNotEmpty()
-  public description: string;
+  public icon: string;
 
   @IsOptional()
   @Transform(({ value }) => value === 'true')
@@ -38,7 +31,14 @@ export class RestaurantUpdateDto {
 
 }
 
-export class RestaurantDeleteByIdDto {
+export class CategoryReadByIdDto {
+
+  @IsUUID()
+  public id: string;
+
+}
+
+export class CategoryDeleteByIdDto {
 
   @IsUUID()
   public id: string;
