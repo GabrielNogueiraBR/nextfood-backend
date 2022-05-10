@@ -19,7 +19,7 @@ export class TypeOrmConfigService implements TypeOrmOptionsFactory {
     const appConfig = this.configService.get<EnvVarsApp>(EnvVarsEnum.APP);
 
     return {
-      type: 'mysql',
+      type: 'postgres',
       host: databaseConfig.HOST,
       port: databaseConfig.PORT,
       username: databaseConfig.USERNAME,
