@@ -1,6 +1,17 @@
-# Nextfood BE
+# 🍔 Nextfood BE
 
 This project contains the Nextfood application backend.
+
+
+### 💡NextFood Features
+- [x] Application Setup
+- [ ] CRUD Restaurant
+- [ ] CRUD Categories
+- [ ] CRUD User
+- [ ] CRUD Franchise
+- [ ] CRUD Products
+- [ ] CRUD Orders
+
 
 ## Local Setup
 
@@ -98,3 +109,16 @@ fix: JSON parsing exception
 chore(auth): change member accessibility
 ci: fix wrong build definition
 ```
+
+## 👨‍👦‍👦 Contributors
+<div align="center">
+ <a href="https://github.com/GabrielNogueiraBR" target="_blank"><img src="https://avatars.githubusercontent.com/u/30303558?v=4" width="8%"></a>
+ <a href="https://github.com/VitorGois" target="_blank"><img src="https://avatars.githubusercontent.com/u/69533533?v=4" width="8%"></a>
+ <a href="https://github.com/CordeiroOtavio" target="_blank"><img src="https://avatars.githubusercontent.com/u/69653683?v=4" width="8%"></a>
+ <a href="https://github.com/ryanraul" target="_blank"><img src="https://avatars.githubusercontent.com/u/42502534?v=4" width="8%"></a>
+ <a href="https://github.com/gferrazz" target="_blank"><img src="https://avatars.githubusercontent.com/u/48798017?v=4" width="8%"></a>
+</div>
+
+
+## 📃 License
+This software is under the MIT License.
