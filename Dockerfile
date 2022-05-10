@@ -10,7 +10,7 @@ COPY package.json pnpm-lock.yaml /build/
 
 # Install dependencies
 RUN npm i -g pnpm 
-RUN pnpm i --frozen-lockfile
+RUN pnpm i --frozen-lockfile --ignore-scripts
 
 # Copy source code and build application
 COPY . /build
@@ -28,7 +28,7 @@ COPY --from=build /build/dist /app
 
 # Install production dependencies
 RUN npm i -g pnpm
-RUN pnpm i --frozen-lockfile --prod
+RUN pnpm i --frozen-lockfile --prod -ignore-scripts
 
 # Run application
 CMD [ "pnpm", "start" ]
