@@ -1,4 +1,4 @@
 #!/bin/sh
 . "$(dirname "$0")/_/husky.sh"
 
-pnpx -y lint-staged --config .config/lint-staged/.lintstagedrc.json --allow-empty --verbose
+./node_modules/lint-staged/bin/lint-staged.js --config .config/lint-staged/.lintstagedrc.json --allow-empty --verbose
