@@ -1,28 +1,29 @@
 import { Transform } from 'class-transformer';
-import { IsBoolean, IsNotEmpty, IsNumberString, IsOptional, IsString, IsUUID } from 'class-validator';
+import { IsBoolean, IsNotEmpty, IsOptional, IsString, IsUUID, Max, Min } from 'class-validator';
 
 export class RestaurantCreateDto {
 
   @IsString() @IsNotEmpty()
+  @Min(2) @Max(120)
   public name: string;
 
   @IsString() @IsNotEmpty()
+  @Min(10) @Max(256)
   public description: string;
 
 }
 
-export class RestaurantUpdateDto {
+export class RestaurantReadByIdDto {
 
-  @IsOptional() @IsNumberString()
+  @IsUUID()
+  public id: string;
+
+}
+
+export class RestaurantUpdateDto extends RestaurantCreateDto {
+
+  @IsOptional() @IsUUID()
   public id?: string; // Will be injected by path param.
-
-  @IsOptional()
-  @IsString() @IsNotEmpty()
-  public name?: string;
-
-  @IsOptional()
-  @IsString() @IsNotEmpty()
-  public description?: string;
 
   @IsOptional()
   @Transform(({ value }) => value === 'true')
@@ -31,39 +32,9 @@ export class RestaurantUpdateDto {
 
 }
 
-export class RestaurantReadByIdDto {
-
-  @IsString()
-  public id: string;
-
-}
-
 export class RestaurantDeleteByIdDto {
 
-  @IsString()
-  public id: string;
-
-}
-
-export class RestaurantCategoryCreateDto {
-
-  @IsNumberString()
-  public restaurantId: string; // Refers to restaurantId, and will be injected by path param.
-
-  @IsString() @IsNotEmpty()
-  public name: string;
-
-  @IsString() @IsNotEmpty()
-  public icon: string;
-
-}
-
-export class RestaurantCategoryDeleteDto {
-
-  @IsNumberString()
-  public restaurantId: string; // Refers to restaurantId, and will be injected by path param.
-
   @IsUUID()
-  public categoryId: string;
+  public id: string;
 
 }

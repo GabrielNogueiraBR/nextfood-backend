@@ -1,31 +1,5 @@
 import { IsBoolean, IsDate, IsString, IsUUID } from 'class-validator';
 import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
-import { v4 as uuidv4 } from 'uuid';
-
-import { RestaurantCategoryCreateDto } from './restaurant.dto';
-
-export class RestaurantCategory {
-
-  @IsUUID()
-  public id: string;
-
-  @IsString()
-  public name: string;
-
-  @IsString()
-  public icon: string;
-
-  @IsBoolean()
-  public isActive: boolean;
-
-  public constructor({ name, icon }: Omit<RestaurantCategoryCreateDto, 'restaurantId'>) {
-    this.id = uuidv4();
-    this.name = name;
-    this.icon = icon;
-    this.isActive = true;
-  }
-
-}
 
 @Entity()
 export class Restaurant {
@@ -38,7 +12,7 @@ export class Restaurant {
   @IsString()
   public name: string;
 
-  @Column({ type: 'varchar', length: 120 })
+  @Column({ type: 'varchar', length: 256 })
   @IsString()
   public description: string;
 
