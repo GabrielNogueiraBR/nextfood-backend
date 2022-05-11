@@ -16,7 +16,7 @@
     "build": "nest build",
     "dev": "tsnd --exit-child --rs --watch *.env --inspect=0.0.0.0:9229 ./source/main.ts",
     "start": "node ./source/main.js || (cd dist && node ./source/main.js)",
-    "docker": "pnpm run build && docker build -t nextfood-backend dist && docker run --rm -it -p 8080:8080 nextfood-backend",
+    "docker": "docker build -t nextfood-backend . && docker run --rm -it -p 8080:8080 nextfood-backend",
     "lint": "export TIMING=1 || set TIMING=1&& eslint **/*.ts --max-warnings=0",
     "lint:fix": "eslint --fix **/*.ts",
     "test": "jest --verbose --forceExit --passWithNoTests --testTimeout=30000 --config .config/jest/.jestrc.json"
