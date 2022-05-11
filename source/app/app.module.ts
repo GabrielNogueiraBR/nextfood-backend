@@ -5,6 +5,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { CategoryModule } from '../category/category.module';
 import configuration from '../config/env-vars';
 import { RestaurantModule } from '../restaurant/restaurant.module';
+import { UserModule } from '../user/user.module';
 import { TypeOrmConfigService } from './../config/typeorm.service';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
@@ -22,6 +23,7 @@ import { AppService } from './app.service';
     }),
     CategoryModule,
     RestaurantModule,
+    UserModule,
   ],
   controllers: [
     AppController,
