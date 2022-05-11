@@ -20,11 +20,6 @@ export class Restaurant {
   @IsBoolean()
   public isActive: boolean;
 
-  // @IsArray()
-  // @ValidateNested({ each: true })
-  // @Type(() => RestaurantCategory)
-  // public categories: RestaurantCategory[];
-
   @CreateDateColumn({ type: 'timestamp' })
   @IsDate()
   public createdAt!: Date;
