@@ -1,28 +1,71 @@
-import { Inject, Injectable } from '@nestjs/common';
-import * as faunadb from 'faunadb';
+import { Injectable, NotFoundException } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
+
+import { RestaurantCreateDto, RestaurantDeleteByIdDto, RestaurantUpdateDto } from './restaurant.dto';
+import { Restaurant } from './restaurant.entity';
 
 @Injectable()
 export class RestaurantService {
 
-  private faunadbQuery = faunadb.query;
-
   public constructor(
-    @Inject('DATABASE_CONNECTION') private readonly clientDb: faunadb.Client,
+    @InjectRepository(Restaurant)
+    private readonly repository: Repository<Restaurant>,
   ) { }
 
   /**
    * Create a restaurant.
+   * @param restaurant
+   */
+  public async createRestaurant(restaurant: RestaurantCreateDto): Promise<Restaurant> {
+    const { name, description } = restaurant;
+
+    const restaurantEntity = this.repository.create({
+      name,
+      description,
+    });
+
+    return this.repository.save(restaurantEntity);
+  }
+
+  /**
+   * Read restaurant by id.
+   * @param id
+   */
+  public async readRestaurantById(id: string): Promise<Restaurant> {
+    const restaurant = await this.repository.findOneBy({ id });
+
+    if (!restaurant) throw new NotFoundException('Restaurant not found!');
+
+    return restaurant;
+  }
+
+  /**
+   * Update restaurant by id.
    * @param params
    */
-  public async createRestaurant(params: any): Promise<any> {
-    return this.clientDb.query(
-      this.faunadbQuery.Create(
-        this.faunadbQuery.Collection('test'),
-        {
-          data: params,
-        },
-      ),
-    );
+  public async updateRestaurantById(params: RestaurantUpdateDto): Promise<Restaurant> {
+    const { id, ...rest } = params;
+
+    const restaurant = await this.readRestaurantById(id);
+
+    return this.repository.save({
+      ...restaurant,
+      ...rest,
+    });
+  }
+
+  /**
+   * Delete restaurant by id.
+   * @param params
+   */
+  public async deleteRestaurantById(params: RestaurantDeleteByIdDto): Promise<void> {
+    const { id } = params;
+
+    await this.readRestaurantById(id);
+    await this.repository.delete(id);
+
+    return;
   }
 
 }

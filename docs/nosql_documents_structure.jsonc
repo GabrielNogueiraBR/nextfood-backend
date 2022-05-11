@@ -1,0 +1,138 @@
+// Restaurant
+{
+  "id": "uuid",
+  "name": "McDonald's",
+  "description": "McDonald's (MCD) is a fast food.",
+  "isActive": true,
+  "categories": [
+    {
+      // "id": "uuid", / optional
+      "name": "Fast Food",
+      "icon": "",
+      "isActive": true
+    }
+  ]
+}
+
+// Franchise
+{
+  "id": "uuid",
+  "name": "McDonald's Iguatemi Sorocaba",
+  "isActive": true,
+  "restaurant_id": "uuid (restaurant document id)",
+  "address": {
+    "country": "Brazil",
+    "state": "São Paulo",
+    "city": "Sorocaba",
+    "borough": "Parque Campolim",
+    "street": "Avenida Professora Izoraida Marques Peres",
+    "complement": "Shopping Iguatemi",
+    "number": 176
+  },
+  "businessHours": [
+    {
+      "weekDay": "sunday",
+      "openHour": "10:00 am",
+      "closeHour": "10:00 pm"
+    }
+    // ...
+  ],
+  "employees": [
+    {
+      "id": "uuid()",
+      "name": "Robert",
+      "admission": "2022-01-01T00:00:00",
+      "isActive": true
+    }
+    // ...
+  ],
+  "tables": [
+    {
+      "name": "Alpha",
+      "quantity": 5,
+      "isEmpty": true,
+      "isActive": true
+    }
+    // ...
+  ],
+  "products": [
+    {
+      // "id": "uuid", // optional
+      "price": 23.59,
+      "isActive": true,
+      "product_id": "uuid (product document id)",
+    }
+  ]
+}
+
+// Product
+{
+  "id": "uuid",
+  "name": "Fries",
+  "description": "Fries in 'AirFries'",
+  "ingredients": [
+    "Potato"
+  ],
+  "qtd_serves": 1,
+  "image": "",
+  "isActive": true,
+  "category": {
+    // "id": "uuid", / optional
+    "name": "Fast Food",
+    "icon": "",
+    "isActive": true
+  },
+  "restaurant_id": "uuid (restaurant document id)"
+}
+
+// // Product-Franchise
+// {
+//   "id": "uuid",
+//   "price": 23.59,
+//   "isActive": true,
+//   "product_id": "uuid (product document id)",
+//   "franchise_id": "uuid (franchise document id" 
+// }
+
+// Order
+{
+  "id": "uuid",
+  "datetime_start": "2022-03-01T20:30:00Z",
+  "datetime_end": "2022-03-01T20:30:00Z",
+  "user_id": "uuid (user document id)",
+  "isClosed": true, // "status_id": "uuid (status document id)",
+  "items": [ // Seria a tabela de carrinho
+    {
+      "product_id": "uuid (product document id)",
+      "price": 12.35,
+      "quantity": 3,
+      "datetime": "2022-03-01T22:00:00",
+      "status_id": "AWAITING|IN_PROGRESS|DONE"
+    }
+  ],
+  "franchise": {
+    "franchise_id": "uuid (franchise document id",
+    "table": {
+      ...franchise_id.table[0]
+    },
+    "waiter": {
+      ...franchise_id.employee[0]
+    }
+  }
+}
+
+// Status
+// {
+//   "id": "uuid",
+//   "title": "In progress",
+//   "description": "In progress",
+//   "color": "#FFFF00"
+// }
+
+// User
+{
+  "id": "uuid",
+  "name": "Alfred",
+  "email": "alfred@mail.com",
+  "isActive": true
+}
