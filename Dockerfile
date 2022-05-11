@@ -28,7 +28,7 @@ COPY --from=build /build/dist /app
 
 # Install production dependencies
 RUN npm i -g pnpm
-RUN pnpm i --frozen-lockfile --prod -ignore-scripts
+RUN pnpm i --frozen-lockfile --prod --ignore-scripts
 
 # Run application
 CMD [ "pnpm", "start" ]
