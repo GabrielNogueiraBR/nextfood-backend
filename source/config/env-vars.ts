@@ -65,7 +65,7 @@ export default (): EnvVars => ({
   },
   database: {
     HOST: process.env.DB_HOST,
-    PORT: Number.parseInt(process.env.DB_PORT, 10) || 3306,
+    PORT: Number.parseInt(process.env.DB_PORT, 10) || 5432,
     USERNAME: process.env.DB_USERNAME,
     PASSWORD: process.env.DB_PASSWORD,
     DATABASE: process.env.DB_DATABASE,
