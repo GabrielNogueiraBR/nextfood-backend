@@ -6,6 +6,7 @@ import { ConfigService } from '@nestjs/config';
 import { NestFactory } from '@nestjs/core';
 
 import { AppModule } from './app/app.module';
+import { HTTPLoggingInterceptor } from './common/interceptors/http.interceptor';
 import { EnvVarsApp, EnvVarsEnum } from './config/env-vars';
 
 async function bootstrap() {
@@ -16,6 +17,7 @@ async function bootstrap() {
   const port = appConfig.PORT;
 
   app.useGlobalPipes(new ValidationPipe());
+  app.useGlobalInterceptors(new HTTPLoggingInterceptor());
 
   await app.listen(port, () => {
     Logger.log(`Server listening on port ${port}`);
