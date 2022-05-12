@@ -4,6 +4,7 @@
 import { Logger, ValidationPipe } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { NestFactory } from '@nestjs/core';
+import { DocumentBuilder, SwaggerDocumentOptions, SwaggerModule } from '@nestjs/swagger';
 
 import { AppModule } from './app/app.module';
 import { HTTPLoggingInterceptor } from './common/interceptors/http.interceptor';
@@ -18,6 +19,20 @@ async function bootstrap() {
 
   app.useGlobalPipes(new ValidationPipe());
   app.useGlobalInterceptors(new HTTPLoggingInterceptor());
+
+  const swaggerConfig = new DocumentBuilder()
+    .setTitle('Next Food')
+    .setDescription('Next Food API services')
+    .setVersion('1.0')
+    .build();
+  const swaggerOptions: SwaggerDocumentOptions = {
+    operationIdFactory: (
+      controllerKey: string,
+      methodKey: string,
+    ) => methodKey,
+  };
+  const swaggerDocument = SwaggerModule.createDocument(app, swaggerConfig, swaggerOptions);
+  SwaggerModule.setup('docs', app, swaggerDocument);
 
   await app.listen(port, () => {
     Logger.log(`Server listening on port ${port}`);
