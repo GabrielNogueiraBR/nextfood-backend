@@ -15,14 +15,12 @@ export class RestaurantController {
 
   @ApiOperation({ summary: 'Create a restaurant.' })
   @Post()
-  @HttpCode(HttpStatus.CREATED)
   public postRestaurant(@Body() body: RestaurantCreateDto): Promise<Restaurant> {
     return this.restaurantService.createRestaurant(body);
   }
 
   @ApiOperation({ summary: 'Read a restaurant by id.' })
   @Get(':id')
-  @HttpCode(HttpStatus.OK)
   public getRestaurantById(@Param() params: RestaurantReadByIdDto): Promise<Restaurant> {
     const { id } = params;
     return this.restaurantService.readRestaurantById(id);
@@ -30,7 +28,6 @@ export class RestaurantController {
 
   @ApiOperation({ summary: 'Update a restaurant by id.' })
   @Put(':id')
-  @HttpCode(HttpStatus.OK)
   public updateRestaurantById(
     @Param() params: RestaurantReadByIdDto, @Body() body: RestaurantUpdateDto,
   ): Promise<Restaurant> {
@@ -38,8 +35,8 @@ export class RestaurantController {
   }
 
   @ApiOperation({ summary: 'Delete a restaurant by id.' })
-  @Delete(':id')
   @HttpCode(HttpStatus.NO_CONTENT)
+  @Delete(':id')
   public deleteRestaurantById(@Param() params: RestaurantDeleteByIdDto): Promise<void> {
     return this.restaurantService.deleteRestaurantById(params);
   }

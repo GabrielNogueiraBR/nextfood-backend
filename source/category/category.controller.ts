@@ -15,21 +15,18 @@ export class CategoryController {
 
   @ApiOperation({ summary: 'Create a category.' })
   @Post()
-  @HttpCode(HttpStatus.CREATED)
   public postCategory(@Body() body: CategoryCreateDto): Promise<Category> {
     return this.categoryService.createCategory(body);
   }
 
   @ApiOperation({ summary: 'Read a category by id.' })
   @Get(':id')
-  @HttpCode(HttpStatus.OK)
   public getCategoryById(@Param() { id }: CategoryReadByIdDto): Promise<Category> {
     return this.categoryService.readCategoryById(id);
   }
 
   @ApiOperation({ summary: 'Update a category by id.' })
   @Put(':id')
-  @HttpCode(HttpStatus.OK)
   public updateCategoryById(
     @Param() params: CategoryReadByIdDto, @Body() body: CategoryUpdateDto,
   ): Promise<Category> {
