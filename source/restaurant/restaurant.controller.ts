@@ -12,19 +12,16 @@ export class RestaurantController {
   ) { }
 
   @Post()
-  @HttpCode(HttpStatus.CREATED)
   public postRestaurant(@Body() body: RestaurantCreateDto): Promise<Restaurant> {
     return this.restaurantService.createRestaurant(body);
   }
 
   @Get(':id')
-  @HttpCode(HttpStatus.OK)
   public getRestaurantById(@Param() { id }: RestaurantReadByIdDto): Promise<Restaurant> {
     return this.restaurantService.readRestaurantById(id);
   }
 
   @Put(':id')
-  @HttpCode(HttpStatus.OK)
   public updateRestaurantById(
     @Param() params: RestaurantReadByIdDto, @Body() body: RestaurantUpdateDto,
   ): Promise<Restaurant> {

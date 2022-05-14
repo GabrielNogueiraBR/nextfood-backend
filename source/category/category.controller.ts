@@ -12,19 +12,16 @@ export class CategoryController {
   ) { }
 
   @Post()
-  @HttpCode(HttpStatus.CREATED)
   public postCategory(@Body() body: CategoryCreateDto): Promise<Category> {
     return this.categoryService.createCategory(body);
   }
 
   @Get(':id')
-  @HttpCode(HttpStatus.OK)
   public getCategoryById(@Param() { id }: CategoryReadByIdDto): Promise<Category> {
     return this.categoryService.readCategoryById(id);
   }
 
   @Put(':id')
-  @HttpCode(HttpStatus.OK)
   public updateCategoryById(
     @Param() params: CategoryReadByIdDto, @Body() body: CategoryUpdateDto,
   ): Promise<Category> {
