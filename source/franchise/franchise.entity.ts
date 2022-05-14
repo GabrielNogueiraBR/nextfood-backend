@@ -1,5 +1,7 @@
-import { IsBoolean, IsDate, IsString, IsUUID } from 'class-validator';
-import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
+import { IsBoolean, IsDate, IsObject, IsString, IsUUID } from 'class-validator';
+import { Column, CreateDateColumn, Entity, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
+
+import { Restaurant } from '../restaurant/restaurant.entity';
 
 @Entity()
 export class Franchise {
@@ -15,6 +17,13 @@ export class Franchise {
   @Column({ type: 'boolean', default: true })
   @IsBoolean()
   public isActive: boolean;
+
+  @ManyToOne(() => Restaurant, (restaurant) => restaurant.franchises, {
+    nullable: false,
+    onDelete: 'CASCADE',
+  })
+  @IsObject()
+  public restaurant: Restaurant;
 
   @CreateDateColumn({ type: 'timestamp' })
   @IsDate()
