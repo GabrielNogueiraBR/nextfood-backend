@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/explicit-member-accessibility */
-import { IsNotEmpty, IsNumberString, IsOptional, IsString } from 'class-validator';
+import { IsNotEmpty, IsOptional, IsString, IsUUID } from 'class-validator';
 
 export class CreateUserDto {
 
@@ -12,7 +12,7 @@ export class CreateUserDto {
 }
 export class UpdateUserDto {
 
-  @IsOptional() @IsNumberString()
+  @IsOptional() @IsUUID()
   public id?: string;
 
   @IsString() @IsNotEmpty()
@@ -25,13 +25,13 @@ export class UpdateUserDto {
 
 export class UserReadByIdDto {
 
-  @IsString()
+  @IsString() @IsUUID()
     id: string;
 
 }
 export class UserDeleteByIdDto {
 
-  @IsString()
+  @IsString() @IsUUID()
   public id: string;
 
 }
