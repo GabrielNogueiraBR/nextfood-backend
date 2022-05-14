@@ -1,4 +1,4 @@
-import { IsDate, IsObject, IsString, IsUUID } from 'class-validator';
+import { IsDate, IsNumber, IsObject, IsString, IsUUID } from 'class-validator';
 import { Column, CreateDateColumn, Entity, OneToOne, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
 
 import { Franchise } from '../franchise/franchise.entity';
@@ -30,9 +30,13 @@ export class Address {
   @IsString()
   public street: string;
 
-  @Column({ type: 'varchar', length: 60 })
+  @Column({ type: 'varchar', length: 60, nullable: true })
   @IsString()
-  public number: string;
+  public complement: string;
+
+  @Column({ type: 'int', nullable: true })
+  @IsNumber()
+  public number: number;
 
   @OneToOne(() => Franchise, (franchise) => franchise.address, {
     onDelete: 'CASCADE',
