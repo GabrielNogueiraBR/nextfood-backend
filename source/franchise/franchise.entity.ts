@@ -1,6 +1,7 @@
 import { IsBoolean, IsDate, IsObject, IsString, IsUUID } from 'class-validator';
-import { Column, CreateDateColumn, Entity, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
+import { Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, OneToOne, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
 
+import { Address } from '../address/address.entity';
 import { Restaurant } from '../restaurant/restaurant.entity';
 
 @Entity()
@@ -24,6 +25,13 @@ export class Franchise {
   })
   @IsObject()
   public restaurant: Restaurant;
+
+  @OneToOne(() => Address, (address) => address.franchise, {
+    nullable: false, eager: true,
+  })
+  @JoinColumn()
+  @IsObject()
+  public address!: Address;
 
   @CreateDateColumn({ type: 'timestamp' })
   @IsDate()
