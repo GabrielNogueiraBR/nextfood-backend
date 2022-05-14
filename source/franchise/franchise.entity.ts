@@ -2,6 +2,7 @@ import { IsBoolean, IsDate, IsObject, IsString, IsUUID } from 'class-validator';
 import { Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, OneToMany, OneToOne, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
 
 import { Address } from '../address/address.entity';
+import { Employee } from '../employee/employee.entity';
 import { Restaurant } from '../restaurant/restaurant.entity';
 import { WeekDay } from '../utils/weekday.enum';
 
@@ -33,6 +34,10 @@ export class Franchise {
   @JoinColumn()
   @IsObject()
   public address!: Address;
+
+  @OneToMany(() => Employee, (employee) => employee.franchise)
+  @IsObject({ each: true })
+  public employees: Employee[];
 
   @OneToMany(() => FranchiseSchedule, (schedule) => schedule.franchise, {
     onDelete: 'CASCADE', nullable: false,

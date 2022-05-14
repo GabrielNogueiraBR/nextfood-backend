@@ -34,11 +34,9 @@ export class Address {
   @IsString()
   public number: string;
 
-  @OneToOne(
-    () => Franchise,
-    (franchise) => franchise.address,
-    { onDelete: 'CASCADE' },
-  )
+  @OneToOne(() => Franchise, (franchise) => franchise.address, {
+    onDelete: 'CASCADE',
+  })
   @IsObject()
   public franchise!: Franchise;
 
