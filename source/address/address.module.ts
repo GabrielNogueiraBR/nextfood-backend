@@ -2,6 +2,7 @@ import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
 import { Address } from './address.entity';
+import { AddressService } from './address.service';
 
 @Module({
   imports: [
@@ -9,7 +10,12 @@ import { Address } from './address.entity';
       Address,
     ]),
   ],
-  providers: [ ],
+  providers: [
+    AddressService,
+  ],
   controllers: [ ],
+  exports: [
+    AddressService,
+  ],
 })
 export class AddressModule {}

@@ -22,14 +22,13 @@ export class Franchise {
   public isActive: boolean;
 
   @ManyToOne(() => Restaurant, (restaurant) => restaurant.franchises, {
-    nullable: false,
-    onDelete: 'CASCADE',
+    onDelete: 'CASCADE', nullable: false,
   })
   @IsObject()
-  public restaurant: Restaurant;
+  public restaurant!: Restaurant;
 
   @OneToOne(() => Address, (address) => address.franchise, {
-    nullable: false, eager: true,
+    cascade: true, eager: true, nullable: false,
   })
   @JoinColumn()
   @IsObject()
@@ -40,7 +39,7 @@ export class Franchise {
   public employees: Employee[];
 
   @OneToMany(() => FranchiseSchedule, (schedule) => schedule.franchise, {
-    onDelete: 'CASCADE', nullable: false,
+    onDelete: 'CASCADE',
   })
   @IsObject()
   public schedule!: FranchiseSchedule[];
@@ -79,7 +78,7 @@ export class FranchiseSchedule {
   })
   @JoinColumn()
   @IsObject()
-  public franchise: Franchise;
+  public franchise!: Franchise;
 
   @CreateDateColumn({ type: 'timestamp' })
   @IsDate()
