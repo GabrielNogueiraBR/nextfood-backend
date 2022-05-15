@@ -3,7 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
 import { RestaurantService } from './../restaurant/restaurant.service';
-import { FranchiseCreateDto, FranchiseDto, FranchiseReadByRestaurant } from './franchise.dto/franchise.dto';
+import { FranchiseCreateDto, FranchiseDto, FranchiseReadByRestaurantDto as FranchiseReadByRestaurantDto, FranchiseUpdateDto } from './franchise.dto/franchise.dto';
 import { Franchise } from './franchise.entity/franchise.entity';
 
 @Injectable()
@@ -50,7 +50,7 @@ export class FranchiseService {
    * Read franchise by restaurant filter params.
    * @param params
    */
-  public async readFranchiseByRestaurant(params: FranchiseReadByRestaurant): Promise<FranchiseDto[]> {
+  public async readFranchiseByRestaurant(params: FranchiseReadByRestaurantDto): Promise<FranchiseDto[]> {
     const { restaurantId, name } = params;
 
     const franchiseEntities = await this.repository.find({
@@ -63,6 +63,25 @@ export class FranchiseService {
     });
 
     return franchiseEntities.map((franchise) => new FranchiseDto(franchise));
+  }
+
+  /**
+   * Update a franchise by id.
+   * @param params
+   */
+  public async updateFranchiseById(params: FranchiseUpdateDto): Promise<FranchiseDto> {
+    const { id, ...rest } = params;
+
+    const franchiseEntity = await this.repository.findOneBy({ id });
+
+    if (!franchiseEntity) throw new NotFoundException('Restaurant not found!');
+
+    const franchiseUpdated = await this.repository.save({
+      ...franchiseEntity,
+      ...rest,
+    });
+
+    return new FranchiseDto(franchiseUpdated);
   }
 
   /**

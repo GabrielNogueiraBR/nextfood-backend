@@ -48,7 +48,10 @@ export class RestaurantService {
   public async updateRestaurantById(restaurantDto: RestaurantUpdateDto): Promise<RestaurantDto> {
     const { id, ...rest } = restaurantDto;
 
-    const restaurantEntity = await this.readRestaurantById(id);
+    const restaurantEntity = await this.repository.findOneBy({ id });
+
+    if (!restaurantEntity) throw new NotFoundException('Restaurant not found!');
+
     const restaurantUpdated = await this.repository.save({
       ...restaurantEntity,
       ...rest,

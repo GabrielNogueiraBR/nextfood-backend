@@ -46,16 +46,16 @@ export class RestaurantUpdateDto {
 
   @IsOptional()
   @IsString() @IsNotEmpty()
-  public name: string;
+  public name?: string;
 
   @IsOptional()
   @IsString() @IsNotEmpty()
-  public description: string;
+  public description?: string;
 
   @IsOptional()
   @Transform(({ value }) => value === 'true')
   @IsBoolean()
-  public isActive: boolean;
+  public isActive?: boolean;
 
 }
 

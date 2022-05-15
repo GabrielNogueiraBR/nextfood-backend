@@ -55,14 +55,14 @@ export class FranchiseCreateDto {
 
 }
 
-export class FranchiseReadById {
+export class FranchiseReadByIdDto {
 
   @IsUUID()
   public id: string;
 
 }
 
-export class FranchiseReadByRestaurant {
+export class FranchiseReadByRestaurantDto {
 
   @IsUUID() @IsOptional()
   public restaurantId?: string;
@@ -73,7 +73,29 @@ export class FranchiseReadByRestaurant {
 
 }
 
-export class FranchiseDeleteById {
+export class FranchiseUpdateDto {
+
+  @IsUUID() @IsOptional()
+  public id?: string; // will be inject by path param.
+
+  @IsOptional()
+  @IsString() @IsNotEmpty()
+  public name?: string;
+
+  @IsObject() @IsOptional()
+  @ValidateNested()
+  @Type(() => AddressDataCreateDto)
+  public address?: AddressDataCreateDto;
+
+  @IsOptional()
+  @IsObject({ each: true })
+  // @ValidateNested()
+  @Type(() => FranchiseScheduleCreateDto)
+  public schedule?: FranchiseScheduleCreateDto[];
+
+}
+
+export class FranchiseDeleteByIdDto {
 
   @IsUUID()
   public id: string;
