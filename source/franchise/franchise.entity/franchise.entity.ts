@@ -39,7 +39,7 @@ export class Franchise {
   public employees: Employee[];
 
   @OneToMany(() => FranchiseSchedule, (schedule) => schedule.franchise, {
-    cascade: true, eager: true, onDelete: 'CASCADE',
+    cascade: true, eager: true,
   })
   @IsObject()
   public schedule!: FranchiseSchedule[];

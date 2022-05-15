@@ -72,3 +72,10 @@ export class FranchiseReadByRestaurant {
   public name?: string;
 
 }
+
+export class FranchiseDeleteById {
+
+  @IsUUID()
+  public id: string;
+
+}

@@ -24,7 +24,7 @@ export class FranchiseSchedule {
   public end_time: string;
 
   @OneToOne(() => Franchise, (franchise) => franchise.address, {
-    nullable: false,
+    nullable: false, onDelete: 'CASCADE',
   })
   @JoinColumn()
   @IsObject()

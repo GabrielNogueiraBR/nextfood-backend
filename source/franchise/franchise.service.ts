@@ -65,4 +65,15 @@ export class FranchiseService {
     return franchiseEntities.map((franchise) => new FranchiseDto(franchise));
   }
 
+  /**
+   * Delete a franchise by id.
+   * @param id
+   */
+  public async deleteFranchiseById(id: string): Promise<void> {
+    await this.readFranchiseById(id);
+    await this.repository.delete(id);
+
+    return;
+  }
+
 }

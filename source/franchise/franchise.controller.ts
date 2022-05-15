@@ -1,6 +1,6 @@
-import { BadRequestException, Body, Controller, Get, Param, Post, Query } from '@nestjs/common';
+import { BadRequestException, Body, Controller, Delete, Get, HttpCode, HttpStatus, Param, Post, Query } from '@nestjs/common';
 
-import { FranchiseCreateDto, FranchiseDto, FranchiseReadById, FranchiseReadByRestaurant } from './franchise.dto/franchise.dto';
+import { FranchiseCreateDto, FranchiseDeleteById, FranchiseDto, FranchiseReadById, FranchiseReadByRestaurant } from './franchise.dto/franchise.dto';
 import { FranchiseService } from './franchise.service';
 
 @Controller('franchise')
@@ -27,6 +27,12 @@ export class FranchiseController {
     }
 
     return this.franchiseService.readFranchiseByRestaurant(params);
+  }
+
+  @Delete(':id')
+  @HttpCode(HttpStatus.NO_CONTENT)
+  public deleteFranchiseById(@Param() { id }: FranchiseDeleteById): Promise<void> {
+    return this.franchiseService.deleteFranchiseById(id);
   }
 
 }
