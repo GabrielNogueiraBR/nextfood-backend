@@ -24,10 +24,11 @@ export class FranchiseDto {
   @Type(() => FranchiseScheduleDto)
   public schedule: FranchiseScheduleDto[];
 
+  public constructor({ id, name, address, schedule }: Franchise);
   public constructor({ id, name, restaurant, address, schedule }: Franchise) {
     this.id = id;
     this.name = name;
-    this.restaurantId = restaurant.id;
+    this.restaurantId = restaurant?.id;
     this.address = new AddressDto(address);
     this.schedule = schedule.map((schedule) => new FranchiseScheduleDto(schedule));
   }
@@ -51,5 +52,12 @@ export class FranchiseCreateDto {
   @ValidateNested()
   @Type(() => FranchiseScheduleCreateDto)
   public schedule: FranchiseScheduleCreateDto[];
+
+}
+
+export class FranchiseReadById {
+
+  @IsUUID()
+  public id: string;
 
 }

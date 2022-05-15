@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
@@ -30,6 +30,18 @@ export class FranchiseService {
       restaurant: restaurantEntity,
     });
     franchiseEntity = await this.repository.save(franchiseEntity);
+
+    return new FranchiseDto(franchiseEntity);
+  }
+
+  /**
+   * Read a franchise by id.
+   * @param id
+   */
+  public async readFranchiseById(id: string): Promise<FranchiseDto> {
+    const franchiseEntity = await this.repository.findOneBy({ id });
+
+    if (!franchiseEntity) throw new NotFoundException('Franchise not found!');
 
     return new FranchiseDto(franchiseEntity);
   }
