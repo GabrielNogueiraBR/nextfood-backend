@@ -1,6 +1,6 @@
 import { BadRequestException, Body, Controller, Delete, Get, HttpCode, HttpStatus, Param, Post, Put, Query } from '@nestjs/common';
 
-import { FranchiseCreateDto, FranchiseDeleteByIdDto, FranchiseDto, FranchiseReadByIdDto, FranchiseReadByRestaurantDto as FranchiseReadByRestaurantDto, FranchiseUpdateDto } from './franchise.dto/franchise.dto';
+import { FranchiseCreateDto, FranchiseDeleteByIdDto, FranchiseDto, FranchiseReadByIdDto, FranchiseReadByRestaurantDto, FranchiseUpdateDto, FranchiseUpdateStatusDto } from './franchise.dto/franchise.dto';
 import { FranchiseService } from './franchise.service';
 
 @Controller('franchise')
@@ -34,6 +34,13 @@ export class FranchiseController {
     @Param() { id }: FranchiseReadByIdDto, @Body() body: FranchiseUpdateDto,
   ): Promise<FranchiseDto> {
     return this.franchiseService.updateFranchiseById({ id, ...body });
+  }
+
+  @Put(':id/status')
+  public updateFranchiseStatusById(
+    @Param() { id }: FranchiseReadByIdDto, @Query() query: FranchiseUpdateStatusDto,
+  ): Promise<void> {
+    return this.franchiseService.updateFranchiseStatusById({ id, ...query });
   }
 
   @Delete(':id')

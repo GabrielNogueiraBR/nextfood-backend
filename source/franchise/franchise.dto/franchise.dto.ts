@@ -1,5 +1,5 @@
-import { Type } from 'class-transformer';
-import { IsNotEmpty, IsObject, IsOptional, IsString, IsUUID, ValidateNested } from 'class-validator';
+import { Transform, Type } from 'class-transformer';
+import { IsBoolean, IsNotEmpty, IsObject, IsOptional, IsString, IsUUID, ValidateNested } from 'class-validator';
 
 import { AddressDataCreateDto, AddressDto } from '../../address/address.dto';
 import { Franchise } from '../franchise.entity/franchise.entity';
@@ -92,6 +92,17 @@ export class FranchiseUpdateDto {
   // @ValidateNested()
   @Type(() => FranchiseScheduleCreateDto)
   public schedule?: FranchiseScheduleCreateDto[];
+
+}
+
+export class FranchiseUpdateStatusDto {
+
+  @IsUUID() @IsOptional()
+  public id?: string; // will be inject by path param.
+
+  @Transform(({ value }) => value === 'true')
+  @IsBoolean()
+  public isActive: boolean;
 
 }
 
