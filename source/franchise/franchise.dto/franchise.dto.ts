@@ -8,19 +8,44 @@ import { FranchiseScheduleCreateDto, FranchiseScheduleDto } from './franchise.sc
 
 export class FranchiseDto {
 
+  @ApiProperty()
   @IsUUID()
   public id: string;
 
+  @ApiProperty()
   @IsString()
   public name: string;
 
+  @ApiProperty()
   @IsUUID()
   public restaurantId: string;
 
+  @ApiProperty({
+    type: AddressDataCreateDto,
+    properties: {
+      country: { type: 'string' },
+      state: { type: 'string' },
+      city: { type: 'string' },
+      borough: { type: 'string' },
+      street: { type: 'string' },
+      complement: { type: 'string', nullable: true },
+      number: { type: 'number', nullable: true },
+    },
+  })
   @IsObject()
   @Type(() => AddressDto)
   public address: AddressDto;
 
+  @ApiProperty({
+    type: [ FranchiseScheduleCreateDto ],
+    example: [
+      {
+        weekDay: 'string',
+        start_time: 'string',
+        end_time: 'string',
+      },
+    ],
+  })
   @IsObject({ each: true })
   @Type(() => FranchiseScheduleDto)
   public schedule: FranchiseScheduleDto[];
@@ -67,16 +92,11 @@ export class FranchiseCreateDto {
     type: [ FranchiseScheduleCreateDto ],
     example: [
       {
-        weekDay: 'Monday',
-        start_time: '10:00am',
-        end_time: '10:00pm',
+        weekDay: 'string',
+        start_time: 'string',
+        end_time: 'string',
       },
     ],
-    // properties: {
-    //   weekDay: { type: 'string', enum: [ Object.values(WeekDay) ] },
-    //   start_time: { type: 'string', example: '10:00am' },
-    //   end_time: { type: 'string', example: '10:00pm' },
-    // },
   })
   @IsObject({ each: true })
   @ValidateNested()
@@ -133,20 +153,15 @@ export class FranchiseUpdateDto {
   @Type(() => AddressDataCreateDto)
   public address?: AddressDataCreateDto;
 
-  @ApiPropertyOptional({
+  @ApiProperty({
     type: [ FranchiseScheduleCreateDto ],
     example: [
       {
-        weekDay: 'Monday',
-        start_time: '10:00am',
-        end_time: '10:00pm',
+        weekDay: 'string',
+        start_time: 'string',
+        end_time: 'string',
       },
     ],
-    // properties: {
-    //   weekDay: { type: 'string', enum: [ Object.values(WeekDay) ] },
-    //   start_time: { type: 'string', example: '10:00am' },
-    //   end_time: { type: 'string', example: '10:00pm' },
-    // },
   })
   @IsOptional()
   @ValidateNested({ each: true })
