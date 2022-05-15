@@ -1,3 +1,4 @@
+import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { Transform, Type } from 'class-transformer';
 import { IsBoolean, IsNotEmpty, IsObject, IsOptional, IsString, IsUUID, ValidateNested } from 'class-validator';
 
@@ -37,17 +38,46 @@ export class FranchiseDto {
 
 export class FranchiseCreateDto {
 
+  @ApiProperty({ type: 'string' })
   @IsUUID()
   public restaurantId: string;
 
+  @ApiProperty({ type: 'string' })
   @IsString() @IsNotEmpty()
   public name: string;
 
+  @ApiProperty({
+    type: AddressDataCreateDto,
+    properties: {
+      country: { type: 'string' },
+      state: { type: 'string' },
+      city: { type: 'string' },
+      borough: { type: 'string' },
+      street: { type: 'string' },
+      complement: { type: 'string', nullable: true },
+      number: { type: 'number', nullable: true },
+    },
+  })
   @IsObject()
   @ValidateNested()
   @Type(() => AddressDataCreateDto)
   public address: AddressDataCreateDto;
 
+  @ApiProperty({
+    type: [ FranchiseScheduleCreateDto ],
+    example: [
+      {
+        weekDay: 'Monday',
+        start_time: '10:00am',
+        end_time: '10:00pm',
+      },
+    ],
+    // properties: {
+    //   weekDay: { type: 'string', enum: [ Object.values(WeekDay) ] },
+    //   start_time: { type: 'string', example: '10:00am' },
+    //   end_time: { type: 'string', example: '10:00pm' },
+    // },
+  })
   @IsObject({ each: true })
   @ValidateNested()
   @Type(() => FranchiseScheduleCreateDto)
@@ -57,6 +87,7 @@ export class FranchiseCreateDto {
 
 export class FranchiseReadByIdDto {
 
+  @ApiProperty()
   @IsUUID()
   public id: string;
 
@@ -64,9 +95,11 @@ export class FranchiseReadByIdDto {
 
 export class FranchiseReadByRestaurantDto {
 
+  @ApiPropertyOptional({ type: 'string' })
   @IsUUID() @IsOptional()
   public restaurantId?: string;
 
+  @ApiPropertyOptional({ type: 'string' })
   @IsOptional()
   @IsString() @IsNotEmpty()
   public name?: string;
@@ -78,18 +111,45 @@ export class FranchiseUpdateDto {
   @IsUUID() @IsOptional()
   public id?: string; // will be inject by path param.
 
+  @ApiPropertyOptional({ type: 'string' })
   @IsOptional()
   @IsString() @IsNotEmpty()
   public name?: string;
 
+  @ApiPropertyOptional({
+    type: AddressDataCreateDto,
+    properties: {
+      country: { type: 'string' },
+      state: { type: 'string' },
+      city: { type: 'string' },
+      borough: { type: 'string' },
+      street: { type: 'string' },
+      complement: { type: 'string', nullable: true },
+      number: { type: 'number', nullable: true },
+    },
+  })
   @IsObject() @IsOptional()
   @ValidateNested()
   @Type(() => AddressDataCreateDto)
   public address?: AddressDataCreateDto;
 
+  @ApiPropertyOptional({
+    type: [ FranchiseScheduleCreateDto ],
+    example: [
+      {
+        weekDay: 'Monday',
+        start_time: '10:00am',
+        end_time: '10:00pm',
+      },
+    ],
+    // properties: {
+    //   weekDay: { type: 'string', enum: [ Object.values(WeekDay) ] },
+    //   start_time: { type: 'string', example: '10:00am' },
+    //   end_time: { type: 'string', example: '10:00pm' },
+    // },
+  })
   @IsOptional()
-  @IsObject({ each: true })
-  // @ValidateNested()
+  @ValidateNested({ each: true })
   @Type(() => FranchiseScheduleCreateDto)
   public schedule?: FranchiseScheduleCreateDto[];
 
@@ -100,6 +160,7 @@ export class FranchiseUpdateStatusDto {
   @IsUUID() @IsOptional()
   public id?: string; // will be inject by path param.
 
+  @ApiProperty({ type: 'boolean' })
   @Transform(({ value }) => value === 'true')
   @IsBoolean()
   public isActive: boolean;
@@ -108,6 +169,7 @@ export class FranchiseUpdateStatusDto {
 
 export class FranchiseDeleteByIdDto {
 
+  @ApiProperty()
   @IsUUID()
   public id: string;
 
