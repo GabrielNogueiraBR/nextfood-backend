@@ -1,7 +1,6 @@
 import { Body, Controller, Post } from '@nestjs/common';
 
-import { FranchiseCreateDto } from './franchise.dto';
-import { Franchise } from './franchise.entity';
+import { FranchiseCreateDto, FranchiseDto } from './franchise.dto/franchise.dto';
 import { FranchiseService } from './franchise.service';
 
 @Controller('franchise')
@@ -12,7 +11,7 @@ export class FranchiseController {
   ) { }
 
   @Post()
-  public postRestaurant(@Body() body: FranchiseCreateDto): Promise<Franchise> {
+  public postRestaurant(@Body() body: FranchiseCreateDto): Promise<FranchiseDto> {
     return this.franchiseService.createFranchise(body);
   }
 

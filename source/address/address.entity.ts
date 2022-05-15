@@ -1,7 +1,7 @@
 import { IsDate, IsNumber, IsObject, IsString, IsUUID } from 'class-validator';
 import { Column, CreateDateColumn, Entity, OneToOne, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
 
-import { Franchise } from '../franchise/franchise.entity';
+import { Franchise } from '../franchise/franchise.entity/franchise.entity';
 
 @Entity()
 export class Address {

@@ -1,18 +1,18 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
-import { AddressModule } from '../address/address.module';
 import { RestaurantModule } from './../restaurant/restaurant.module';
 import { FranchiseController } from './franchise.controller';
-import { Franchise } from './franchise.entity';
+import { Franchise } from './franchise.entity/franchise.entity';
+import { FranchiseSchedule } from './franchise.entity/franchise.schedule';
 import { FranchiseService } from './franchise.service';
 
 @Module({
   imports: [
     TypeOrmModule.forFeature([
       Franchise,
+      FranchiseSchedule,
     ]),
-    AddressModule,
     RestaurantModule,
   ],
   providers: [

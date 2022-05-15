@@ -1,10 +1,10 @@
 import { IsBoolean, IsDate, IsObject, IsString, IsUUID } from 'class-validator';
 import { Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, OneToMany, OneToOne, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
 
-import { Address } from '../address/address.entity';
-import { Employee } from '../employee/employee.entity';
-import { Restaurant } from '../restaurant/restaurant.entity';
-import { WeekDay } from '../utils/weekday.enum';
+import { Address } from '../../address/address.entity';
+import { Employee } from '../../employee/employee.entity';
+import { Restaurant } from '../../restaurant/restaurant.entity';
+import { FranchiseSchedule } from './franchise.schedule';
 
 @Entity()
 export class Franchise {
@@ -39,46 +39,10 @@ export class Franchise {
   public employees: Employee[];
 
   @OneToMany(() => FranchiseSchedule, (schedule) => schedule.franchise, {
-    onDelete: 'CASCADE',
+    cascade: true, onDelete: 'CASCADE',
   })
   @IsObject()
   public schedule!: FranchiseSchedule[];
-
-  @CreateDateColumn({ type: 'timestamp' })
-  @IsDate()
-  public createdAt!: Date;
-
-  @UpdateDateColumn({ type: 'timestamp' })
-  @IsDate()
-  public updatedAt!: Date;
-
-}
-
-@Entity()
-export class FranchiseSchedule {
-
-  @PrimaryGeneratedColumn('uuid')
-  @IsUUID()
-  public id: string;
-
-  @Column({ type: 'enum', enum: WeekDay })
-  @IsString()
-  public weekDay: WeekDay;
-
-  @Column({ type: 'timestamp' })
-  @IsString()
-  public start_datetime: Date;
-
-  @Column({ type: 'timestamp' })
-  @IsString()
-  public end_datetime: Date;
-
-  @OneToOne(() => Franchise, (franchise) => franchise.address, {
-    nullable: false,
-  })
-  @JoinColumn()
-  @IsObject()
-  public franchise!: Franchise;
 
   @CreateDateColumn({ type: 'timestamp' })
   @IsDate()

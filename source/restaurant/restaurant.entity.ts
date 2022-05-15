@@ -1,7 +1,7 @@
 import { IsBoolean, IsDate, IsObject, IsString, IsUUID } from 'class-validator';
 import { Column, CreateDateColumn, Entity, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
 
-import { Franchise } from './../franchise/franchise.entity';
+import { Franchise } from '../franchise/franchise.entity/franchise.entity';
 
 @Entity()
 export class Restaurant {
