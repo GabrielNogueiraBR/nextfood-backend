@@ -1,8 +1,10 @@
 import { Body, Controller, Delete, Get, HttpCode, HttpStatus, Param, Post, Put } from '@nestjs/common';
+import { ApiOperation, ApiTags } from '@nestjs/swagger';
 
 import { RestaurantCreateDto, RestaurantDeleteByIdDto, RestaurantDto, RestaurantReadByIdDto, RestaurantUpdateDto } from './restaurant.dto';
 import { RestaurantService } from './restaurant.service';
 
+@ApiTags('Restaurant')
 @Controller('restaurant')
 export class RestaurantController {
 
@@ -10,27 +12,31 @@ export class RestaurantController {
     private readonly restaurantService: RestaurantService,
   ) { }
 
+  @ApiOperation({ summary: 'Create a restaurant.' })
   @Post()
   public postRestaurant(@Body() body: RestaurantCreateDto): Promise<RestaurantDto> {
     return this.restaurantService.createRestaurant(body);
   }
 
+  @ApiOperation({ summary: 'Read a restaurant by id.' })
   @Get(':id')
   public getRestaurantById(@Param() { id }: RestaurantReadByIdDto): Promise<RestaurantDto> {
     return this.restaurantService.readRestaurantById(id);
   }
 
+  @ApiOperation({ summary: 'Update a restaurant by id.' })
   @Put(':id')
   public updateRestaurantById(
-    @Param() params: RestaurantReadByIdDto, @Body() body: RestaurantUpdateDto,
+    @Param() { id }: RestaurantReadByIdDto, @Body() body: RestaurantUpdateDto,
   ): Promise<RestaurantDto> {
-    return this.restaurantService.updateRestaurantById({ ...params, ...body });
+    return this.restaurantService.updateRestaurantById({ id, ...body });
   }
 
-  @Delete(':id')
+  @ApiOperation({ summary: 'Delete a restaurant by id.' })
   @HttpCode(HttpStatus.NO_CONTENT)
-  public deleteRestaurantById(@Param() params: RestaurantDeleteByIdDto): Promise<void> {
-    return this.restaurantService.deleteRestaurantById(params);
+  @Delete(':id')
+  public deleteRestaurantById(@Param() { id }: RestaurantDeleteByIdDto): Promise<void> {
+    return this.restaurantService.deleteRestaurantById(id);
   }
 
 }
