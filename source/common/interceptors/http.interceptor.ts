@@ -14,19 +14,26 @@ export class HTTPLoggingInterceptor implements NestInterceptor {
    * @param next
    */
   public intercept(context: ExecutionContext, next: CallHandler): Observable<any> {
+    const ctx = context.switchToHttp();
     const now = Date.now();
-    const { method, url } = context.switchToHttp().getRequest<Request>();
+    const { method, url, body, headers } = ctx.getRequest<Request>();
 
-    this.logger.log(`⯈ ${method} ${url}`);
+    const inboundRequest = {
+      body: body,
+      headers: headers,
+    };
+
+    this.logger.log(`⯈ ${method} ${url} ${JSON.stringify(inboundRequest, null, 2)}`);
 
     return next
       .handle()
       .pipe(
         tap(() => {
-          const { statusCode } = context.switchToHttp().getResponse();
+          // eslint-disable-next-line @typescript-eslint/unbound-method
+          const { statusCode, body } = ctx.getResponse();
           const delay = Date.now() - now;
 
-          this.logger.log(`⯇ ${statusCode} | ${method} ${url} - ${delay}ms`);
+          this.logger.log(`⯇ ${statusCode} | ${method} ${url} ${body} - ${delay}ms`);
         }),
       );
   }
