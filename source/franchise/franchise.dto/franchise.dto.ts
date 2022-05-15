@@ -17,9 +17,11 @@ export class FranchiseDto {
   public restaurantId: string;
 
   @IsObject()
+  @Type(() => AddressDto)
   public address: AddressDto;
 
-  @IsObject()
+  @IsObject({ each: true })
+  @Type(() => FranchiseScheduleDto)
   public schedule: FranchiseScheduleDto[];
 
   public constructor({ id, name, restaurant, address, schedule }: Franchise) {

@@ -1,4 +1,4 @@
-import { IsIn, IsUUID, Matches } from 'class-validator';
+import { IsIn, IsString, IsUUID, Matches } from 'class-validator';
 
 import { WeekDay } from '../../utils/weekday.enum';
 import { FranchiseSchedule } from './../franchise.entity/franchise.schedule';
@@ -11,10 +11,10 @@ export class FranchiseScheduleDto {
   @IsIn(Object.values(WeekDay))
   public weekDay: WeekDay;
 
-  @Matches(/^(?:0?\d|1[0-2]):[0-5]\d(am|pm)$/g)
+  @IsString()
   public start_time: string;
 
-  @Matches(/^(?:0?\d|1[0-2]):[0-5]\d(am|pm)$/g)
+  @IsString()
   public end_time: string;
 
   // eslint-disable-next-line @typescript-eslint/naming-convention

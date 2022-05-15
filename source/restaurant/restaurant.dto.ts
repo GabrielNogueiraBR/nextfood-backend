@@ -1,6 +1,27 @@
 import { Transform } from 'class-transformer';
 import { IsBoolean, IsNotEmpty, IsOptional, IsString, IsUUID } from 'class-validator';
 
+import { Restaurant } from './restaurant.entity';
+
+export class RestaurantDto {
+
+  @IsUUID()
+  public id: string;
+
+  @IsString()
+  public name: string;
+
+  @IsString()
+  public description: string;
+
+  public constructor({ id, name, description }: Restaurant) {
+    this.id = id;
+    this.name = name;
+    this.description = description;
+  }
+
+}
+
 export class RestaurantCreateDto {
 
   @IsString() @IsNotEmpty()
