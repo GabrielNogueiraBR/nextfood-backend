@@ -3,7 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
 import { RestaurantService } from './../restaurant/restaurant.service';
-import { FranchiseCreateDto, FranchiseDto } from './franchise.dto/franchise.dto';
+import { FranchiseCreateDto, FranchiseDto, FranchiseReadByRestaurant } from './franchise.dto/franchise.dto';
 import { Franchise } from './franchise.entity/franchise.entity';
 
 @Injectable()
@@ -44,6 +44,25 @@ export class FranchiseService {
     if (!franchiseEntity) throw new NotFoundException('Franchise not found!');
 
     return new FranchiseDto(franchiseEntity);
+  }
+
+  /**
+   * Read franchise by restaurant filter params.
+   * @param params
+   */
+  public async readFranchiseByRestaurant(params: FranchiseReadByRestaurant): Promise<FranchiseDto[]> {
+    const { restaurantId, name } = params;
+
+    const franchiseEntities = await this.repository.find({
+      where: {
+        restaurant: {
+          id: restaurantId,
+          name,
+        },
+      },
+    });
+
+    return franchiseEntities.map((franchise) => new FranchiseDto(franchise));
   }
 
 }

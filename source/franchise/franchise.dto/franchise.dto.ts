@@ -1,5 +1,5 @@
 import { Type } from 'class-transformer';
-import { IsNotEmpty, IsObject, IsString, IsUUID, ValidateNested } from 'class-validator';
+import { IsNotEmpty, IsObject, IsOptional, IsString, IsUUID, ValidateNested } from 'class-validator';
 
 import { AddressDataCreateDto, AddressDto } from '../../address/address.dto';
 import { Franchise } from '../franchise.entity/franchise.entity';
@@ -59,5 +59,16 @@ export class FranchiseReadById {
 
   @IsUUID()
   public id: string;
+
+}
+
+export class FranchiseReadByRestaurant {
+
+  @IsUUID() @IsOptional()
+  public restaurantId?: string;
+
+  @IsOptional()
+  @IsString() @IsNotEmpty()
+  public name?: string;
 
 }
