@@ -1,4 +1,4 @@
-import { BadRequestException, Body, Controller, Delete, Get, HttpCode, HttpStatus, Param, Post, Put, Query } from '@nestjs/common';
+import { Body, Controller, Delete, Get, HttpCode, HttpStatus, Param, Post, Put, Query } from '@nestjs/common';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 
 import { FranchiseCreateDto, FranchiseDeleteByIdDto, FranchiseDto, FranchiseReadByIdDto, FranchiseReadByRestaurantDto, FranchiseUpdateDto, FranchiseUpdateStatusDto } from './franchise.dto/franchise.dto';
@@ -29,10 +29,6 @@ export class FranchiseController {
   @ApiResponse({ status: 200, type: [ FranchiseDto ] })
   @Get()
   public getFranchiseByRestaurant(@Query() params: FranchiseReadByRestaurantDto): Promise<FranchiseDto[]> {
-    if (!params.name && !params.restaurantId) {
-      throw new BadRequestException('name or restaurant property must be present');
-    }
-
     return this.franchiseService.readFranchiseByRestaurant(params);
   }
 
@@ -49,9 +45,9 @@ export class FranchiseController {
   @ApiResponse({ status: 200 })
   @Put(':id/status')
   public updateFranchiseStatusById(
-    @Param() { id }: FranchiseReadByIdDto, @Query() query: FranchiseUpdateStatusDto,
+    @Param() { id }: FranchiseReadByIdDto, @Body() body: FranchiseUpdateStatusDto,
   ): Promise<void> {
-    return this.franchiseService.updateFranchiseStatusById({ id, ...query });
+    return this.franchiseService.updateFranchiseStatusById({ id, ...body });
   }
 
   @ApiOperation({ summary: 'Delete a franchise by id.' })

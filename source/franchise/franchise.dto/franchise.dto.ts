@@ -119,11 +119,6 @@ export class FranchiseReadByRestaurantDto {
   @IsUUID() @IsOptional()
   public restaurantId?: string;
 
-  @ApiPropertyOptional({ type: 'string' })
-  @IsOptional()
-  @IsString() @IsNotEmpty()
-  public name?: string;
-
 }
 
 export class FranchiseUpdateDto {
