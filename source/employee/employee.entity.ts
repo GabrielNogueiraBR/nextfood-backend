@@ -1,30 +1,32 @@
 import { IsBoolean, IsDate, IsObject, IsString, IsUUID } from 'class-validator';
-import { Column, CreateDateColumn, Entity, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
+import { Column, CreateDateColumn, Entity, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
 
 import { Franchise } from '../franchise/franchise.entity/franchise.entity';
 
 @Entity()
-export class Restaurant {
+export class Employee {
 
   @PrimaryGeneratedColumn('uuid')
   @IsUUID()
   public id: string;
 
-  @Column({ type: 'varchar', length: 120 })
+  @Column({ type: 'varchar', length: 60 })
   @IsString()
   public name: string;
 
-  @Column({ type: 'varchar', length: 256 })
-  @IsString()
-  public description: string;
+  @CreateDateColumn({ type: 'timestamp' })
+  @IsDate()
+  public hiredDate: Date;
 
   @Column({ type: 'boolean', default: true })
   @IsBoolean()
   public isActive: boolean;
 
-  @OneToMany(() => Franchise, (franchise) => franchise.restaurant)
-  @IsObject({ each: true })
-  public franchises: Franchise[];
+  @ManyToOne(() => Franchise, (franchise) => franchise.employees, {
+    nullable: false,
+  })
+  @IsObject()
+  public franchise!: Franchise;
 
   @CreateDateColumn({ type: 'timestamp' })
   @IsDate()

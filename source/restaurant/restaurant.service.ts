@@ -2,7 +2,7 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
-import { RestaurantCreateDto, RestaurantDeleteByIdDto, RestaurantUpdateDto } from './restaurant.dto';
+import { RestaurantCreateDto, RestaurantDto, RestaurantUpdateDto } from './restaurant.dto';
 import { Restaurant } from './restaurant.entity';
 
 @Injectable()
@@ -15,53 +15,56 @@ export class RestaurantService {
 
   /**
    * Create a restaurant.
-   * @param restaurant
+   * @param restaurantDto
    */
-  public async createRestaurant(restaurant: RestaurantCreateDto): Promise<Restaurant> {
-    const { name, description } = restaurant;
+  public async createRestaurant(restaurantDto: RestaurantCreateDto): Promise<RestaurantDto> {
+    const { name, description } = restaurantDto;
 
-    const restaurantEntity = this.repository.create({
+    let restaurantEntity = this.repository.create({
       name,
       description,
     });
+    restaurantEntity = await this.repository.save(restaurantEntity);
 
-    return this.repository.save(restaurantEntity);
+    return new RestaurantDto(restaurantEntity);
   }
 
   /**
    * Read restaurant by id.
    * @param id
    */
-  public async readRestaurantById(id: string): Promise<Restaurant> {
-    const restaurant = await this.repository.findOneBy({ id });
+  public async readRestaurantById(id: string): Promise<RestaurantDto> {
+    const restaurantEntity = await this.repository.findOneBy({ id });
 
-    if (!restaurant) throw new NotFoundException('Restaurant not found!');
+    if (!restaurantEntity) throw new NotFoundException('Restaurant not found!');
 
-    return restaurant;
+    return new RestaurantDto(restaurantEntity);
   }
 
   /**
    * Update restaurant by id.
-   * @param params
+   * @param restaurantDto
    */
-  public async updateRestaurantById(params: RestaurantUpdateDto): Promise<Restaurant> {
-    const { id, ...rest } = params;
+  public async updateRestaurantById(restaurantDto: RestaurantUpdateDto): Promise<RestaurantDto> {
+    const { id, ...rest } = restaurantDto;
 
-    const restaurant = await this.readRestaurantById(id);
+    const restaurantEntity = await this.repository.findOneBy({ id });
 
-    return this.repository.save({
-      ...restaurant,
+    if (!restaurantEntity) throw new NotFoundException('Restaurant not found!');
+
+    const restaurantUpdated = await this.repository.save({
+      ...restaurantEntity,
       ...rest,
     });
+
+    return new RestaurantDto(restaurantUpdated);
   }
 
   /**
    * Delete restaurant by id.
-   * @param params
+   * @param id
    */
-  public async deleteRestaurantById(params: RestaurantDeleteByIdDto): Promise<void> {
-    const { id } = params;
-
+  public async deleteRestaurantById(id: string): Promise<void> {
     await this.readRestaurantById(id);
     await this.repository.delete(id);
 
