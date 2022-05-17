@@ -1,5 +1,5 @@
 {
-  "sourceRoot": "./source",
+  "sourceRoot": ".",
   "entryFile": "source/main",
   "compilerOptions": {
     "tsConfigPath": "tsconfig.build.json",
@@ -8,7 +8,6 @@
       ".env",
       ".npmrc",
       "Dockerfile",
-      "LICENSE",
       "package.json",
       "pnpm-lock.yaml",
       "source"
