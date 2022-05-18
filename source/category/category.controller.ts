@@ -18,6 +18,12 @@ export class CategoryController {
     return this.categoryService.createCategory(body);
   }
 
+  @ApiOperation({ summary: 'Read category list.' })
+  @Get()
+  public getCategoryList(): Promise<CategoryDto[]> {
+    return this.categoryService.readCategoryList();
+  }
+
   @ApiOperation({ summary: 'Read a category by id.' })
   @Get(':id')
   public getCategoryById(@Param() { id }: CategoryReadByIdDto): Promise<CategoryDto> {

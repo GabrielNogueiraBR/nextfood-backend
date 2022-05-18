@@ -25,6 +25,15 @@ export class CategoryService {
   }
 
   /**
+   * Read category list.
+   */
+  public async readCategoryList(): Promise<CategoryDto[]> {
+    const categoryEntities = await this.repository.find();
+
+    return categoryEntities.map((entity) => new CategoryDto(entity));
+  }
+
+  /**
    * Read category by id.
    * @param id
    */
