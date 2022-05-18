@@ -26,9 +26,9 @@ export class CategoryDto extends CategoryIdDto {
   @IsString()
   public name: string;
 
-  @ApiProperty({ type: 'string' })
-  @IsString()
-  public icon: string;
+  @ApiPropertyOptional({ type: 'string' })
+  @IsOptional() @IsString()
+  public icon?: string;
 
   @ApiProperty({ type: 'boolean' })
   @IsBoolean()
@@ -50,9 +50,10 @@ export class CategoryCreateDto {
   @IsString() @IsNotEmpty()
   public name: string;
 
-  @ApiProperty({ type: 'string' })
+  @ApiPropertyOptional({ type: 'string' })
+  @IsOptional()
   @IsString() @IsNotEmpty()
-  public icon: string;
+  public icon?: string;
 
 }
 

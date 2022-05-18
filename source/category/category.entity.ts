@@ -9,7 +9,7 @@ export class Category {
   @Column({ type: 'varchar', length: 120 })
   public name: string;
 
-  @Column({ type: 'varchar', length: 60 })
+  @Column({ type: 'varchar', length: 60, nullable: true })
   public icon: string; // This refers to the frontend lib icon name.
 
   @Column({ type: 'boolean', default: true })
