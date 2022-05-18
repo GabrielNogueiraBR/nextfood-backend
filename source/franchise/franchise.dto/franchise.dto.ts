@@ -16,7 +16,6 @@ export class FranchiseIdDto {
 
 export class FranchiseIdOptionalDto {
 
-  @ApiPropertyOptional({ type: 'string' })
   @IsUUID() @IsOptional()
   public id?: string;
 

@@ -1,4 +1,4 @@
-import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
+import { ApiProperty } from '@nestjs/swagger';
 import { Transform } from 'class-transformer';
 import { IsBoolean, IsNotEmpty, IsOptional, IsString, IsUUID } from 'class-validator';
 
@@ -14,7 +14,6 @@ export class RestaurantIdDto {
 
 export class RestaurantIdOptionalDto {
 
-  @ApiPropertyOptional({ type: 'string' })
   @IsUUID() @IsOptional()
   public id?: string;
 

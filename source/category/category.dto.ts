@@ -14,7 +14,6 @@ export class CategoryIdDto {
 
 export class CategoryIdOptionalDto {
 
-  @ApiPropertyOptional({ type: 'string' })
   @IsUUID() @IsOptional()
   public id?: string;
 
