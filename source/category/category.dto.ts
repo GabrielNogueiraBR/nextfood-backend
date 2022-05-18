@@ -76,6 +76,15 @@ export class CategoryUpdateDto extends CategoryIdOptionalDto {
 
 }
 
+export class CategoryUpdateStatusDto extends CategoryIdOptionalDto {
+
+  @ApiProperty({ type: 'boolean' })
+  @Transform(({ value }) => value === 'true')
+  @IsBoolean()
+  public value: boolean;
+
+}
+
 export class CategoryReadByIdDto extends CategoryIdDto { }
 
 export class CategoryDeleteByIdDto extends CategoryIdDto { }

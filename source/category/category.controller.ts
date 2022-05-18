@@ -1,5 +1,5 @@
 import { Body, Controller, Delete, Get, HttpCode, HttpStatus, Param, Post, Put } from '@nestjs/common';
-import { ApiOperation, ApiTags } from '@nestjs/swagger';
+import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 
 import { CategoryCreateDto, CategoryDeleteByIdDto, CategoryDto, CategoryIdDto, CategoryReadByIdDto, CategoryUpdateDto } from './category.dto';
 import { CategoryService } from './category.service';
@@ -36,6 +36,20 @@ export class CategoryController {
     @Param() params: CategoryIdDto, @Body() body: CategoryUpdateDto,
   ): Promise<CategoryDto> {
     return this.categoryService.updateCategoryById({ ...params, ...body });
+  }
+
+  @ApiOperation({ summary: 'Update a category status to activate.' })
+  @ApiResponse({ status: 200 })
+  @Put(':id/status/activate')
+  public updateCategoryStatusActivateById(@Param() { id }: CategoryIdDto): Promise<void> {
+    return this.categoryService.updateCategoryStatusById({ id, value: true });
+  }
+
+  @ApiOperation({ summary: 'Update a category status to deactivate.' })
+  @ApiResponse({ status: 200 })
+  @Put(':id/status/deactivate')
+  public updateCategoryStatusDeactivateById(@Param() { id }: CategoryIdDto): Promise<void> {
+    return this.categoryService.updateCategoryStatusById({ id, value: false });
   }
 
   @ApiOperation({ summary: 'Delete a category by id.' })
