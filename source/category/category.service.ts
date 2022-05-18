@@ -2,7 +2,7 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
-import { CategoryCreateDto, CategoryDeleteByIdDto, CategoryUpdateDto } from './category.dto';
+import { CategoryCreateDto, CategoryDeleteByIdDto, CategoryDto, CategoryUpdateDto } from './category.dto';
 import { Category } from './category.entity';
 
 @Injectable()
@@ -15,44 +15,44 @@ export class CategoryService {
 
   /**
    * Create a category.
-   * @param category
+   * @param categoryDto
    */
-  public async createCategory(category: CategoryCreateDto): Promise<Category> {
-    const { name, icon } = category;
+  public async createCategory(categoryDto: CategoryCreateDto): Promise<CategoryDto> {
+    let categoryEntity = this.repository.create(categoryDto);
+    categoryEntity = await this.repository.save(categoryEntity);
 
-    const categoryEntity = this.repository.create({
-      name,
-      icon,
-    });
-
-    return this.repository.save(categoryEntity);
+    return new CategoryDto(categoryEntity);
   }
 
   /**
    * Read category by id.
    * @param id
    */
-  public async readCategoryById(id: string): Promise<Category> {
-    const category = await this.repository.findOneBy({ id });
+  public async readCategoryById(id: string): Promise<CategoryDto> {
+    const categoryEntity = await this.repository.findOneBy({ id });
 
-    if (!category) throw new NotFoundException('Category not found!');
+    if (!categoryEntity) throw new NotFoundException('Category not found!');
 
-    return category;
+    return new CategoryDto(categoryEntity);
   }
 
   /**
    * Update category by id.
    * @param params
    */
-  public async updateCategoryById(params: CategoryUpdateDto): Promise<Category> {
+  public async updateCategoryById(params: CategoryUpdateDto): Promise<CategoryDto> {
     const { id, ...rest } = params;
 
-    const category = await this.readCategoryById(id);
+    let categoryEntity = await this.repository.findOneBy({ id });
 
-    return this.repository.save({
-      ...category,
+    if (!categoryEntity) throw new NotFoundException('Category not found!');
+
+    categoryEntity = await this.repository.save({
+      ...categoryEntity,
       ...rest,
     });
+
+    return new CategoryDto(categoryEntity);
   }
 
   /**

@@ -1,35 +1,74 @@
-import { ApiProperty } from '@nestjs/swagger';
+import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { Transform } from 'class-transformer';
 import { IsBoolean, IsNotEmpty, IsOptional, IsString, IsUUID } from 'class-validator';
 
+import { Category } from './category.entity';
+
+export class CategoryIdDto {
+
+  @ApiProperty({ type: 'string' })
+  @IsUUID()
+  public id: string;
+
+}
+
+export class CategoryIdOptionalDto {
+
+  @ApiPropertyOptional({ type: 'string' })
+  @IsUUID()
+  public id: string;
+
+}
+
+export class CategoryDto extends CategoryIdDto {
+
+  @ApiProperty({ type: 'string' })
+  @IsString()
+  public name: string;
+
+  @ApiProperty({ type: 'string' })
+  @IsString()
+  public icon: string;
+
+  @ApiProperty({ type: 'boolean' })
+  @IsBoolean()
+  public isActive: boolean;
+
+  public constructor({ id, name, icon, isActive }: Category) {
+    super();
+    this.id = id;
+    this.name = name;
+    this.icon = icon;
+    this.isActive = isActive;
+  }
+
+}
+
 export class CategoryCreateDto {
 
-  @ApiProperty()
+  @ApiProperty({ type: 'string' })
   @IsString() @IsNotEmpty()
   public name: string;
 
-  @ApiProperty()
+  @ApiProperty({ type: 'string' })
   @IsString() @IsNotEmpty()
   public icon: string;
 
 }
 
-export class CategoryUpdateDto {
+export class CategoryUpdateDto extends CategoryIdOptionalDto {
 
-  @IsOptional() @IsUUID()
-  public id?: string; // Will be injected by path param.
-
-  @ApiProperty()
+  @ApiPropertyOptional({ type: 'string' })
   @IsOptional()
   @IsString() @IsNotEmpty()
   public name?: string;
 
-  @ApiProperty()
+  @ApiPropertyOptional({ type: 'string' })
   @IsOptional()
   @IsString() @IsNotEmpty()
   public icon?: string;
 
-  @ApiProperty()
+  @ApiPropertyOptional({ type: 'string' })
   @IsOptional()
   @Transform(({ value }) => value === 'true')
   @IsBoolean()
@@ -37,18 +76,6 @@ export class CategoryUpdateDto {
 
 }
 
-export class CategoryReadByIdDto {
+export class CategoryReadByIdDto extends CategoryIdDto { }
 
-  @ApiProperty()
-  @IsUUID()
-  public id: string;
-
-}
-
-export class CategoryDeleteByIdDto {
-
-  @ApiProperty()
-  @IsUUID()
-  public id: string;
-
-}
+export class CategoryDeleteByIdDto extends CategoryIdDto { }
