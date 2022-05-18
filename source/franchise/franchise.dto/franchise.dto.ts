@@ -103,7 +103,7 @@ export class FranchiseUpdateDto extends FranchiseIdOptionalDto {
   @Type(() => AddressDataCreateDto)
   public address?: AddressDataCreateDto;
 
-  @ApiProperty({ type: [ FranchiseScheduleCreateDto ], isArray: true })
+  @ApiProperty({ type: FranchiseScheduleCreateDto, isArray: true })
   @IsOptional()
   @ValidateNested({ each: true })
   @Type(() => FranchiseScheduleCreateDto)
