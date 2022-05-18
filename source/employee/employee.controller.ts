@@ -29,7 +29,7 @@ export class EmployeeController {
   @ApiOperation({ summary: 'Read a employee by franchise filter params.' })
   @ApiResponse({ status: 200, type: [ EmployeeDto ] })
   @Get()
-  public getEmployeeByRestaurant(@Query() query: EmployeeReadByFranchiseDto): Promise<EmployeeDto[]> {
+  public getEmployeeByFranchise(@Query() query: EmployeeReadByFranchiseDto): Promise<EmployeeDto[]> {
     return this.employeeService.readEmployeeByFranchise(query);
   }
 

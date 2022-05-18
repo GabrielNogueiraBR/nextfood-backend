@@ -50,16 +50,16 @@ export class EmployeeService {
   public async readEmployeeByFranchise(params: EmployeeReadByFranchiseDto): Promise<EmployeeDto[]> {
     const { franchiseId, isActive } = params;
 
-    const franchiseEntities = await this.repository.find({
+    const employeeEntities = await this.repository.find({
       where: {
         franchise: {
           id: franchiseId,
-          isActive: isActive,
         },
+        isActive: isActive,
       },
     });
 
-    return franchiseEntities.map((franchise) => new EmployeeDto(franchise));
+    return employeeEntities.map((franchise) => new EmployeeDto(franchise));
   }
 
   /**
@@ -71,7 +71,7 @@ export class EmployeeService {
 
     const employeeEntity = await this.repository.findOneBy({ id });
 
-    if (!employeeEntity) throw new NotFoundException('Restaurant not found!');
+    if (!employeeEntity) throw new NotFoundException('Employee not found!');
 
     const employeeUpdated = await this.repository.save({
       ...employeeEntity,

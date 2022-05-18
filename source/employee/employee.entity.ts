@@ -17,9 +17,7 @@ export class Employee {
   @Column({ type: 'boolean', default: true })
   public isActive: boolean = true;
 
-  @ManyToOne(() => Franchise, (franchise) => franchise.employees, {
-    nullable: false,
-  })
+  @ManyToOne(() => Franchise, (franchise) => franchise.employees)
   public franchise!: Franchise;
 
   @CreateDateColumn({ type: 'timestamp' })

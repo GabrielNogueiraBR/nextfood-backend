@@ -92,8 +92,8 @@ export class EmployeeUpdateDto extends EmployeeIdOptionalDto {
 
   @ApiProperty({ type: 'boolean' })
   @Transform(({ value }) => value === 'true')
-  @IsBoolean()
-  public isActive: boolean;
+  @IsBoolean() @IsOptional()
+  public isActive?: boolean;
 
 }
 
