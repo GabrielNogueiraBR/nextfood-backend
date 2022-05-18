@@ -69,6 +69,11 @@ export class EmployeeReadByFranchiseDto {
   @IsUUID()
   public franchiseId: string;
 
+  @ApiProperty({ type: 'boolean', default: true })
+  @Transform(({ value }) => value === 'true')
+  @IsBoolean() @IsOptional()
+  public isActive?: boolean = true;
+
 }
 
 export class EmployeeReadByIdDto extends EmployeeIdDto { }
@@ -88,7 +93,7 @@ export class EmployeeUpdateDto extends EmployeeIdOptionalDto {
   @ApiProperty({ type: 'boolean' })
   @Transform(({ value }) => value === 'true')
   @IsBoolean()
-  public value: boolean;
+  public isActive: boolean;
 
 }
 

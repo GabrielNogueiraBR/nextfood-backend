@@ -48,12 +48,13 @@ export class EmployeeService {
    * @param params
    */
   public async readEmployeeByFranchise(params: EmployeeReadByFranchiseDto): Promise<EmployeeDto[]> {
-    const { franchiseId } = params;
+    const { franchiseId, isActive } = params;
 
     const franchiseEntities = await this.repository.find({
       where: {
         franchise: {
           id: franchiseId,
+          isActive: isActive,
         },
       },
     });
