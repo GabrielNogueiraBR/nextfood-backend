@@ -1,10 +1,10 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { Type } from 'class-transformer';
-import { IsNotEmpty, IsObject, IsOptional, IsString, IsUUID, ValidateNested } from 'class-validator';
+import { IsArray, IsNotEmpty, IsObject, IsOptional, IsString, IsUUID, Length, ValidateNested } from 'class-validator';
 
 import { AddressDataCreateDto, AddressDto } from '../../address/address.dto';
 import { Franchise } from '../franchise.entity/franchise.entity';
-import { FranchiseScheduleCreateDto, FranchiseScheduleDto } from './franchise.schedule.dto';
+import { FranchiseScheduleDataDto as FranchiseScheduleDataDto, FranchiseScheduleDto } from './franchise.schedule.dto';
 
 export class FranchiseIdDto {
 
@@ -38,10 +38,11 @@ export class FranchiseDto extends FranchiseIdDto {
   @Type(() => AddressDto)
   public address: AddressDto;
 
-  @ApiProperty({ type: FranchiseScheduleCreateDto, isArray: true })
-  @IsObject()
+  @ApiProperty({ type: FranchiseScheduleDataDto, isArray: true })
+  @IsArray()
   @ValidateNested({ each: true })
   @Type(() => FranchiseScheduleDto)
+  @Length(1, 7)
   public schedule: FranchiseScheduleDto[];
 
   public constructor({ id, name, address, schedule }: Franchise);
@@ -72,11 +73,12 @@ export class FranchiseCreateDto {
   @Type(() => AddressDataCreateDto)
   public address: AddressDataCreateDto;
 
-  @ApiProperty({ type: FranchiseScheduleCreateDto, isArray: true })
-  @IsObject()
+  @ApiProperty({ type: FranchiseScheduleDataDto, isArray: true })
+  @IsArray()
   @ValidateNested({ each: true })
-  @Type(() => FranchiseScheduleCreateDto)
-  public schedule: FranchiseScheduleCreateDto[];
+  @Type(() => FranchiseScheduleDataDto)
+  @Length(1, 7)
+  public schedule: FranchiseScheduleDataDto[];
 
 }
 
@@ -103,11 +105,13 @@ export class FranchiseUpdateDto extends FranchiseIdOptionalDto {
   @Type(() => AddressDataCreateDto)
   public address?: AddressDataCreateDto;
 
-  @ApiProperty({ type: FranchiseScheduleCreateDto, isArray: true })
+  @ApiProperty({ type: FranchiseScheduleDataDto, isArray: true })
   @IsOptional()
+  @IsArray()
   @ValidateNested({ each: true })
-  @Type(() => FranchiseScheduleCreateDto)
-  public schedule?: FranchiseScheduleCreateDto[];
+  @Type(() => FranchiseScheduleDataDto)
+  @Length(1, 7)
+  public schedule?: FranchiseScheduleDataDto[];
 
 }
 

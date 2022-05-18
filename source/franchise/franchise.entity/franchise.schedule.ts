@@ -1,4 +1,4 @@
-import { Column, CreateDateColumn, Entity, JoinColumn, OneToOne, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
+import { Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
 
 import { WeekDay } from '../../utils/weekday.enum';
 import { Franchise } from './franchise.entity';
@@ -18,7 +18,7 @@ export class FranchiseSchedule {
   @Column({ type: 'varchar' })
   public end_time: string;
 
-  @OneToOne(() => Franchise, (franchise) => franchise.address, {
+  @ManyToOne(() => Franchise, (franchise) => franchise.address, {
     nullable: false, onDelete: 'CASCADE',
   })
   @JoinColumn()

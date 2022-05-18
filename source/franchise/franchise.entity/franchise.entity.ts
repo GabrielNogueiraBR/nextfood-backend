@@ -15,7 +15,7 @@ export class Franchise {
   public name: string;
 
   @Column({ type: 'boolean', default: true })
-  public isActive: boolean;
+  public isActive: boolean = true;
 
   @ManyToOne(() => Restaurant, (restaurant) => restaurant.franchises, {
     onDelete: 'CASCADE', nullable: false,
@@ -32,7 +32,7 @@ export class Franchise {
   public employees: Employee[];
 
   @OneToMany(() => FranchiseSchedule, (schedule) => schedule.franchise, {
-    cascade: true, eager: true,
+    cascade: true, eager: true, nullable: false,
   })
   public schedule!: FranchiseSchedule[];
 

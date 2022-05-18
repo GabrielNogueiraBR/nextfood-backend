@@ -49,7 +49,7 @@ export class FranchiseScheduleDto extends FranchiseScheduleIdDto {
 
 }
 
-export class FranchiseScheduleCreateDto {
+export class FranchiseScheduleDataDto {
 
   @ApiProperty({ type: 'enum', enum: WeekDay })
   @IsIn(Object.values(WeekDay))
@@ -66,5 +66,37 @@ export class FranchiseScheduleCreateDto {
   })
   @Matches(/^([01]\d|2[0-3]):([0-5]\d)$/)
   public end_time: string;
+
+}
+
+export class FranchiseScheduleCreateDto extends FranchiseScheduleDataDto {
+
+  @ApiPropertyOptional({ type: 'string' })
+  @IsUUID() @IsOptional()
+  public franchiseId: string; // Will be injected by path param.
+
+}
+
+export class FranchiseScheduleUpdateDto extends FranchiseScheduleDataDto {
+
+  @ApiPropertyOptional({ type: 'string' })
+  @IsUUID() @IsOptional()
+  public franchiseId: string; // Will be injected by path param.
+
+  @ApiProperty({ type: 'string' })
+  @IsUUID()
+  public scheduleId: string;
+
+}
+
+export class FranchiseScheduleDeleteDto {
+
+  @ApiPropertyOptional({ type: 'string' })
+  @IsUUID() @IsOptional()
+  public franchiseId?: string; // Will be injected by path param.
+
+  @ApiProperty({ type: 'string' })
+  @IsUUID()
+  public scheduleId: string;
 
 }
