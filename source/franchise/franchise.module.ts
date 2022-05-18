@@ -1,6 +1,7 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
+import { FranchiseProductModule } from '../franchise_product/franchise-product.module';
 import { RestaurantModule } from './../restaurant/restaurant.module';
 import { FranchiseController } from './franchise.controller';
 import { Franchise } from './franchise.entity/franchise.entity';
@@ -14,6 +15,7 @@ import { FranchiseService } from './franchise.service';
       FranchiseSchedule,
     ]),
     RestaurantModule,
+    FranchiseProductModule,
   ],
   providers: [
     FranchiseService,

@@ -5,6 +5,8 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { CategoryModule } from '../category/category.module';
 import configuration from '../config/env-vars';
 import { FranchiseModule } from '../franchise/franchise.module';
+import { FranchiseProductModule } from '../franchise_product/franchise-product.module';
+import { ProductModule } from '../product/product.module';
 import { RestaurantModule } from '../restaurant/restaurant.module';
 import { AddressModule } from './../address/address.module';
 import { TypeOrmConfigService } from './../config/typeorm.service';
@@ -22,10 +24,13 @@ import { AppService } from './app.service';
     TypeOrmModule.forRootAsync({ // https://docs.nestjs.com/techniques/database
       useClass: TypeOrmConfigService,
     }),
+    ProductModule,
+    FranchiseProductModule,
     AddressModule,
     CategoryModule,
     FranchiseModule,
     RestaurantModule,
+
   ],
   controllers: [
     AppController,

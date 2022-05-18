@@ -1,8 +1,10 @@
+/* eslint-disable @typescript-eslint/naming-convention */
 import { IsBoolean, IsDate, IsObject, IsString, IsUUID } from 'class-validator';
 import { Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, OneToMany, OneToOne, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
 
 import { Address } from '../../address/address.entity';
 import { Employee } from '../../employee/employee.entity';
+import { FranchiseProduct } from '../../franchise_product/franchise-product.entity';
 import { Restaurant } from '../../restaurant/restaurant.entity';
 import { FranchiseSchedule } from './franchise.schedule';
 
@@ -52,4 +54,9 @@ export class Franchise {
   @IsDate()
   public updatedAt!: Date;
 
+  @OneToMany(() => FranchiseProduct, (franchise_product) => franchise_product.franchise)
+  @IsObject({ each: true })
+  public fr_franchise: FranchiseProduct[];
+
 }
+
