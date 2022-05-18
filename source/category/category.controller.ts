@@ -13,24 +13,28 @@ export class CategoryController {
   ) { }
 
   @ApiOperation({ summary: 'Create a category.' })
+  @ApiResponse({ status: 201, type: CategoryDto })
   @Post()
   public postCategory(@Body() body: CategoryCreateDto): Promise<CategoryDto> {
     return this.categoryService.createCategory(body);
   }
 
   @ApiOperation({ summary: 'Read category list.' })
+  @ApiResponse({ status: 200, type: [ CategoryDto ] })
   @Get()
   public getCategoryList(): Promise<CategoryDto[]> {
     return this.categoryService.readCategoryList();
   }
 
   @ApiOperation({ summary: 'Read a category by id.' })
+  @ApiResponse({ status: 200, type: CategoryDto })
   @Get(':id')
   public getCategoryById(@Param() { id }: CategoryReadByIdDto): Promise<CategoryDto> {
     return this.categoryService.readCategoryById(id);
   }
 
   @ApiOperation({ summary: 'Update a category by id.' })
+  @ApiResponse({ status: 200, type: CategoryDto })
   @Put(':id')
   public updateCategoryById(
     @Param() params: CategoryIdDto, @Body() body: CategoryUpdateDto,
@@ -38,21 +42,8 @@ export class CategoryController {
     return this.categoryService.updateCategoryById({ ...params, ...body });
   }
 
-  @ApiOperation({ summary: 'Update a category status to activate.' })
-  @ApiResponse({ status: 200 })
-  @Put(':id/status/activate')
-  public updateCategoryStatusActivateById(@Param() { id }: CategoryIdDto): Promise<void> {
-    return this.categoryService.updateCategoryStatusById({ id, value: true });
-  }
-
-  @ApiOperation({ summary: 'Update a category status to deactivate.' })
-  @ApiResponse({ status: 200 })
-  @Put(':id/status/deactivate')
-  public updateCategoryStatusDeactivateById(@Param() { id }: CategoryIdDto): Promise<void> {
-    return this.categoryService.updateCategoryStatusById({ id, value: false });
-  }
-
   @ApiOperation({ summary: 'Delete a category by id.' })
+  @ApiResponse({ status: 204 })
   @Delete(':id')
   @HttpCode(HttpStatus.NO_CONTENT)
   public deleteCategoryById(@Param() params: CategoryDeleteByIdDto): Promise<void> {

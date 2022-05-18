@@ -86,10 +86,6 @@ export class EmployeeUpdateDto extends EmployeeIdOptionalDto {
   @IsISO8601()
   public hiredDate?: string;
 
-}
-
-export class EmployeeUpdateStatusDto extends EmployeeIdOptionalDto {
-
   @ApiProperty({ type: 'boolean' })
   @Transform(({ value }) => value === 'true')
   @IsBoolean()

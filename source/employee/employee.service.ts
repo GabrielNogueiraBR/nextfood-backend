@@ -3,7 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
 import { FranchiseService } from './../franchise/franchise.service';
-import { EmployeeCreateDto, EmployeeDto, EmployeeReadByFranchiseDto, EmployeeUpdateDto, EmployeeUpdateStatusDto } from './employee.dto';
+import { EmployeeCreateDto, EmployeeDto, EmployeeReadByFranchiseDto, EmployeeUpdateDto } from './employee.dto';
 import { Employee } from './employee.entity';
 
 @Injectable()
@@ -78,21 +78,6 @@ export class EmployeeService {
     });
 
     return new EmployeeDto(employeeUpdated);
-  }
-
-  /**
-   * Update employee status.
-   * @param params
-   */
-  public async updateEmployeeStatusById(params: EmployeeUpdateStatusDto): Promise<void> {
-    const { id, value } = params;
-
-    await this.readEmployeeById(id);
-    await this.repository.update(id, {
-      isActive: value,
-    });
-
-    return;
   }
 
   /**

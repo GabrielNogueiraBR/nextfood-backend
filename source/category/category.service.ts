@@ -2,7 +2,7 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
-import { CategoryCreateDto, CategoryDeleteByIdDto, CategoryDto, CategoryUpdateDto, CategoryUpdateStatusDto } from './category.dto';
+import { CategoryCreateDto, CategoryDeleteByIdDto, CategoryDto, CategoryUpdateDto } from './category.dto';
 import { Category } from './category.entity';
 
 @Injectable()
@@ -62,21 +62,6 @@ export class CategoryService {
     });
 
     return new CategoryDto(categoryEntity);
-  }
-
-  /**
-   * Update category status.
-   * @param params
-   */
-  public async updateCategoryStatusById(params: CategoryUpdateStatusDto): Promise<void> {
-    const { id, value } = params;
-
-    await this.readCategoryById(id);
-    await this.repository.update(id, {
-      isActive: value,
-    });
-
-    return;
   }
 
   /**

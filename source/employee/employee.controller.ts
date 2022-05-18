@@ -1,7 +1,7 @@
 import { Body, Controller, Delete, Get, HttpCode, HttpStatus, Param, Post, Put, Query } from '@nestjs/common';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 
-import { EmployeeCreateDto, EmployeeDeleteByIdDto, EmployeeDto, EmployeeIdDto, EmployeeReadByFranchiseDto, EmployeeReadByIdDto, EmployeeUpdateDto } from './employee.dto';
+import { EmployeeCreateDto, EmployeeDeleteByIdDto, EmployeeDto, EmployeeReadByFranchiseDto, EmployeeReadByIdDto, EmployeeUpdateDto } from './employee.dto';
 import { EmployeeService } from './employee.service';
 
 @ApiTags('Employee')
@@ -40,20 +40,6 @@ export class EmployeeController {
     @Param() { id }: EmployeeReadByIdDto, @Body() body: EmployeeUpdateDto,
   ): Promise<EmployeeDto> {
     return this.employeeService.updateEmployeeById({ id, ...body });
-  }
-
-  @ApiOperation({ summary: 'Update a employee status to activate.' })
-  @ApiResponse({ status: 200 })
-  @Put(':id/status/activate')
-  public updateEmployeeStatusActivateById(@Param() { id }: EmployeeIdDto): Promise<void> {
-    return this.employeeService.updateEmployeeStatusById({ id, value: true });
-  }
-
-  @ApiOperation({ summary: 'Update a employee status to deactivate.' })
-  @ApiResponse({ status: 200 })
-  @Put(':id/status/deactivate')
-  public updateEmployeeStatusDeactivateById(@Param() { id }: EmployeeIdDto): Promise<void> {
-    return this.employeeService.updateEmployeeStatusById({ id, value: false });
   }
 
   @ApiOperation({ summary: 'Delete a employee by id.' })
