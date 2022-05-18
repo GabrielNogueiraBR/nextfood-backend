@@ -47,7 +47,7 @@ export class EmployeeService {
    * Read employee by franchise filter params.
    * @param params
    */
-  public async readEmployeeByFranchiss(params: EmployeeReadByFranchiseDto): Promise<EmployeeDto[]> {
+  public async readEmployeeByFranchise(params: EmployeeReadByFranchiseDto): Promise<EmployeeDto[]> {
     const { franchiseId } = params;
 
     const franchiseEntities = await this.repository.find({
@@ -85,10 +85,12 @@ export class EmployeeService {
    * @param params
    */
   public async updateEmployeeStatusById(params: EmployeeUpdateStatusDto): Promise<void> {
-    const { id, ...rest } = params;
+    const { id, value } = params;
 
     await this.readEmployeeById(id);
-    await this.repository.update(id, rest);
+    await this.repository.update(id, {
+      isActive: value,
+    });
 
     return;
   }

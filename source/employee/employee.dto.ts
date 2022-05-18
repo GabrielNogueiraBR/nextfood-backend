@@ -4,17 +4,37 @@ import { IsBoolean, IsISO8601, IsNotEmpty, IsOptional, IsString, IsUUID } from '
 
 import { Employee } from './employee.entity';
 
-export class EmployeeDto {
+export class EmployeeIdDto {
 
+  @ApiProperty({ type: 'string' })
   @IsUUID()
   public id: string;
 
+}
+
+export class EmployeeIdOptionalDto {
+
+  @ApiPropertyOptional({ type: 'string' })
+  @IsUUID()
+  public id: string;
+
+}
+
+export class EmployeeDto {
+
+  @ApiProperty({ type: 'string' })
+  @IsUUID()
+  public id: string;
+
+  @ApiProperty({ type: 'string' })
   @IsString() @IsNotEmpty()
   public name: string;
 
+  @ApiProperty({ type: 'string', format: 'date', example: '2022-01-01' })
   @IsISO8601()
   public hiredDate: string;
 
+  @ApiProperty({ type: 'boolean' })
   @Transform(({ value }) => value === 'true')
   @IsBoolean()
   public isActive: boolean;
@@ -34,12 +54,12 @@ export class EmployeeCreateDto {
   @IsString() @IsNotEmpty()
   public name: string;
 
-  @ApiProperty({ type: 'string' })
+  @ApiProperty({ type: 'string', format: 'date', example: '2022-01-01' })
   @IsISO8601()
   public hiredDate: string;
 
   @ApiProperty({ type: 'string' })
-  @IsString() @IsNotEmpty()
+  @IsUUID()
   public franchiseId: string;
 
 }
@@ -47,54 +67,35 @@ export class EmployeeCreateDto {
 export class EmployeeReadByFranchiseDto {
 
   @ApiProperty({ type: 'string' })
-  @IsUUID() @IsOptional()
+  @IsUUID()
   public franchiseId: string;
 
 }
 
-export class EmployeeReadByIdDto {
+export class EmployeeReadByIdDto extends EmployeeIdDto { }
 
-  @ApiProperty({ type: 'string' })
-  @IsUUID()
-  public id: string;
-
-}
-
-export class EmployeeUpdateDto {
-
-  @IsOptional()
-  @IsUUID()
-  public id?: string; // will be inject by path param.
+export class EmployeeUpdateDto extends EmployeeIdOptionalDto {
 
   @ApiPropertyOptional({ type: 'string' })
   @IsOptional()
   @IsString() @IsNotEmpty()
   public name?: string;
 
-  @ApiPropertyOptional({ type: 'string' })
+  @ApiPropertyOptional({ type: 'string', format: 'date', example: '2022-01-01' })
   @IsOptional()
   @IsISO8601()
   public hiredDate?: string;
 
 }
 
-export class EmployeeUpdateStatusDto {
-
-  @IsUUID() @IsOptional()
-  public id?: string; // will be inject by path param.
+export class EmployeeUpdateStatusDto extends EmployeeIdOptionalDto {
 
   @ApiProperty({ type: 'boolean' })
   @Transform(({ value }) => value === 'true')
   @IsBoolean()
-  public isActive: boolean;
+  public value: boolean;
 
 }
 
-export class EmployeeDeleteByIdDto {
-
-  @ApiProperty()
-  @IsUUID()
-  public id: string;
-
-}
+export class EmployeeDeleteByIdDto extends EmployeeIdDto { }
 
