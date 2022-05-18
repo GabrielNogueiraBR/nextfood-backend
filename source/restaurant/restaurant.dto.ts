@@ -1,14 +1,26 @@
-import { ApiProperty } from '@nestjs/swagger';
+import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { Transform } from 'class-transformer';
 import { IsBoolean, IsNotEmpty, IsOptional, IsString, IsUUID } from 'class-validator';
 
 import { Restaurant } from './restaurant.entity';
 
-export class RestaurantDto {
+export class RestaurantIdDto {
 
   @ApiProperty({ type: 'string' })
   @IsUUID()
   public id: string;
+
+}
+
+export class RestaurantIdOptionalDto {
+
+  @ApiPropertyOptional({ type: 'string' })
+  @IsUUID() @IsOptional()
+  public id?: string;
+
+}
+
+export class RestaurantDto extends RestaurantIdDto {
 
   @ApiProperty({ type: 'string' })
   @IsString()
@@ -19,6 +31,7 @@ export class RestaurantDto {
   public description: string;
 
   public constructor({ id, name, description }: Restaurant) {
+    super();
     this.id = id;
     this.name = name;
     this.description = description;
@@ -38,18 +51,9 @@ export class RestaurantCreateDto {
 
 }
 
-export class RestaurantReadByIdDto {
+export class RestaurantReadByIdDto extends RestaurantIdDto { }
 
-  @ApiProperty({ type: 'string' })
-  @IsUUID()
-  public id: string;
-
-}
-
-export class RestaurantUpdateDto {
-
-  @IsOptional() @IsUUID()
-  public id?: string; // Will be injected by path param.
+export class RestaurantUpdateDto extends RestaurantIdOptionalDto {
 
   @ApiProperty({ type: 'string' })
   @IsOptional()
@@ -69,10 +73,4 @@ export class RestaurantUpdateDto {
 
 }
 
-export class RestaurantDeleteByIdDto {
-
-  @ApiProperty({ type: 'string' })
-  @IsUUID()
-  public id: string;
-
-}
+export class RestaurantDeleteByIdDto extends RestaurantIdDto { }
