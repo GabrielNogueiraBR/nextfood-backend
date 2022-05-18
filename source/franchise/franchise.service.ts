@@ -77,7 +77,7 @@ export class FranchiseService {
 
     const franchiseEntity = await this.franchiseRepository.findOneBy({ id });
 
-    if (!franchiseEntity) throw new NotFoundException('Restaurant not found!');
+    if (!franchiseEntity) throw new NotFoundException('Franchise not found!');
 
     const franchiseUpdated = await this.franchiseRepository.save({
       ...franchiseEntity,
