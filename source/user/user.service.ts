@@ -2,7 +2,7 @@ import { BadRequestException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
-import { CreateUserDto, UpdateUserDto, UserDeleteByIdDto } from './user.dto';
+import { CreateUserDto, UpdateUserDto, UserDeleteByIdDto, UserDto } from './user.dto';
 import { User } from './user.entity';
 
 @Injectable()
@@ -15,43 +15,46 @@ export class UserService {
 
   /**
    * Create a user.
-   * @param user
+   * @param userDto
    */
-  public async createUser(user: CreateUserDto): Promise<User> {
-    const { name, email } = user;
+  public async createUser(userDto: CreateUserDto): Promise<UserDto> {
+    const { name, email } = userDto;
 
-    const userEntity = this.repository.create({
+    let userEntity = this.repository.create({
       name,
       email,
     });
-    return this.repository.save(userEntity);
+    userEntity = await this.repository.save(userEntity);
+
+    return new UserDto(userEntity);
   }
 
   /**
    * Read user by id.
    * @param id
    */
-  public async readUserbyId(id: string): Promise<User> {
-    const user = await this.repository.findOneBy({ id });
+  public async readUserById(id: string): Promise<UserDto> {
+    const userEntity = await this.repository.findOneBy({ id });
 
-    if (!user) throw new BadRequestException('User not found!');
+    if (!userEntity) throw new BadRequestException('User not found!');
 
-    return user;
+    return new UserDto(userEntity);
   }
 
   /**
    * Update user name or description by id.
    * @param params
    */
-  public async updateUserById(params: UpdateUserDto): Promise<User> {
+  public async updateUserById(params: UpdateUserDto): Promise<UserDto> {
     const { id, ...rest } = params;
 
-    const user = await this.readUserbyId(id);
-
-    return this.repository.save({
-      ...user,
+    const userEntity = await this.readUserById(id);
+    const userUpdated = await this.repository.save({
+      ...userEntity,
       ...rest,
     });
+
+    return new UserDto(userUpdated);
   }
 
   /**
@@ -61,7 +64,7 @@ export class UserService {
   public async deleteUserById(params: UserDeleteByIdDto): Promise<void> {
     const { id } = params;
 
-    await this.readUserbyId(id);
+    await this.readUserById(id);
     await this.repository.delete(id);
 
     return;
