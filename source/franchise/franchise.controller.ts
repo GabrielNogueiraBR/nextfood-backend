@@ -1,7 +1,7 @@
 import { Body, Controller, Delete, Get, HttpCode, HttpStatus, Param, Post, Put, Query } from '@nestjs/common';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 
-import { FranchiseCreateDto, FranchiseDeleteByIdDto, FranchiseDto, FranchiseReadByIdDto, FranchiseReadByRestaurantDto, FranchiseUpdateDto, FranchiseUpdateStatusDto } from './franchise.dto/franchise.dto';
+import { FranchiseCreateDto, FranchiseDeleteByIdDto, FranchiseDto, FranchiseIdDto, FranchiseReadByIdDto, FranchiseReadByRestaurantDto, FranchiseUpdateDto } from './franchise.dto/franchise.dto';
 import { FranchiseService } from './franchise.service';
 @ApiTags('Franchise')
 @Controller('franchise')
@@ -26,7 +26,7 @@ export class FranchiseController {
   }
 
   @ApiOperation({ summary: 'Read a franchise by restaurant filter params.' })
-  @ApiResponse({ status: 200, type: [ FranchiseDto ] })
+  @ApiResponse({ status: 200, type: FranchiseDto, isArray: true })
   @Get()
   public getFranchiseByRestaurant(@Query() params: FranchiseReadByRestaurantDto): Promise<FranchiseDto[]> {
     return this.franchiseService.readFranchiseByRestaurant(params);
@@ -35,19 +35,8 @@ export class FranchiseController {
   @ApiOperation({ summary: 'Update a franchise by id.' })
   @ApiResponse({ status: 200, type: FranchiseDto })
   @Put(':id')
-  public updateFranchiseById(
-    @Param() { id }: FranchiseReadByIdDto, @Body() body: FranchiseUpdateDto,
-  ): Promise<FranchiseDto> {
+  public updateFranchiseById(@Param() { id }: FranchiseIdDto, @Body() body: FranchiseUpdateDto): Promise<FranchiseDto> {
     return this.franchiseService.updateFranchiseById({ id, ...body });
-  }
-
-  @ApiOperation({ summary: 'Update a franchise status by id.' })
-  @ApiResponse({ status: 200 })
-  @Put(':id/status')
-  public updateFranchiseStatusById(
-    @Param() { id }: FranchiseReadByIdDto, @Body() body: FranchiseUpdateStatusDto,
-  ): Promise<void> {
-    return this.franchiseService.updateFranchiseStatusById({ id, ...body });
   }
 
   @ApiOperation({ summary: 'Delete a franchise by id.' })

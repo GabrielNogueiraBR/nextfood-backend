@@ -14,8 +14,8 @@ export class AddressIdDto {
 export class AddressIdOptionalDto {
 
   @ApiPropertyOptional({ type: 'string' })
-  @IsUUID()
-  public id: string;
+  @IsUUID() @IsOptional()
+  public id?: string;
 
 }
 

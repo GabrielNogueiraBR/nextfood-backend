@@ -15,8 +15,8 @@ export class EmployeeIdDto {
 export class EmployeeIdOptionalDto {
 
   @ApiPropertyOptional({ type: 'string' })
-  @IsUUID()
-  public id: string;
+  @IsUUID() @IsOptional()
+  public id?: string;
 
 }
 
