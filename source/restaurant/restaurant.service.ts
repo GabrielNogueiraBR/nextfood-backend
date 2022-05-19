@@ -2,7 +2,7 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
-import { RestaurantCreateDto, RestaurantDeleteByIdDto, RestaurantDto, RestaurantUpdateDto } from './restaurant.dto';
+import { RestaurantCreateDto, RestaurantDto, RestaurantUpdateDto } from './restaurant.dto';
 import { Restaurant } from './restaurant.entity';
 
 @Injectable()
@@ -62,11 +62,9 @@ export class RestaurantService {
 
   /**
    * Delete restaurant by id.
-   * @param params
+   * @param id
    */
-  public async deleteRestaurantById(params: RestaurantDeleteByIdDto): Promise<void> {
-    const { id } = params;
-
+  public async deleteRestaurantById(id: string): Promise<void> {
     await this.readRestaurantById(id);
     await this.repository.delete(id);
 

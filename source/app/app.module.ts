@@ -7,6 +7,7 @@ import configuration from '../config/env-vars';
 import { FranchiseModule } from '../franchise/franchise.module';
 import { ProductModule } from '../product/product.module';
 import { RestaurantModule } from '../restaurant/restaurant.module';
+import { UserModule } from '../user/user.module';
 import { AddressModule } from './../address/address.module';
 import { TypeOrmConfigService } from './../config/typeorm.service';
 import { AppController } from './app.controller';
@@ -28,7 +29,7 @@ import { AppService } from './app.service';
     CategoryModule,
     FranchiseModule,
     RestaurantModule,
-
+    UserModule,
   ],
   controllers: [
     AppController,
