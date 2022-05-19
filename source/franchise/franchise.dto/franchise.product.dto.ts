@@ -1,17 +1,17 @@
 import { Transform } from 'class-transformer';
-import { IsBoolean, IsNotEmpty, IsNumber, IsOptional, IsString, IsUUID } from 'class-validator';
+import { IsBoolean, IsNumber, IsOptional, IsUUID } from 'class-validator';
 import { Column } from 'typeorm';
 
-import { FranchiseProduct } from './franchise-product.entity';
+import { FranchiseProduct } from '../franchise.entity/franchise.product.entity';
 
 export class FranchiseProductDto {
 
   @IsUUID()
   public id: string;
 
-  @Column({ type: 'double', length: 120 })
+  @Column({ type: 'double' })
   @IsNumber()
-  public price: string;
+  public price: number;
 
   @Column({ type: 'boolean', default: true })
   @IsBoolean()
@@ -34,11 +34,21 @@ export class FranchiseProductDto {
 
 export class FranchiseProductCreateDto {
 
-  @IsString() @IsNotEmpty()
-  public price: string;
+  @IsNumber()
+  public price: number;
 
   @IsUUID()
   public productId: string;
+
+  @IsUUID()
+  public franchiseId: string;
+
+}
+
+export class FranchiseProductReadDto {
+
+  @IsUUID() @IsOptional()
+  public productId?: string;
 
   @IsUUID()
   public franchiseId: string;
@@ -52,27 +62,13 @@ export class FranchiseProductReadByIdDto {
 
 }
 
-export class FranchiseProductReadByProductDto {
-
-  @IsUUID() @IsOptional()
-  public productId?: string;
-
-}
-
-export class FranchiseProductReadByFranchiseDto {
-
-  @IsUUID() @IsOptional()
-  public franchiseId?: string;
-
-}
-
 export class FranchiseProductUpdateDto {
 
   @IsUUID() @IsOptional()
   public id?: string; // will be inject by path param.
 
-  @IsString() @IsNotEmpty()
-  public price: string;
+  @IsNumber()
+  public price: number;
 
 }
 

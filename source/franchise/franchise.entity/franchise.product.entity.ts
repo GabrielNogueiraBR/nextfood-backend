@@ -1,8 +1,8 @@
 import { IsBoolean, IsNumber, IsObject, IsUUID } from 'class-validator';
 import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 
-import { Franchise } from '../franchise/franchise.entity/franchise.entity';
-import { Product } from '../product/product.entity';
+import { Product } from '../../product/product.entity';
+import { Franchise } from './franchise.entity';
 
 @Entity()
 export class FranchiseProduct {
@@ -11,9 +11,9 @@ export class FranchiseProduct {
   @IsUUID()
   public id: string;
 
-  @Column({ type: 'double', length: 120 })
+  @Column({ type: 'float' })
   @IsNumber()
-  public price: string;
+  public price: number;
 
   @Column({ type: 'boolean', default: true })
   @IsBoolean()

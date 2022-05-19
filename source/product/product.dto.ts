@@ -64,25 +64,13 @@ export class ProductReadByIdDto {
 
 }
 
-export class ProductReadByRestaurantDto {
+export class ProductReadDto {
 
-  @IsUUID() @IsOptional()
-  public restaurantId?: string;
-
-  @IsOptional()
-  @IsString() @IsNotEmpty()
-  public name?: string;
-
-}
-
-export class ProductReadByCategoryDto {
+  @IsUUID()
+  public restaurantId: string;
 
   @IsUUID() @IsOptional()
   public categoryId?: string;
-
-  @IsOptional()
-  @IsString() @IsNotEmpty()
-  public name?: string;
 
 }
 

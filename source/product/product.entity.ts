@@ -1,9 +1,9 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 import { IsBoolean, IsInt, IsObject, IsString, IsUUID } from 'class-validator';
-import { Column, Entity, ManyToOne, OneToMany, OneToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 
 import { Category } from '../category/category.entity';
-import { FranchiseProduct } from '../franchise_product/franchise-product.entity';
+import { FranchiseProduct } from '../franchise/franchise.entity/franchise.product.entity';
 import { Restaurant } from '../restaurant/restaurant.entity';
 
 @Entity()
@@ -33,14 +33,14 @@ export class Product {
   @IsBoolean()
   public isActive: boolean;
 
-  @OneToOne(() => Restaurant, (restaurant) => restaurant.products, {
+  @ManyToOne(() => Restaurant, (restaurant) => restaurant.products, {
     onDelete: 'CASCADE', nullable: false,
   })
   @IsObject()
   public restaurant!: Restaurant;
 
   @ManyToOne(() => Category, (category) => category.products, {
-    onDelete: 'CASCADE', nullable: false,
+    nullable: false,
   })
   @IsObject()
   public category!: Category;

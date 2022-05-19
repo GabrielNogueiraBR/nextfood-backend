@@ -5,7 +5,6 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { CategoryModule } from '../category/category.module';
 import configuration from '../config/env-vars';
 import { FranchiseModule } from '../franchise/franchise.module';
-import { FranchiseProductModule } from '../franchise_product/franchise-product.module';
 import { ProductModule } from '../product/product.module';
 import { RestaurantModule } from '../restaurant/restaurant.module';
 import { AddressModule } from './../address/address.module';
@@ -25,7 +24,6 @@ import { AppService } from './app.service';
       useClass: TypeOrmConfigService,
     }),
     ProductModule,
-    FranchiseProductModule,
     AddressModule,
     CategoryModule,
     FranchiseModule,

@@ -2,9 +2,10 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
-import { RestaurantService } from './../restaurant/restaurant.service';
-import { FranchiseCreateDto, FranchiseDto, FranchiseReadByRestaurantDto as FranchiseReadByRestaurantDto, FranchiseUpdateDto, FranchiseUpdateStatusDto } from './franchise.dto/franchise.dto';
-import { Franchise } from './franchise.entity/franchise.entity';
+import { ProductService } from '../../product/product.service';
+import { RestaurantService } from '../../restaurant/restaurant.service';
+import { FranchiseCreateDto, FranchiseDto, FranchiseReadByRestaurantDto as FranchiseReadByRestaurantDto, FranchiseUpdateDto, FranchiseUpdateStatusDto } from '../franchise.dto/franchise.dto';
+import { Franchise } from '../franchise.entity/franchise.entity';
 
 @Injectable()
 export class FranchiseService {
@@ -12,6 +13,7 @@ export class FranchiseService {
   public constructor(
     @InjectRepository(Franchise)
     private readonly repository: Repository<Franchise>,
+    private readonly productService: ProductService,
     private readonly restaurantService: RestaurantService,
   ) { }
 

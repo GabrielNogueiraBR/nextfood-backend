@@ -4,7 +4,7 @@ import { Repository } from 'typeorm';
 
 import { CategoryService } from '../category/category.service';
 import { RestaurantService } from '../restaurant/restaurant.service';
-import { ProductCreateDto, ProductDto, ProductReadByCategoryDto, ProductReadByRestaurantDto, ProductUpdateDto, ProductUpdateStatusDto } from './product.dto';
+import { ProductCreateDto, ProductDto, ProductReadDto, ProductUpdateDto, ProductUpdateStatusDto } from './product.dto';
 import { Product } from './product.entity';
 
 @Injectable()
@@ -57,33 +57,16 @@ export class ProductService {
    * Read product by restaurant filter params.
    * @param params
    */
-  public async readProductByRestaurant(params: ProductReadByRestaurantDto): Promise<ProductDto[]> {
-    const { restaurantId, name } = params;
+  public async readProducts(params: ProductReadDto): Promise<ProductDto[]> {
+    const { restaurantId, categoryId } = params;
 
     const productEntities = await this.repository.find({
       where: {
         restaurant: {
           id: restaurantId,
-          name,
         },
-      },
-    });
-
-    return productEntities.map((product) => new ProductDto(product));
-  }
-
-  /**
-   * Read product by category filter params.
-   * @param params
-   */
-  public async readProductByCategory(params: ProductReadByCategoryDto): Promise<ProductDto[]> {
-    const { categoryId, name } = params;
-
-    const productEntities = await this.repository.find({
-      where: {
         category: {
           id: categoryId,
-          name,
         },
       },
     });

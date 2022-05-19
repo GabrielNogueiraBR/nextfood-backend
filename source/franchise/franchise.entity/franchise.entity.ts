@@ -4,8 +4,8 @@ import { Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, OneToMany, One
 
 import { Address } from '../../address/address.entity';
 import { Employee } from '../../employee/employee.entity';
-import { FranchiseProduct } from '../../franchise_product/franchise-product.entity';
 import { Restaurant } from '../../restaurant/restaurant.entity';
+import { FranchiseProduct } from './franchise.product.entity';
 import { FranchiseSchedule } from './franchise.schedule';
 
 @Entity()

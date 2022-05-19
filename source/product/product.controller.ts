@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unsafe-argument */
-import { BadRequestException, Body, Controller, Delete, Get, HttpCode, HttpStatus, Param, Post, Put, Query } from '@nestjs/common';
+import { Body, Controller, Delete, Get, HttpCode, HttpStatus, Param, Post, Put, Query } from '@nestjs/common';
 
-import { ProductCreateDto, ProductDeleteByIdDto, ProductDto, ProductReadByCategoryDto, ProductReadByIdDto, ProductReadByRestaurantDto, ProductUpdateDto, ProductUpdateStatusDto } from './product.dto';
+import { ProductCreateDto, ProductDeleteByIdDto, ProductDto, ProductReadByIdDto, ProductReadDto, ProductUpdateDto, ProductUpdateStatusDto } from './product.dto';
 import { ProductService } from './product.service';
 
 @Controller('product')
@@ -22,21 +22,8 @@ export class ProductController {
   }
 
   @Get()
-  public getProductByRestaurant(@Query() params: ProductReadByRestaurantDto): Promise<ProductDto[]> {
-    if (!params.name && !params.restaurantId) {
-      throw new BadRequestException('name or restaurant property must be present');
-    }
-
-    return this.productService.readProductByRestaurant(params);
-  }
-
-  @Get()
-  public getProductByCategory(@Query() params: ProductReadByCategoryDto): Promise<ProductDto[]> {
-    if (!params.name && !params.categoryId) {
-      throw new BadRequestException('name or category property must be present');
-    }
-
-    return this.productService.readProductByCategory(params);
+  public getProducts(@Query() params: ProductReadDto): Promise<ProductDto[]> {
+    return this.productService.readProducts(params);
   }
 
   @Put(':id')
