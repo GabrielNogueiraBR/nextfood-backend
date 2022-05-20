@@ -5,6 +5,7 @@ import { FranchiseCreateDto, FranchiseDeleteByIdDto, FranchiseDto, FranchiseIdDt
 import { FranchiseProductCreateDto, FranchiseProductDeleteByIdDto, FranchiseProductDto, FranchiseProductReadByIdDto, FranchiseProductReadDto, FranchiseProductUpdateDto, FranchiseProductUpdateStatusDto } from './franchise.dto/franchise.product.dto';
 import { FranchiseScheduleCreateDto, FranchiseScheduleDeleteDto, FranchiseScheduleDto, FranchiseScheduleUpdateDto } from './franchise.dto/franchise.schedule.dto';
 import { FranchiseProductService } from './franchise.service/franchise.product.service';
+import { FranchiseScheduleService } from './franchise.service/franchise.schedule.service';
 import { FranchiseService } from './franchise.service/franchise.service';
 
 @ApiTags('Franchise')
@@ -13,6 +14,7 @@ export class FranchiseController {
 
   public constructor(
     private readonly franchiseService: FranchiseService,
+    private readonly franchiseSchedule: FranchiseScheduleService,
     private readonly franchiseProductService: FranchiseProductService,
   ) { }
 
@@ -58,7 +60,7 @@ export class FranchiseController {
   public postFranchiseSchedule(
     @Param() { id }: FranchiseIdDto, @Body() body: FranchiseScheduleCreateDto,
   ): Promise<FranchiseScheduleDto> {
-    return this.franchiseService.createFranchiseSchedule({ franchiseId: id, ...body });
+    return this.franchiseSchedule.createFranchiseSchedule({ franchiseId: id, ...body });
   }
 
   @ApiOperation({ summary: 'Update a franchise schedule.' })
@@ -67,7 +69,7 @@ export class FranchiseController {
   public updateFranchiseSchedule(
     @Param() { id: franchiseId }: FranchiseIdDto, @Body() body: FranchiseScheduleUpdateDto,
   ): Promise<FranchiseScheduleDto> {
-    return this.franchiseService.updateFranchiseSchedule({ franchiseId, ...body });
+    return this.franchiseSchedule.updateFranchiseSchedule({ franchiseId, ...body });
   }
 
   @ApiOperation({ summary: 'Delete a franchise schedule.' })
@@ -77,7 +79,7 @@ export class FranchiseController {
   public deleteFranchiseSchedule(
     @Param() { id }: FranchiseIdDto, @Query() query: FranchiseScheduleDeleteDto,
   ): Promise<void> {
-    return this.franchiseService.deleteFranchiseSchedule({ franchiseId: id, ...query });
+    return this.franchiseSchedule.deleteFranchiseSchedule({ franchiseId: id, ...query });
   }
 
   @Post('product')
