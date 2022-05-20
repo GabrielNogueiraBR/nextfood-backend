@@ -69,7 +69,7 @@ export class EmployeeReadByFranchiseDto {
   @IsUUID()
   public franchiseId: string;
 
-  @ApiProperty({ type: 'boolean', default: true })
+  @ApiPropertyOptional({ type: 'boolean', default: true })
   @Transform(({ value }) => value === 'true')
   @IsBoolean() @IsOptional()
   public isActive?: boolean = true;

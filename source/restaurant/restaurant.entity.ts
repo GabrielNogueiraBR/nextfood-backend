@@ -1,6 +1,7 @@
 import { Column, CreateDateColumn, Entity, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
 
 import { Franchise } from '../franchise/franchise.entity/franchise.entity';
+import { Product } from '../product/product.entity';
 
 @Entity()
 export class Restaurant {
@@ -19,6 +20,9 @@ export class Restaurant {
 
   @OneToMany(() => Franchise, (franchise) => franchise.restaurant)
   public franchises: Franchise[];
+
+  @OneToMany(() => Product, (product) => product.restaurant)
+  public products: Product[];
 
   @CreateDateColumn({ type: 'timestamp' })
   public createdAt!: Date;

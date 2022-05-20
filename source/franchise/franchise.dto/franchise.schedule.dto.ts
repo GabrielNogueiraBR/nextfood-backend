@@ -91,7 +91,6 @@ export class FranchiseScheduleUpdateDto extends FranchiseScheduleDataDto {
 
 export class FranchiseScheduleDeleteDto {
 
-  @ApiPropertyOptional({ type: 'string' })
   @IsUUID() @IsOptional()
   public franchiseId?: string; // Will be injected by path param.
 

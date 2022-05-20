@@ -20,7 +20,7 @@ export class CategoryController {
   }
 
   @ApiOperation({ summary: 'Read category list.' })
-  @ApiResponse({ status: 200, type: [ CategoryDto ] })
+  @ApiResponse({ status: 200, type: CategoryDto, isArray: true })
   @Get()
   public getCategoryList(): Promise<CategoryDto[]> {
     return this.categoryService.readCategoryList();
