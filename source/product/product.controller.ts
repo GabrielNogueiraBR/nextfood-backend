@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unsafe-argument */
 import { Body, Controller, Delete, Get, HttpCode, HttpStatus, Param, Post, Put, Query } from '@nestjs/common';
 
-import { ProductCreateDto, ProductDeleteByIdDto, ProductDto, ProductReadByIdDto, ProductReadDto, ProductUpdateDto, ProductUpdateStatusDto } from './product.dto';
+import { ProductCreateDto, ProductDeleteByIdDto, ProductDto, ProductReadByIdDto, ProductReadDto, ProductUpdateDto } from './product.dto';
 import { ProductService } from './product.service';
 
 @Controller('product')
@@ -31,13 +31,6 @@ export class ProductController {
     @Param() { id }: ProductReadByIdDto, @Body() body: ProductUpdateDto,
   ): Promise<ProductDto> {
     return this.productService.updateProductById({ id, ...body });
-  }
-
-  @Put(':id/status')
-  public updateProductStatusById(
-    @Param() { id }: ProductReadByIdDto, @Query() query: ProductUpdateStatusDto,
-  ): Promise<void> {
-    return this.productService.updateProductStatusById({ id, ...query });
   }
 
   @Delete(':id')

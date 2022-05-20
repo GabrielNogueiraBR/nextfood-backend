@@ -4,7 +4,7 @@ import { Repository } from 'typeorm';
 
 import { CategoryService } from '../category/category.service';
 import { RestaurantService } from '../restaurant/restaurant.service';
-import { ProductCreateDto, ProductDto, ProductReadDto, ProductUpdateDto, ProductUpdateStatusDto } from './product.dto';
+import { ProductCreateDto, ProductDto, ProductReadDto, ProductUpdateDto } from './product.dto';
 import { Product } from './product.entity';
 
 @Injectable()
@@ -23,7 +23,6 @@ export class ProductService {
    * @param productDto
    */
   public async createProduct(productDto: ProductCreateDto): Promise<ProductDto> {
-    // eslint-disable-next-line @typescript-eslint/naming-convention
     const { restaurantId, categoryId, ...rest } = productDto;
 
     const restaurantEntity = await this.restaurantService.readRestaurantById(restaurantId);
@@ -89,19 +88,6 @@ export class ProductService {
     });
 
     return new ProductDto(productUpdated);
-  }
-
-  /**
-   * Update product status (active or not).
-   * @param params
-   */
-  public async updateProductStatusById(params: ProductUpdateStatusDto): Promise<void> {
-    const { id, ...rest } = params;
-
-    await this.readProductById(id);
-    await this.repository.update(id, rest);
-
-    return;
   }
 
   /**

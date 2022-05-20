@@ -1,31 +1,55 @@
+import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { Transform } from 'class-transformer';
 import { IsBoolean, IsInt, IsNotEmpty, IsOptional, IsString, IsUrl, IsUUID, Min } from 'class-validator';
 
 import { Product } from './product.entity';
 
-export class ProductDto {
+export class ProductIdDto {
 
+  @ApiProperty({ type: 'string' })
   @IsUUID()
   public id: string;
 
+}
+
+export class ProductIdOptionalDto {
+
+  @IsUUID() @IsOptional()
+  public id?: string;
+
+}
+
+export class ProductDto {
+
+  @ApiProperty({ type: 'string' })
+  @IsUUID()
+  public id: string;
+
+  @ApiProperty({ type: 'string' })
   @IsString()
   public name: string;
 
+  @ApiProperty({ type: 'string' })
   @IsString()
   public description: string;
 
+  @ApiProperty({ type: 'string' })
   @IsString()
   public ingredients: string;
 
+  @ApiProperty({ type: 'number' })
   @IsInt() @Min(1)
   public serve_people: number;
 
+  @ApiPropertyOptional({ type: 'string' })
   @IsUrl() @IsOptional()
   public image_url?: string;
 
+  @ApiProperty({ type: 'string' })
   @IsUUID()
   public restaurantId: string;
 
+  @ApiProperty({ type: 'string' })
   @IsUUID()
   public categoryId: string;
 
@@ -45,82 +69,77 @@ export class ProductDto {
 
 export class ProductCreateDto {
 
+  @ApiProperty({ type: 'string' })
   @IsString() @IsNotEmpty()
   public name: string;
 
+  @ApiProperty({ type: 'string' })
   @IsString() @IsNotEmpty()
   public description: string;
 
+  @ApiProperty({ type: 'string' })
   @IsString() @IsNotEmpty()
   public ingredients: string;
 
+  @ApiProperty({ type: 'number' })
   @IsInt() @Min(1)
   public serve_people: number;
 
+  @ApiPropertyOptional({ type: 'string' })
   @IsString() @IsOptional()
   public image_url?: string;
 
+  @ApiProperty({ type: 'string' })
   @IsUUID()
   public restaurantId: string;
 
+  @ApiProperty({ type: 'string' })
   @IsUUID()
   public categoryId: string;
 
 }
 
-export class ProductReadByIdDto {
-
-  @IsUUID()
-  public id: string;
-
-}
+export class ProductReadByIdDto extends ProductIdDto { }
 
 export class ProductReadDto {
 
+  @ApiProperty({ type: 'string' })
   @IsUUID()
   public restaurantId: string;
 
+  @ApiPropertyOptional({ type: 'string' })
   @IsUUID() @IsOptional()
   public categoryId?: string;
 
+  @ApiProperty({ type: 'boolean' })
+  @Transform((o) => o.value === 'true')
+  @IsBoolean() @IsOptional()
+  public isActive?: boolean = true;
+
 }
 
-export class ProductUpdateDto {
+export class ProductUpdateDto extends ProductIdOptionalDto {
 
-  @IsUUID() @IsOptional()
-  public id?: string; // will be inject by path param.
-
+  @ApiProperty({ type: 'string' })
   @IsString() @IsNotEmpty()
   public name: string;
 
+  @ApiProperty({ type: 'string' })
   @IsString() @IsNotEmpty()
   public description: string;
 
+  @ApiProperty({ type: 'string' })
   @IsString() @IsNotEmpty()
   public ingredients: string;
 
+  @ApiProperty({ type: 'number' })
   @IsInt() @Min(1)
   public serve_people: number;
 
+  @ApiPropertyOptional({ type: 'string' })
   @IsUrl() @IsOptional()
   public image_url?: string;
 
 }
 
-export class ProductUpdateStatusDto {
-
-  @IsUUID() @IsOptional()
-  public id?: string; // will be inject by path param.
-
-  @Transform(({ value }) => value === 'true')
-  @IsBoolean()
-  public isActive: boolean;
-
-}
-
-export class ProductDeleteByIdDto {
-
-  @IsUUID()
-  public id: string;
-
-}
+export class ProductDeleteByIdDto extends ProductIdDto { }

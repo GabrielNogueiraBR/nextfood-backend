@@ -1,5 +1,4 @@
 /* eslint-disable @typescript-eslint/naming-convention */
-import { IsBoolean, IsInt, IsObject, IsOptional, IsString, IsUrl, IsUUID } from 'class-validator';
 import { Column, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 
 import { Category } from '../category/category.entity';
@@ -10,47 +9,37 @@ import { Restaurant } from '../restaurant/restaurant.entity';
 export class Product {
 
   @PrimaryGeneratedColumn('uuid')
-  @IsUUID()
   public id: string;
 
   @Column({ type: 'varchar', length: 120 })
-  @IsString()
   public name: string;
 
   @Column({ type: 'varchar', length: 256 })
-  @IsString()
   public description: string;
 
   @Column({ type: 'varchar', length: 999 })
-  @IsString()
   public ingredients: string;
 
   @Column({ type: 'int' })
-  @IsInt()
   public serve_people: number;
 
   @Column({ type: 'varchar', nullable: true })
-  @IsUrl() @IsOptional()
   public image_url?: string;
 
   @Column({ type: 'boolean', default: true })
-  @IsBoolean()
   public isActive: boolean;
 
   @ManyToOne(() => Restaurant, (restaurant) => restaurant.products, {
     onDelete: 'CASCADE', nullable: false,
   })
-  @IsObject()
   public restaurant!: Restaurant;
 
   @ManyToOne(() => Category, (category) => category.products, {
     nullable: false,
   })
-  @IsObject()
   public category!: Category;
 
   @OneToMany(() => FranchiseProduct, (franchise_product) => franchise_product.product)
-  @IsObject({ each: true })
   public fr_product: FranchiseProduct[];
 
 }
