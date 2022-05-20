@@ -1,5 +1,7 @@
-import { IsBoolean, IsDate, IsString, IsUUID } from 'class-validator';
-import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
+import { IsBoolean, IsDate, IsObject, IsString, IsUUID } from 'class-validator';
+import { Column, CreateDateColumn, Entity, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
+
+import { Product } from '../product/product.entity';
 
 @Entity()
 export class Category {
@@ -27,5 +29,9 @@ export class Category {
   @UpdateDateColumn({ type: 'timestamp' })
   @IsDate()
   public updatedAt!: Date;
+
+  @OneToMany(() => Product, (product) => product.category)
+  @IsObject({ each: true })
+  public products: Product[];
 
 }
