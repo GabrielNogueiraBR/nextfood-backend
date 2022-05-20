@@ -2,7 +2,7 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
-import { FranchiseService } from './../franchise/franchise.service';
+import { FranchiseService } from '../franchise/franchise.service/franchise.service';
 import { TableCreateDto, TableDto, TableReadByFranchiseDto, TableUpdateDto } from './table.dto';
 import { Table } from './table.entity';
 
