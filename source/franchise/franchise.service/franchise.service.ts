@@ -2,11 +2,11 @@ import { BadRequestException, Injectable, NotFoundException } from '@nestjs/comm
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
-import { RestaurantService } from './../restaurant/restaurant.service';
-import { FranchiseCreateDto, FranchiseDto, FranchiseReadByRestaurantDto, FranchiseUpdateDto } from './franchise.dto/franchise.dto';
-import { FranchiseScheduleCreateDto, FranchiseScheduleDeleteDto, FranchiseScheduleDto, FranchiseScheduleUpdateDto } from './franchise.dto/franchise.schedule.dto';
-import { Franchise } from './franchise.entity/franchise.entity';
-import { FranchiseSchedule } from './franchise.entity/franchise.schedule';
+import { RestaurantService } from '../../restaurant/restaurant.service';
+import { FranchiseCreateDto, FranchiseDto, FranchiseReadByRestaurantDto, FranchiseUpdateDto } from '../franchise.dto/franchise.dto';
+import { FranchiseScheduleCreateDto, FranchiseScheduleDeleteDto, FranchiseScheduleDto, FranchiseScheduleUpdateDto } from '../franchise.dto/franchise.schedule.dto';
+import { Franchise } from '../franchise.entity/franchise.entity';
+import { FranchiseSchedule } from '../franchise.entity/franchise.schedule';
 
 @Injectable()
 export class FranchiseService {

@@ -1,8 +1,10 @@
+/* eslint-disable @typescript-eslint/naming-convention */
 import { Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, OneToMany, OneToOne, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
 
 import { Address } from '../../address/address.entity';
 import { Employee } from '../../employee/employee.entity';
 import { Restaurant } from '../../restaurant/restaurant.entity';
+import { FranchiseProduct } from './franchise.product.entity';
 import { FranchiseSchedule } from './franchise.schedule';
 
 @Entity()
@@ -42,4 +44,8 @@ export class Franchise {
   @UpdateDateColumn({ type: 'timestamp' })
   public updatedAt!: Date;
 
+  @OneToMany(() => FranchiseProduct, (franchise_product) => franchise_product.franchise)
+  public fr_franchise: FranchiseProduct[];
+
 }
+
