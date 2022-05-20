@@ -53,13 +53,12 @@ export class FranchiseService {
    * @param params
    */
   public async readFranchiseByRestaurant(params: FranchiseReadByRestaurantDto): Promise<FranchiseDto[]> {
-    const { restaurantId, name } = params;
+    const { restaurantId } = params;
 
     const franchiseEntities = await this.repository.find({
       where: {
         restaurant: {
           id: restaurantId,
-          name,
         },
       },
     });

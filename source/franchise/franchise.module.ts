@@ -27,5 +27,8 @@ import { FranchiseService } from './franchise.service/franchise.service';
   controllers: [
     FranchiseController,
   ],
+  exports: [
+    FranchiseService,
+  ],
 })
 export class FranchiseModule {}
