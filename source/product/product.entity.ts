@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/naming-convention */
-import { IsBoolean, IsInt, IsObject, IsString, IsUUID } from 'class-validator';
+import { IsBoolean, IsInt, IsObject, IsOptional, IsString, IsUrl, IsUUID } from 'class-validator';
 import { Column, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 
 import { Category } from '../category/category.entity';
@@ -27,7 +27,11 @@ export class Product {
 
   @Column({ type: 'int' })
   @IsInt()
-  public amountP: string;
+  public serve_people: number;
+
+  @Column({ type: 'string', nullable: true })
+  @IsUrl() @IsOptional()
+  public image_url?: string;
 
   @Column({ type: 'boolean', default: true })
   @IsBoolean()
