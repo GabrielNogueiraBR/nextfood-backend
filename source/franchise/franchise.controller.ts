@@ -2,7 +2,7 @@ import { Body, Controller, Delete, Get, HttpCode, HttpStatus, Param, Post, Put, 
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 
 import { FranchiseCreateDto, FranchiseDeleteByIdDto, FranchiseDto, FranchiseIdDto, FranchiseReadByIdDto, FranchiseReadByRestaurantDto, FranchiseUpdateDto } from './franchise.dto/franchise.dto';
-import { FranchiseProductCreateDto, FranchiseProductDeleteByIdDto, FranchiseProductDto, FranchiseProductReadByIdDto, FranchiseProductReadDto, FranchiseProductUpdateDto, FranchiseProductUpdateStatusDto } from './franchise.dto/franchise.product.dto';
+import { FranchiseProductCreateDto, FranchiseProductDeleteByIdDto, FranchiseProductDto, FranchiseProductReadByIdDto, FranchiseProductReadDto, FranchiseProductUpdateDto } from './franchise.dto/franchise.product.dto';
 import { FranchiseScheduleCreateDto, FranchiseScheduleDeleteDto, FranchiseScheduleDto, FranchiseScheduleUpdateDto } from './franchise.dto/franchise.schedule.dto';
 import { FranchiseProductService } from './franchise.service/franchise.product.service';
 import { FranchiseScheduleService } from './franchise.service/franchise.schedule.service';
@@ -97,13 +97,6 @@ export class FranchiseController {
     @Param() { id }: FranchiseProductReadByIdDto, @Body() body: FranchiseProductUpdateDto,
   ): Promise<FranchiseProductDto> {
     return this.franchiseProductService.updateFranchiseProductById({ id, ...body });
-  }
-
-  @Put(':id/status')
-  public updateProductStatusById(
-    @Param() { id }: FranchiseProductReadByIdDto, @Query() query: FranchiseProductUpdateStatusDto,
-  ): Promise<void> {
-    return this.franchiseProductService.updateFranchiseProductStatusById({ id, ...query });
   }
 
   @Delete(':id')
