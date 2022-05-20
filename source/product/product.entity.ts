@@ -29,7 +29,7 @@ export class Product {
   @IsInt()
   public serve_people: number;
 
-  @Column({ type: 'string', nullable: true })
+  @Column({ type: 'varchar', nullable: true })
   @IsUrl() @IsOptional()
   public image_url?: string;
 

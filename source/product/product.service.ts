@@ -23,16 +23,14 @@ export class ProductService {
    * @param productDto
    */
   public async createProduct(productDto: ProductCreateDto): Promise<ProductDto> {
-    const { name, description, ingredients, amountP, restaurantId, categoryId } = productDto;
+    // eslint-disable-next-line @typescript-eslint/naming-convention
+    const { restaurantId, categoryId, ...rest } = productDto;
 
     const restaurantEntity = await this.restaurantService.readRestaurantById(restaurantId);
     const categoryEntity = await this.categoryService.readCategoryById(categoryId);
 
     let productEntity = this.repository.create({
-      name,
-      description,
-      ingredients,
-      amountP,
+      ...rest,
       restaurant: restaurantEntity,
       category: categoryEntity,
     });
