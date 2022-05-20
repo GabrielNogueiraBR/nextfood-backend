@@ -1,7 +1,7 @@
 import { Body, Controller, Delete, Get, HttpCode, HttpStatus, Param, Post, Put } from '@nestjs/common';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 
-import { RestaurantCreateDto, RestaurantDeleteByIdDto, RestaurantDto, RestaurantReadByIdDto, RestaurantUpdateDto } from './restaurant.dto';
+import { RestaurantCreateDto, RestaurantDeleteByIdDto, RestaurantDto, RestaurantIdDto, RestaurantReadByIdDto, RestaurantUpdateDto } from './restaurant.dto';
 import { RestaurantService } from './restaurant.service';
 
 @ApiTags('Restaurant')
@@ -30,7 +30,7 @@ export class RestaurantController {
   @ApiResponse({ status: 200, type: RestaurantDto })
   @Put(':id')
   public updateRestaurantById(
-    @Param() { id }: RestaurantReadByIdDto, @Body() body: RestaurantUpdateDto,
+    @Param() { id }: RestaurantIdDto, @Body() body: RestaurantUpdateDto,
   ): Promise<RestaurantDto> {
     return this.restaurantService.updateRestaurantById({ id, ...body });
   }

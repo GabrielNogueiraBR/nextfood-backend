@@ -8,6 +8,7 @@ import { Franchise } from './franchise.entity/franchise.entity';
 import { FranchiseProduct } from './franchise.entity/franchise.product.entity';
 import { FranchiseSchedule } from './franchise.entity/franchise.schedule';
 import { FranchiseProductService } from './franchise.service/franchise.product.service';
+import { FranchiseScheduleService } from './franchise.service/franchise.schedule.service';
 import { FranchiseService } from './franchise.service/franchise.service';
 
 @Module({
@@ -23,6 +24,7 @@ import { FranchiseService } from './franchise.service/franchise.service';
   providers: [
     FranchiseService,
     FranchiseProductService,
+    FranchiseScheduleService,
   ],
   controllers: [
     FranchiseController,

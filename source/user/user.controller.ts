@@ -1,13 +1,10 @@
-/* eslint-disable @typescript-eslint/no-unsafe-argument */
-/* eslint-disable simple-import-sort/imports */
-/* eslint-disable @typescript-eslint/no-unused-vars */
-/* eslint-disable @typescript-eslint/require-await */
 import { Body, Controller, Delete, Get, HttpCode, HttpStatus, Param, Post, Put } from '@nestjs/common';
+import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 
-import { CreateUserDto, UpdateUserDto, UserDeleteByIdDto, UserReadByIdDto } from './user.dto';
-import { User } from './user.entity';
+import { CreateUserDto, UpdateUserDto, UserDeleteByIdDto, UserDto, UserReadByIdDto } from './user.dto';
 import { UserService } from './user.service';
 
+@ApiTags('User')
 @Controller('user')
 export class UserController {
 
@@ -15,24 +12,29 @@ export class UserController {
     private readonly userService: UserService,
   ) { }
 
+  @ApiOperation({ summary: 'Create a user.' })
+  @ApiResponse({ status: 201, type: UserDto })
   @Post()
-  @HttpCode(HttpStatus.CREATED)
-  public postUser(@Body() body: CreateUserDto): Promise<User> {
+  public postUser(@Body() body: CreateUserDto): Promise<UserDto> {
     return this.userService.createUser(body);
   }
 
+  @ApiOperation({ summary: 'Read a user by Id.' })
+  @ApiResponse({ status: 200, type: UserDto })
   @Get(':id')
-  @HttpCode(HttpStatus.OK)
-  public getUserById(@Param() { id }: UserReadByIdDto): Promise<User> {
-    return this.userService.readUserbyId(id);
+  public getUserById(@Param() { id }: UserReadByIdDto): Promise<UserDto> {
+    return this.userService.readUserById(id);
   }
 
+  @ApiOperation({ summary: 'Update a user.' })
+  @ApiResponse({ status: 200, type: UserDto })
   @Put(':id')
-  @HttpCode(HttpStatus.OK)
-  public updateUser(@Param() params: UserReadByIdDto, @Body() body: UpdateUserDto): Promise <User> {
+  public updateUser(@Param() params: UserReadByIdDto, @Body() body: UpdateUserDto): Promise <UserDto> {
     return this.userService.updateUserById({ ...params, ...body });
   }
 
+  @ApiOperation({ summary: 'Delete a user.' })
+  @ApiResponse({ status: 204 })
   @Delete(':id')
   @HttpCode(HttpStatus.NO_CONTENT)
   public deleteUserById(@Param() params: UserDeleteByIdDto): Promise <void> {

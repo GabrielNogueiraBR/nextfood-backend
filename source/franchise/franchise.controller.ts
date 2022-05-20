@@ -1,9 +1,11 @@
 import { Body, Controller, Delete, Get, HttpCode, HttpStatus, Param, Post, Put, Query } from '@nestjs/common';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 
-import { FranchiseCreateDto, FranchiseDeleteByIdDto, FranchiseDto, FranchiseReadByIdDto, FranchiseReadByRestaurantDto, FranchiseUpdateDto, FranchiseUpdateStatusDto } from './franchise.dto/franchise.dto';
-import { FranchiseProductCreateDto, FranchiseProductDeleteByIdDto, FranchiseProductDto, FranchiseProductReadByIdDto, FranchiseProductReadDto, FranchiseProductUpdateDto, FranchiseProductUpdateStatusDto } from './franchise.dto/franchise.product.dto';
+import { FranchiseCreateDto, FranchiseDeleteByIdDto, FranchiseDto, FranchiseIdDto, FranchiseReadByIdDto, FranchiseReadByRestaurantDto, FranchiseUpdateDto } from './franchise.dto/franchise.dto';
+import { FranchiseProductCreateDto, FranchiseProductDeleteByIdDto, FranchiseProductDto, FranchiseProductReadByIdDto, FranchiseProductReadDto, FranchiseProductUpdateDto } from './franchise.dto/franchise.product.dto';
+import { FranchiseScheduleCreateDto, FranchiseScheduleDeleteDto, FranchiseScheduleDto, FranchiseScheduleUpdateDto } from './franchise.dto/franchise.schedule.dto';
 import { FranchiseProductService } from './franchise.service/franchise.product.service';
+import { FranchiseScheduleService } from './franchise.service/franchise.schedule.service';
 import { FranchiseService } from './franchise.service/franchise.service';
 
 @ApiTags('Franchise')
@@ -12,6 +14,7 @@ export class FranchiseController {
 
   public constructor(
     private readonly franchiseService: FranchiseService,
+    private readonly franchiseSchedule: FranchiseScheduleService,
     private readonly franchiseProductService: FranchiseProductService,
   ) { }
 
@@ -30,7 +33,7 @@ export class FranchiseController {
   }
 
   @ApiOperation({ summary: 'Read a franchise by restaurant filter params.' })
-  @ApiResponse({ status: 200, type: [ FranchiseDto ] })
+  @ApiResponse({ status: 200, type: FranchiseDto, isArray: true })
   @Get()
   public getFranchiseByRestaurant(@Query() params: FranchiseReadByRestaurantDto): Promise<FranchiseDto[]> {
     return this.franchiseService.readFranchiseByRestaurant(params);
@@ -39,19 +42,8 @@ export class FranchiseController {
   @ApiOperation({ summary: 'Update a franchise by id.' })
   @ApiResponse({ status: 200, type: FranchiseDto })
   @Put(':id')
-  public updateFranchiseById(
-    @Param() { id }: FranchiseReadByIdDto, @Body() body: FranchiseUpdateDto,
-  ): Promise<FranchiseDto> {
+  public updateFranchiseById(@Param() { id }: FranchiseIdDto, @Body() body: FranchiseUpdateDto): Promise<FranchiseDto> {
     return this.franchiseService.updateFranchiseById({ id, ...body });
-  }
-
-  @ApiOperation({ summary: 'Update a franchise status by id.' })
-  @ApiResponse({ status: 200 })
-  @Put(':id/status')
-  public updateFranchiseStatusById(
-    @Param() { id }: FranchiseReadByIdDto, @Body() body: FranchiseUpdateStatusDto,
-  ): Promise<void> {
-    return this.franchiseService.updateFranchiseStatusById({ id, ...body });
   }
 
   @ApiOperation({ summary: 'Delete a franchise by id.' })
@@ -62,16 +54,50 @@ export class FranchiseController {
     return this.franchiseService.deleteFranchiseById(id);
   }
 
+  @ApiOperation({ summary: 'Create a franchise schedule.' })
+  @ApiResponse({ status: 200, type: FranchiseDto })
+  @Post(':id/schedule')
+  public postFranchiseSchedule(
+    @Param() { id }: FranchiseIdDto, @Body() body: FranchiseScheduleCreateDto,
+  ): Promise<FranchiseScheduleDto> {
+    return this.franchiseSchedule.createFranchiseSchedule({ franchiseId: id, ...body });
+  }
+
+  @ApiOperation({ summary: 'Update a franchise schedule.' })
+  @ApiResponse({ status: 200, type: FranchiseDto })
+  @Put(':id/schedule')
+  public updateFranchiseSchedule(
+    @Param() { id: franchiseId }: FranchiseIdDto, @Body() body: FranchiseScheduleUpdateDto,
+  ): Promise<FranchiseScheduleDto> {
+    return this.franchiseSchedule.updateFranchiseSchedule({ franchiseId, ...body });
+  }
+
+  @ApiOperation({ summary: 'Delete a franchise schedule.' })
+  @ApiResponse({ status: 204 })
+  @HttpCode(HttpStatus.NO_CONTENT)
+  @Delete(':id/schedule')
+  public deleteFranchiseSchedule(
+    @Param() { id }: FranchiseIdDto, @Query() query: FranchiseScheduleDeleteDto,
+  ): Promise<void> {
+    return this.franchiseSchedule.deleteFranchiseSchedule({ franchiseId: id, ...query });
+  }
+
+  @ApiOperation({ summary: 'Create a franchise product.' })
+  @ApiResponse({ status: 200, type: FranchiseProductDto })
   @Post('product')
   public postFranchiseProduct(@Body() body: FranchiseProductCreateDto): Promise<FranchiseProductDto> {
     return this.franchiseProductService.createFranchiseProduct(body);
   }
 
+  @ApiOperation({ summary: 'Read a franchise product by filter params.' })
+  @ApiResponse({ status: 200, type: FranchiseProductDto, isArray: true })
   @Get('product')
   public getFranchiseProduct(@Query() query: FranchiseProductReadDto): Promise<FranchiseProductDto[]> {
     return this.franchiseProductService.readFranchiseProduct(query);
   }
 
+  @ApiOperation({ summary: 'Update a franchise product.' })
+  @ApiResponse({ status: 200, type: FranchiseProductDto })
   @Put('/product/:id')
   public updateFranchiseProductById(
     @Param() { id }: FranchiseProductReadByIdDto, @Body() body: FranchiseProductUpdateDto,
@@ -79,13 +105,8 @@ export class FranchiseController {
     return this.franchiseProductService.updateFranchiseProductById({ id, ...body });
   }
 
-  @Put(':id/status')
-  public updateProductStatusById(
-    @Param() { id }: FranchiseProductReadByIdDto, @Query() query: FranchiseProductUpdateStatusDto,
-  ): Promise<void> {
-    return this.franchiseProductService.updateFranchiseProductStatusById({ id, ...query });
-  }
-
+  @ApiOperation({ summary: 'Delete a franchise product.' })
+  @ApiResponse({ status: 204 })
   @Delete(':id')
   @HttpCode(HttpStatus.NO_CONTENT)
   public deleteProductById(@Param() { id }: FranchiseProductDeleteByIdDto): Promise<void> {

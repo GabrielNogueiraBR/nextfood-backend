@@ -1,35 +1,74 @@
-import { ApiProperty } from '@nestjs/swagger';
+import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { Transform } from 'class-transformer';
 import { IsBoolean, IsNotEmpty, IsOptional, IsString, IsUUID } from 'class-validator';
 
-export class CategoryCreateDto {
+import { Category } from './category.entity';
 
-  @ApiProperty()
-  @IsString() @IsNotEmpty()
-  public name: string;
+export class CategoryIdDto {
 
-  @ApiProperty()
-  @IsString() @IsNotEmpty()
-  public icon: string;
+  @ApiProperty({ type: 'string' })
+  @IsUUID()
+  public id: string;
 
 }
 
-export class CategoryUpdateDto {
+export class CategoryIdOptionalDto {
 
-  @IsOptional() @IsUUID()
-  public id?: string; // Will be injected by path param.
+  @IsUUID() @IsOptional()
+  public id?: string;
 
-  @ApiProperty()
-  @IsOptional()
+}
+
+export class CategoryDto extends CategoryIdDto {
+
+  @ApiProperty({ type: 'string' })
+  @IsString()
+  public name: string;
+
+  @ApiPropertyOptional({ type: 'string' })
+  @IsOptional() @IsString()
+  public icon?: string;
+
+  @ApiProperty({ type: 'boolean' })
+  @IsBoolean()
+  public isActive: boolean;
+
+  public constructor({ id, name, icon, isActive }: Category) {
+    super();
+    this.id = id;
+    this.name = name;
+    this.icon = icon;
+    this.isActive = isActive;
+  }
+
+}
+
+export class CategoryCreateDto {
+
+  @ApiProperty({ type: 'string' })
   @IsString() @IsNotEmpty()
-  public name?: string;
+  public name: string;
 
-  @ApiProperty()
+  @ApiPropertyOptional({ type: 'string' })
   @IsOptional()
   @IsString() @IsNotEmpty()
   public icon?: string;
 
-  @ApiProperty()
+}
+
+export class CategoryUpdateDto extends CategoryIdOptionalDto {
+
+  @ApiPropertyOptional({ type: 'string' })
+  @IsOptional()
+  @IsString() @IsNotEmpty()
+  public name?: string;
+
+  @ApiPropertyOptional({ type: 'string' })
+  @IsOptional()
+  @IsString() @IsNotEmpty()
+  public icon?: string;
+
+  @ApiPropertyOptional({ type: 'string' })
   @IsOptional()
   @Transform(({ value }) => value === 'true')
   @IsBoolean()
@@ -37,18 +76,6 @@ export class CategoryUpdateDto {
 
 }
 
-export class CategoryReadByIdDto {
+export class CategoryReadByIdDto extends CategoryIdDto { }
 
-  @ApiProperty()
-  @IsUUID()
-  public id: string;
-
-}
-
-export class CategoryDeleteByIdDto {
-
-  @ApiProperty()
-  @IsUUID()
-  public id: string;
-
-}
+export class CategoryDeleteByIdDto extends CategoryIdDto { }

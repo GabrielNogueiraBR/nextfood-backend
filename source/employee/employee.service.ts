@@ -2,8 +2,8 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
-import { FranchiseService } from './../franchise/franchise.service/franchise.service';
-import { EmployeeCreateDto, EmployeeDto, EmployeeReadByFranchiseDto, EmployeeUpdateDto, EmployeeUpdateStatusDto } from './employee.dto';
+import { FranchiseService } from '../franchise/franchise.service/franchise.service';
+import { EmployeeCreateDto, EmployeeDto, EmployeeReadByFranchiseDto, EmployeeUpdateDto } from './employee.dto';
 import { Employee } from './employee.entity';
 
 @Injectable()
@@ -47,13 +47,14 @@ export class EmployeeService {
    * Read employee by franchise filter params.
    * @param params
    */
-  public async readEmployeeByFranchiss(params: EmployeeReadByFranchiseDto): Promise<EmployeeDto[]> {
-    const { franchiseId } = params;
+  public async readEmployeeByFranchise(params: EmployeeReadByFranchiseDto): Promise<EmployeeDto[]> {
+    const { franchiseId, isActive } = params;
 
     const franchiseEntities = await this.repository.find({
       where: {
         franchise: {
           id: franchiseId,
+          isActive: isActive,
         },
       },
     });
@@ -78,19 +79,6 @@ export class EmployeeService {
     });
 
     return new EmployeeDto(employeeUpdated);
-  }
-
-  /**
-   * Update employee status.
-   * @param params
-   */
-  public async updateEmployeeStatusById(params: EmployeeUpdateStatusDto): Promise<void> {
-    const { id, ...rest } = params;
-
-    await this.readEmployeeById(id);
-    await this.repository.update(id, rest);
-
-    return;
   }
 
   /**

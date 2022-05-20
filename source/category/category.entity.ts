@@ -1,4 +1,4 @@
-import { IsBoolean, IsDate, IsObject, IsString, IsUUID } from 'class-validator';
+
 import { Column, CreateDateColumn, Entity, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
 
 import { Product } from '../product/product.entity';
@@ -7,31 +7,24 @@ import { Product } from '../product/product.entity';
 export class Category {
 
   @PrimaryGeneratedColumn('uuid')
-  @IsUUID()
   public id: string;
 
   @Column({ type: 'varchar', length: 120 })
-  @IsString()
   public name: string;
 
-  @Column({ type: 'varchar', length: 120 })
-  @IsString()
-  public icon: string;
+  @Column({ type: 'varchar', length: 60, nullable: true })
+  public icon: string; // This refers to the frontend lib icon name.
 
   @Column({ type: 'boolean', default: true })
-  @IsBoolean()
-  public isActive: boolean;
+  public isActive: boolean = true;
 
   @CreateDateColumn({ type: 'timestamp' })
-  @IsDate()
   public createdAt!: Date;
 
   @UpdateDateColumn({ type: 'timestamp' })
-  @IsDate()
   public updatedAt!: Date;
 
   @OneToMany(() => Product, (product) => product.category)
-  @IsObject({ each: true })
   public products: Product[];
 
 }

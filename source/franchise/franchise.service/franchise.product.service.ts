@@ -4,7 +4,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
 import { ProductService } from '../../product/product.service';
-import { FranchiseProductCreateDto, FranchiseProductDto, FranchiseProductReadDto, FranchiseProductUpdateDto, FranchiseProductUpdateStatusDto } from '../franchise.dto/franchise.product.dto';
+import { FranchiseProductCreateDto, FranchiseProductDto, FranchiseProductReadDto, FranchiseProductUpdateDto } from '../franchise.dto/franchise.product.dto';
 import { FranchiseProduct } from '../franchise.entity/franchise.product.entity';
 import { FranchiseService } from './franchise.service';
 
@@ -89,19 +89,6 @@ export class FranchiseProductService {
     });
 
     return new FranchiseProductDto(franchiseProductUpdated);
-  }
-
-  /**
-   * Update product status (active or not).
-   * @param params
-   */
-  public async updateFranchiseProductStatusById(params: FranchiseProductUpdateStatusDto): Promise<void> {
-    const { id, ...rest } = params;
-
-    await this.readFranchiseProductById(id);
-    await this.repository.update(id, rest);
-
-    return;
   }
 
   /**
