@@ -22,18 +22,18 @@ export class CategoryUpdateDto {
   @ApiProperty()
   @IsOptional()
   @IsString() @IsNotEmpty()
-  public name: string;
+  public name?: string;
 
   @ApiProperty()
   @IsOptional()
   @IsString() @IsNotEmpty()
-  public icon: string;
+  public icon?: string;
 
   @ApiProperty()
   @IsOptional()
   @Transform(({ value }) => value === 'true')
   @IsBoolean()
-  public isActive: boolean;
+  public isActive?: boolean;
 
 }
 
