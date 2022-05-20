@@ -1,10 +1,11 @@
 /* eslint-disable @typescript-eslint/no-unsafe-argument */
 import { Body, Controller, Delete, Get, HttpCode, HttpStatus, Param, Post, Put, Query } from '@nestjs/common';
-import { ApiOperation, ApiResponse } from '@nestjs/swagger';
+import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 
 import { ProductCreateDto, ProductDeleteByIdDto, ProductDto, ProductReadByIdDto, ProductReadDto, ProductUpdateDto } from './product.dto';
 import { ProductService } from './product.service';
 
+@ApiTags('Product')
 @Controller('product')
 export class ProductController {
 

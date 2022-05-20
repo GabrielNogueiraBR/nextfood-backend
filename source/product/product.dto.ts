@@ -111,7 +111,7 @@ export class ProductReadDto {
   @IsUUID() @IsOptional()
   public categoryId?: string;
 
-  @ApiProperty({ type: 'boolean' })
+  @ApiPropertyOptional({ type: 'boolean' })
   @Transform((o) => o.value === 'true')
   @IsBoolean() @IsOptional()
   public isActive?: boolean = true;

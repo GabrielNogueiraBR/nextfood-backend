@@ -22,7 +22,6 @@ export class Restaurant {
   public franchises: Franchise[];
 
   @OneToMany(() => Product, (product) => product.restaurant)
-  @IsObject({ each: true })
   public products: Product[];
 
   @CreateDateColumn({ type: 'timestamp' })

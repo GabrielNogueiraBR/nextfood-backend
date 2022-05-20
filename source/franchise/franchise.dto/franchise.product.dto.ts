@@ -70,7 +70,7 @@ export class FranchiseProductReadDto {
   @IsUUID() @IsOptional()
   public productId?: string;
 
-  @ApiProperty({ type: 'boolean', default: true })
+  @ApiPropertyOptional({ type: 'boolean', default: true })
   @IsBoolean() @IsOptional()
   public isActive?: boolean = true;
 
@@ -84,9 +84,11 @@ export class FranchiseProductReadByIdDto extends FranchiseProductIdDto { }
 
 export class FranchiseProductUpdateDto extends FranchiseProductIdOptionalDto {
 
+  @ApiPropertyOptional({ type: 'number' })
   @IsNumber() @IsOptional()
   public price?: number;
 
+  @ApiPropertyOptional({ type: 'boolean' })
   @Transform(({ value }) => value === 'true')
   @IsBoolean() @IsOptional()
   public isActive?: boolean;
