@@ -4,6 +4,7 @@ import { Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, OneToMany, One
 import { Address } from '../../address/address.entity';
 import { Employee } from '../../employee/employee.entity';
 import { Restaurant } from '../../restaurant/restaurant.entity';
+import { Table } from './../../table/table.entity';
 import { FranchiseProduct } from './franchise.product.entity';
 import { FranchiseSchedule } from './franchise.schedule';
 
@@ -32,6 +33,9 @@ export class Franchise {
 
   @OneToMany(() => Employee, (employee) => employee.franchise)
   public employees: Employee[];
+
+  @OneToMany(() => Table, (table) => table.franchise)
+  public tables: Table[];
 
   @OneToMany(() => FranchiseSchedule, (schedule) => schedule.franchise, {
     cascade: true, eager: true, nullable: false,

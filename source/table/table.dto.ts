@@ -1,10 +1,10 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { Transform } from 'class-transformer';
-import { IsBoolean, IsISO8601, IsNotEmpty, IsOptional, IsString, IsUUID } from 'class-validator';
+import { IsBoolean, IsISO8601, IsNotEmpty, IsNumber, IsOptional, IsString, IsUUID, Min } from 'class-validator';
 
-import { Employee } from './employee.entity';
+import { Table } from './table.entity';
 
-export class EmployeeIdDto {
+export class TableIdDto {
 
   @ApiProperty({ type: 'string' })
   @IsUUID()
@@ -12,14 +12,14 @@ export class EmployeeIdDto {
 
 }
 
-export class EmployeeIdOptionalDto {
+export class TableIdOptionalDto {
 
   @IsUUID() @IsOptional()
   public id?: string;
 
 }
 
-export class EmployeeDto {
+export class TableDto {
 
   @ApiProperty({ type: 'string' })
   @IsUUID()
@@ -29,33 +29,38 @@ export class EmployeeDto {
   @IsString() @IsNotEmpty()
   public name: string;
 
-  @ApiProperty({ type: 'string', format: 'date', example: '2022-01-01' })
+  @ApiProperty({ type: 'number' })
+  @IsNumber() @Min(1)
+  public quantity: number;
+
+  @ApiProperty({ type: 'boolean' })
   @IsISO8601()
-  public hiredDate: string;
+  public isEmpty: boolean;
 
   @ApiProperty({ type: 'boolean' })
   @Transform(({ value }) => value === 'true')
   @IsBoolean()
   public isActive: boolean;
 
-  public constructor({ id, name, hiredDate, isActive }: Employee) {
+  public constructor({ id, name, quantity, isEmpty, isActive }: Table) {
     this.id = id;
     this.name = name;
-    this.hiredDate = hiredDate;
+    this.quantity = quantity;
+    this.isEmpty = isEmpty;
     this.isActive = isActive;
   }
 
 }
 
-export class EmployeeCreateDto {
+export class TableCreateDto {
 
   @ApiProperty({ type: 'string' })
   @IsString() @IsNotEmpty()
   public name: string;
 
-  @ApiProperty({ type: 'string', format: 'date', example: '2022-01-01' })
-  @IsISO8601()
-  public hiredDate: string;
+  @ApiProperty({ type: 'number' })
+  @IsNumber() @Min(1)
+  public quantity: number;
 
   @ApiProperty({ type: 'string' })
   @IsUUID()
@@ -63,7 +68,7 @@ export class EmployeeCreateDto {
 
 }
 
-export class EmployeeReadByFranchiseDto {
+export class TableReadByFranchiseDto {
 
   @ApiProperty({ type: 'string' })
   @IsUUID()
@@ -72,30 +77,38 @@ export class EmployeeReadByFranchiseDto {
   @ApiPropertyOptional({ type: 'boolean', default: true })
   @Transform(({ value }) => value === 'true')
   @IsBoolean() @IsOptional()
+  public isEmpty?: boolean = true;
+
+  @ApiPropertyOptional({ type: 'boolean', default: true })
+  @Transform(({ value }) => value === 'true')
+  @IsBoolean() @IsOptional()
   public isActive?: boolean = true;
 
 }
 
-export class EmployeeReadByIdDto extends EmployeeIdDto { }
+export class TableReadByIdDto extends TableIdDto { }
 
-export class EmployeeUpdateDto extends EmployeeIdOptionalDto {
+export class TableUpdateDto extends TableIdOptionalDto {
 
   @ApiPropertyOptional({ type: 'string' })
   @IsOptional()
   @IsString() @IsNotEmpty()
   public name?: string;
 
-  @ApiPropertyOptional({ type: 'string', format: 'date', example: '2022-01-01' })
-  @IsOptional()
-  @IsISO8601()
-  public hiredDate?: string;
+  @ApiProperty({ type: 'number' })
+  @IsNumber() @Min(1) @IsOptional()
+  public quantity?: number;
 
-  @ApiProperty({ type: 'boolean' })
+  @ApiPropertyOptional({ type: 'string', format: 'date', example: '2022-01-01' })
+  @IsOptional() @IsISO8601()
+  public isEmpty?: boolean;
+
+  @ApiProperty({ type: 'boolean', default: true })
   @Transform(({ value }) => value === 'true')
   @IsBoolean() @IsOptional()
   public isActive?: boolean;
 
 }
 
-export class EmployeeDeleteByIdDto extends EmployeeIdDto { }
+export class TableDeleteByIdDto extends TableIdDto { }
 

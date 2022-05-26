@@ -5,12 +5,14 @@ This project contains the Nextfood application backend.
 
 ### 💡NextFood Features
 - [x] Application Setup
-- [ ] CRUD Restaurant
-- [ ] CRUD Categories
-- [ ] CRUD User
-- [ ] CRUD Franchise
-- [ ] CRUD Products
+- [x] CRUD Restaurant
+- [x] CRUD Categories
+- [x] CRUD User
+- [x] CRUD Franchise
+- [x] CRUD Products
+- [x] CRUD Tables
 - [ ] CRUD Orders
+- [ ] CRUD Cart
 
 
 ## Local Setup
