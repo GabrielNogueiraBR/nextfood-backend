@@ -13,6 +13,7 @@ This project contains the Nextfood application backend.
 - [x] CRUD Tables
 - [ ] CRUD Orders
 - [ ] CRUD Cart
+- [ ] Deploy at Heroku
 
 
 ## Local Setup
