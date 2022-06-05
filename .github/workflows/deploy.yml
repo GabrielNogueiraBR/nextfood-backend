@@ -27,17 +27,24 @@ jobs:
       # - name: "Configure Environment"
       #   run: echo "NODE_ENV=production" >> .env
 
-    - name: Login to Heroku Container registry
-      env: 
-        HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
-      run: heroku container:login 
-      
-    - name: Build and push
-      env:
-        HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
-      run: heroku container:push -a ${{ secrets.HEROKU_APP_NAME }} web 
-      
-    - name: Release
-      env:
-        HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
-      run: heroku container:release -a ${{ secrets.HEROKU_APP_NAME }} web 
+      # Check-out your repository.
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      # Login to Heroku Container Registry.
+      - name: Login to Heroku Container registry
+        env: 
+          HEROKU_API_KEY: $HEROKU_API_KEY
+        run: docker login --username=vitorcgois777@gmail.com --password=$HEROKU_API_KEY registry.heroku.com
+
+      # Push docker image to Heroku Container Registry.
+      - name: Building and pushing image
+        env:
+          HEROKU_API_KEY: $HEROKU_API_KEY
+        run: heroku container:push -a $HEROKU_APP_NAME web 
+
+      # Release the Docker image to Heroku Container Registry.
+      - name: Release app
+        env:
+          HEROKU_API_KEY: $HEROKU_API_KEY
+        run: heroku container:release -a $HEROKU_APP_NAME web 
