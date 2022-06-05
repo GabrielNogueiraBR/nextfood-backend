@@ -37,6 +37,10 @@ export class TypeOrmConfigService implements TypeOrmOptionsFactory {
       logger: 'file',
       autoLoadEntities: true,
       synchronize: appConfig.NODE_ENV === 'local' ? true : false, // never use TRUE in production!
+      ssl:
+        process.env.NODE_ENV === 'production'
+          ? { rejectUnauthorized: false }
+          : false,
     };
   }
 
