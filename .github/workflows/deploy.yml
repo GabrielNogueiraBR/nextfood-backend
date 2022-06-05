@@ -17,6 +17,9 @@ jobs:
     name: Deploy to Heroku
     runs-on: ubuntu-latest
     steps:
+      # Check-out your repository.
+      - name: Checkout
+        uses: actions/checkout@v2
 
       # Add environment variable to .env
       - name: "Configure Environment"
@@ -28,11 +31,6 @@ jobs:
           echo DB_USERNAME="waqwrjrakglkzt" >> .env
           echo DB_PASSWORD="0a6230abc3b6ad2f74a232331094977aae5abaf5b68731186f918cbd8df30e1f" >> .env
           echo DB_DATABASE="dakt6qonqh4j1" >> .env
-          cat .env
-
-      # Check-out your repository.
-      - name: Checkout
-        uses: actions/checkout@v2
 
       # Login to Heroku Container Registry.
       - name: Login to Heroku Container registry
