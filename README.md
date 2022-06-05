@@ -1,9 +1,11 @@
-# 🍔 Nextfood BE
+# 🍔 Nextfood BackEnd
 
-This project contains the Nextfood application backend.
+> FrontEnd Project: https://github.com/GabrielNogueiraBR/nextfood-frontend
 
+This project contains the backend of the Nextfood application, containing all the API that will serve the frontend of the application.<br>
+The project presented here is responsible for receiving requests from the client, performing the proper manipulation of data, and making the connection with the database so that it is possible to persist and retrieve the data.
 
-### 💡NextFood Features
+## 💡NextFood Features
 - [x] Application Setup
 - [x] CRUD Restaurant
 - [x] CRUD Categories
@@ -13,20 +15,36 @@ This project contains the Nextfood application backend.
 - [x] CRUD Tables
 - [ ] CRUD Orders
 - [ ] CRUD Cart
-- [ ] Deploy at Heroku
+- [x] Deploy at Heroku
 
+## NextFood API Documentation
+To access all API documentation containing the available routes along with the respective contracts, access the following link.
+> https://nextfood-backend.herokuapp.com/docs/
+
+---
 
 ## Local Setup
 
-1\. Copy `.env.schema` as `.env` and adjust environment variables according to instructions provided on itself.
+### Requirements
+1. Make sure **Node JS** is installed on your machine by running:
+```bash
+node -v
+```
 
-2\. Install `pnpm` package manager:
+2. If you have not installed the **Node JS**, use the following link to download 16.x version and install it: [Download NodeJS](https://nodejs.org/en/)
+
+1\. Clone the [repository](https://github.com/GabrielNogueiraBR/nextfood-backend) 
+`git clone https://github.com/GabrielNogueiraBR/Monext.git`
+
+2\. Copy `.env.schema` as `.env` and adjust environment variables according to instructions provided on itself.
+
+3\. Install `pnpm` package manager:
 
 ```sh
 npm i -g pnpm
 ```
 
-3\. Install dependencies:
+4\. Install dependencies:
 
 ```sh
 pnpm i
@@ -34,7 +52,7 @@ pnpm i
 
 The advantage of using `.env` methodology is being able to locally boot a containerized version of your application without further configurations.
 
-4\. If everything was properly set up, you may run the application either with live reload or containerized:
+5\. If everything was properly set up, you may run the application either with live reload or containerized:
 
 **Live Reload**
 
@@ -48,7 +66,7 @@ pnpm dev
 pnpm docker
 ```
 
-5\. To ensure application is running correctly navigate to health check APP:
+6\. To ensure application is running correctly navigate to health check APP:
 
 http://127.0.0.1:8080/
 
@@ -78,7 +96,6 @@ pnpm dev
 [press F5]
 ```
 
-
 ### Linting
 
 This repository is configured with linting rules.
@@ -92,7 +109,6 @@ You may use a built-in NPM script to run a full lint check and print execution r
 ```sh
 pnpm lint
 ```
-
 
 ### Committing
 
@@ -121,7 +137,6 @@ ci: fix wrong build definition
  <a href="https://github.com/ryanraul" target="_blank"><img src="https://avatars.githubusercontent.com/u/42502534?v=4" width="8%"></a>
  <a href="https://github.com/gferrazz" target="_blank"><img src="https://avatars.githubusercontent.com/u/48798017?v=4" width="8%"></a>
 </div>
-
 
 ## 📃 License
 This software is under the MIT License.
