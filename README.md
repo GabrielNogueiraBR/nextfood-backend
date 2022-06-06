@@ -24,28 +24,28 @@ To access all API documentation containing the available routes along with the r
 ## Technologies
 
 - [NestJs](https://docs.nestjs.com/)<br>
-  > Nest (NestJS) is a framework for building efficient, scalable Node.js server-side applications. It uses progressive JavaScript, is built with and fully supports TypeScript (yet still enables developers to code in pure JavaScript) and combines elements of OOP (Object Oriented Programming), FP (Functional Programming), and FRP (Functional Reactive Programming).
-Framework used to create an http server using express.js underneath, through NestJs it was possible to create from the routes to the repositories necessary to persist the data. In addition to the possibility of creating middleware to handle requests.
+  <blockquote>Nest (NestJS) is a framework for building efficient, scalable Node.js server-side applications. It uses progressive JavaScript, is built with and fully supports TypeScript (yet still enables developers to code in pure JavaScript) and combines elements of OOP (Object Oriented Programming), FP (Functional Programming), and FRP (Functional Reactive Programming).</blockquote>
+  Framework used to create an http server using express.js underneath, through NestJs it was possible to create from the routes to the repositories necessary to persist the data. In addition to the possibility of creating middleware to handle requests.
 <br>
 
 - [TypeOrm](https://docs.nestjs.com/recipes/sql-typeorm)<br>
-  > TypeORM is an ORM that can run in NodeJS, Browser, Cordova, PhoneGap, Ionic, React Native, NativeScript, Expo, and Electron platforms and can be used with TypeScript and JavaScript.
-ORM used to integrate with the Postgres database, facilitating the construction of queries to access the database. Having integration with NestJs makes the library configuration process much easier.
+  <blockquote>TypeORM is an ORM that can run in NodeJS, Browser, Cordova, PhoneGap, Ionic, React Native, NativeScript, Expo, and Electron platforms and can be used with TypeScript and JavaScript.</blockquote>
+  ORM used to integrate with the Postgres database, facilitating the construction of queries to access the database. Having integration with NestJs makes the library configuration process much easier.
 <br>
 
 - [Swagger](https://docs.nestjs.com/openapi/introduction)<br>
-  > Simplify API development for users, teams, and enterprises with the Swagger open source and professional toolset. Find out how Swagger can help you design and document your APIs at scale.
+  <blockquote>Simplify API development for users, teams, and enterprises with the Swagger open source and professional toolset. Find out how Swagger can help you design and document your APIs at scale.</blockquote>
 Used to automatically generate API documentation, through the `/docs` route, containing all available routes along with the respective contracts.
 <br>
 
 - [Docker](https://www.docker.com/)<br>
-  > Docker takes away repetitive, mundane configuration tasks and is used throughout the development lifecycle for fast, easy and portable application development – desktop and cloud. Docker’s comprehensive end to end platform includes UIs, CLIs, APIs and security that are engineered to work together across the entire application delivery lifecycle.
+  <blockquote>Docker takes away repetitive, mundane configuration tasks and is used throughout the development lifecycle for fast, easy and portable application development – desktop and cloud. Docker’s comprehensive end to end platform includes UIs, CLIs, APIs and security that are engineered to work together across the entire application delivery lifecycle.</blockquote>
 Used to create application containers, facilitating deployments.
 <br>
 
 - [Heroku](https://heroku.com/)<br>
-  > Heroku is a platform as a service (PaaS) that enables developers to build, run, and operate applications entirely in the cloud.
-Used to host our application in the cloud, through the 'container registry' taking advantage of the docker configured for the application.
+  <blockquote>Heroku is a platform as a service (PaaS) that enables developers to build, run, and operate applications entirely in the cloud.</blockquote>
+  Used to host our application in the cloud, through the 'container registry' taking advantage of the docker configured for the application.
 <br>
 
 ---
