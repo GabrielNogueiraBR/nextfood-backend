@@ -18,8 +18,35 @@ The project presented here is responsible for receiving requests from the client
 - [x] Deploy at Heroku
 
 ## NextFood API Documentation
-To access all API documentation containing the available routes along with the respective contracts, access the following link.
+To access all API documentation containing the available routes along with the respective contracts, access the `/docs` route running the application locally, or access the following link on heroku.
 > https://nextfood-backend.herokuapp.com/docs/
+---
+## Technologies
+
+- [NestJs](https://docs.nestjs.com/)<br>
+  > Nest (NestJS) is a framework for building efficient, scalable Node.js server-side applications. It uses progressive JavaScript, is built with and fully supports TypeScript (yet still enables developers to code in pure JavaScript) and combines elements of OOP (Object Oriented Programming), FP (Functional Programming), and FRP (Functional Reactive Programming).
+<br>
+Framework used to create an http server using express.js underneath, through NestJs it was possible to create from the routes to the repositories necessary to persist the data. In addition to the possibility of creating middleware to handle requests.
+
+- [TypeOrm](https://docs.nestjs.com/recipes/sql-typeorm)<br>
+  > TypeORM is an ORM that can run in NodeJS, Browser, Cordova, PhoneGap, Ionic, React Native, NativeScript, Expo, and Electron platforms and can be used with TypeScript and JavaScript.
+<br>
+ORM used to integrate with the Postgres database, facilitating the construction of queries to access the database. Having integration with NestJs makes the library configuration process much easier.
+
+- [Swagger](https://docs.nestjs.com/openapi/introduction)<br>
+  > Simplify API development for users, teams, and enterprises with the Swagger open source and professional toolset. Find out how Swagger can help you design and document your APIs at scale.
+<br>
+Used to automatically generate API documentation, through the `/docs` route, containing all available routes along with the respective contracts.
+
+- [Docker](https://www.docker.com/)<br>
+  > Docker takes away repetitive, mundane configuration tasks and is used throughout the development lifecycle for fast, easy and portable application development – desktop and cloud. Docker’s comprehensive end to end platform includes UIs, CLIs, APIs and security that are engineered to work together across the entire application delivery lifecycle.
+<br>
+Used to create application containers, facilitating deployments.
+
+- [Heroku](https://heroku.com/)<br>
+  > Heroku is a platform as a service (PaaS) that enables developers to build, run, and operate applications entirely in the cloud.
+<br>
+Used to host our application in the cloud, through the 'container registry' taking advantage of the docker configured for the application.
 
 ---
 
@@ -33,18 +60,20 @@ node -v
 
 2. If you have not installed the **Node JS**, use the following link to download 16.x version and install it: [Download NodeJS](https://nodejs.org/en/)
 
-1\. Clone the [repository](https://github.com/GabrielNogueiraBR/nextfood-backend) 
+### Setup
+
+1. Clone the [repository](https://github.com/GabrielNogueiraBR/nextfood-backend) 
 `git clone https://github.com/GabrielNogueiraBR/Monext.git`
 
-2\. Copy `.env.schema` as `.env` and adjust environment variables according to instructions provided on itself.
+2. Copy `.env.schema` as `.env` and adjust environment variables according to instructions provided on itself.
 
-3\. Install `pnpm` package manager:
+3. Install `pnpm` package manager:
 
 ```sh
 npm i -g pnpm
 ```
 
-4\. Install dependencies:
+4. Install dependencies:
 
 ```sh
 pnpm i
@@ -52,7 +81,7 @@ pnpm i
 
 The advantage of using `.env` methodology is being able to locally boot a containerized version of your application without further configurations.
 
-5\. If everything was properly set up, you may run the application either with live reload or containerized:
+5. If everything was properly set up, you may run the application either with live reload or containerized:
 
 **Live Reload**
 
@@ -66,7 +95,7 @@ pnpm dev
 pnpm docker
 ```
 
-6\. To ensure application is running correctly navigate to health check APP:
+6. To ensure application is running correctly navigate to health check APP:
 
 http://127.0.0.1:8080/
 
