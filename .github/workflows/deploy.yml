@@ -26,11 +26,11 @@ jobs:
         run:  |
           touch .env
           echo NODE_ENV="production" >> .env
-          echo DB_HOST="ec2-3-217-113-25.compute-1.amazonaws.com" >> .env
-          echo DB_PORT=5432 >> .env
-          echo DB_USERNAME="waqwrjrakglkzt" >> .env
-          echo DB_PASSWORD="0a6230abc3b6ad2f74a232331094977aae5abaf5b68731186f918cbd8df30e1f" >> .env
-          echo DB_DATABASE="dakt6qonqh4j1" >> .env
+          echo DB_HOST=${{ secrets.DB_HOST }} >> .env
+          echo DB_PORT=${{ secrets.DB_PORT }} >> .env
+          echo DB_USERNAME=${{ secrets.DB_USERNAME }} >> .env
+          echo DB_PASSWORD=${{ secrets.DB_PASSWORD }} >> .env
+          echo DB_DATABASE=${{ secrets.DB_DATABASE }} >> .env
 
       # Login to Heroku Container Registry.
       - name: Login to Heroku Container registry
