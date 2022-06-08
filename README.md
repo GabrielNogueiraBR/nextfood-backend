@@ -170,8 +170,8 @@ ci: fix wrong build definition
  
  | Student                        	| RA     	|
  |--------------------------------	|--------	|
- | Gabriel José Ferraz Perin      	| 190961 	|
- | Gabriel Augusto Nogueira       	| 190583 	|
+ | Gabriel José Ferraz Perin      	| 190583 	|
+ | Gabriel Augusto Nogueira       	| 190961 	|
  | Otavio Cordeiro de Freitas     	| 190702 	|
  | Raul Ryan Deaque Silva         	| 190953 	|
  | Vitor Joaquim de Carvalho Gois 	| 190810 	|
