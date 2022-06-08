@@ -165,6 +165,17 @@ ci: fix wrong build definition
  <a href="https://github.com/CordeiroOtavio" target="_blank"><img src="https://avatars.githubusercontent.com/u/69653683?v=4" width="8%"></a>
  <a href="https://github.com/ryanraul" target="_blank"><img src="https://avatars.githubusercontent.com/u/42502534?v=4" width="8%"></a>
  <a href="https://github.com/gferrazz" target="_blank"><img src="https://avatars.githubusercontent.com/u/48798017?v=4" width="8%"></a>
+ 
+ <br>
+ 
+ | Student                        	| RA     	|
+ |--------------------------------	|--------	|
+ | Gabriel Augusto Nogueira       	| 190961 	|
+ | Gabriel José Ferraz Perin      	| 190583 	|
+ | Otavio Cordeiro de Freitas     	| 190702 	|
+ | Raul Ryan Deaque Silva         	| 190953 	|
+ | Vitor Joaquim de Carvalho Gois 	| 190810 	|
+
 </div>
 
 ## 📃 License
