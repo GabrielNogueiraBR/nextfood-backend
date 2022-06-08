@@ -9,8 +9,7 @@
       ".npmrc",
       "Dockerfile",
       "package.json",
-      "pnpm-lock.yaml",
-      "source"
+      "pnpm-lock.yaml"
     ]
   }
 }
