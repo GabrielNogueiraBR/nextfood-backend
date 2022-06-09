@@ -63,7 +63,7 @@ node -v
 ### Setup
 
 1. Clone the [repository](https://github.com/GabrielNogueiraBR/nextfood-backend) 
-`git clone https://github.com/GabrielNogueiraBR/Monext.git`
+`git clone https://github.com/GabrielNogueiraBR/nextfood-backend.git`
 
 2. Copy `.env.schema` as `.env` and adjust environment variables according to instructions provided on itself.
 
